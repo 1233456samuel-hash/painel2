@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#000000">
+    <!-- Adicionando suporte para instalação em Tela Cheia (PWA) -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Meus Treinos</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icone.jpg">
+    <link rel="icon" type="image/jpeg" href="icone.jpg">
+
+    <style>
+        :root {
+            --card-bg: rgba(0, 0, 0, 0.60);
+            --text-color: #ffffff;
+            --accent-color: #dc2626; 
+            --whatsapp-color: #25D366;
+            --border-color: rgba(255, 255, 255, 0.15);
+        }
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-image: url('https://i.postimg.cc/90WWSkg5/863807f68d8353be04d208021f498380.jpg');
+            background-color: #000000;
+            background-size: cover; 
+            background-position: top center; 
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--text-color);
+            margin: 0;
+            padding: 15px;
+            padding-bottom: 100px;
+            min-height: 100vh;
+        }
+
+        /* Banner de Instalação do App */
+        .install-banner {
+            background-color: rgba(0, 0, 0, 0.85);
+            border-bottom: 2px solid var(--accent-color);
+            padding: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .install-banner button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0 10px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0,0,0,1);
+        }
+
+        /* Perfil do Usuário e Ofensiva */
+        .user-profile {
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+            backdrop-filter: blur(2px);
+        }
+        .user-name-wrapper {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .btn-edit-name {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-left: 5px;
+            filter: drop-shadow(1px 1px 2px black);
+        }
+        .streak-counter {
+            font-size: 1.1rem;
+            color: #ff9800; /* Cor do foguinho */
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
+        }
+        
+        .music-player {
+            max-width: 400px;
+            margin: 0 auto 20px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+        }
+        audio {
+            width: 100%;
+            outline: none;
+        }
+
+        .teacher-notes {
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        #texto-dica {
+            display: block;
+            margin-top: 5px;
+            font-style: italic;
+            color: #e2e8f0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* Botões Globais (WhatsApp e Limpar) */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 400px;
+            margin: 0 auto 20px auto;
+        }
+        .btn-clear {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid var(--border-color);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
+            transition: 0.2s;
+        }
+        .btn-whatsapp {
+            background-color: var(--whatsapp-color);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.05rem;
+            cursor: pointer;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: 0.2s;
+        }
+        .btn-whatsapp:active, .btn-clear:active { transform: scale(0.95); }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 9px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .tab-btn.active {
+            background-color: var(--accent-color);
+            color: #fff; 
+            border-color: var(--accent-color);
+            text-shadow: none;
+        }
+        .table-container {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.8);
+            backdrop-filter: blur(2px);
+        }
+        .table-container.active { display: block; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+        th, td {
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--border-color);
+            text-shadow: 1px 1px 3px rgba(0,0,0,1); 
+            vertical-align: middle;
+        }
+        th {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #f87171; 
+            font-weight: bold;
+        }
+        tr:last-child td { border-bottom: none; }
+        
+        .load-input {
+            width: 60px;
+            padding: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            color: white;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .load-input::placeholder { color: #aaa; font-weight: normal; }
+        .check-set {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--accent-color);
+            cursor: pointer;
+        }
+
+        a.video-link {
+            background-color: rgba(220, 38, 38, 0.3); 
+            color: #fecaca; 
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: 0.2s;
+            border: 1px solid rgba(220, 38, 38, 0.5);
+        }
+        
+        .timer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            border-top: 2px solid var(--accent-color);
+            padding: 10px 15px 15px 15px;
+            box-sizing: border-box;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.8);
+        }
+        .timer-title {
+            color: #aaaaaa;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+        .timer-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        .timer-display {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            width: 70px;
+            text-align: center;
+        }
+        .timer-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Banner PWA (Ensina a colocar em Tela Cheia) -->
+    <div id="install-banner" class="install-banner" style="display: none;">
+        <span>📲 Para melhor experiência, adicione este painel à Tela Inicial do seu celular!</span>
+        <button onclick="fecharBannerInstall()">✖</button>
+    </div>
+
+    <h1>💪 Meu Painel de Treinos</h1>
+
+    <!-- Perfil Dinâmico do Aluno -->
+    <div class="user-profile">
+        <div class="user-name-wrapper">
+            Olá, <span id="nome-aluno">Atleta</span> 
+            <button onclick="editarNome()" class="btn-edit-name" title="Editar Nome">✏️</button>
+        </div>
+        <div class="streak-counter">
+            🔥 <span id="streak-count">0</span> treinos concluídos na semana
+        </div>
+    </div>
+
+    <div class="music-player">
+        <audio controls>
+            <source src="Jax - Veni Vidi Vici Partes 1,2,3,4,5.m4a" type="audio/mp4">
+            Seu navegador não suporta áudio.
+        </audio>
+    </div>
+
+    <div class="teacher-notes">
+        <strong>💡 Insight do Dia:</strong> 
+        <span id="texto-dica">Carregando dica...</span>
+    </div>
+
+    <!-- Botões de Ação (Compartilhar e Reset) -->
+    <div class="action-buttons">
+        <button class="btn-whatsapp" onclick="enviarRelatorio()">
+            ✅ Compartilhar / Salvar Treino Concluído
+        </button>
+        <button class="btn-clear" onclick="limparTreinos()">
+            🔄 Limpar Memória (Nova Semana)
+        </button>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'aquecimento')">Aquecimento</button>
+        <button class="tab-btn" onclick="openTab(event, 'treinoA')">Treino A</button>
+        <button class="tab-btn" onclick="openTab(event, 'treinoB')">Treino B</button>
+        <button class="tab-btn" onclick="openTab(event, 'treinoC')">Treino C</button>
+        <button class="tab-btn" onclick="openTab(event, 'treinoD')">Treino D</button>
+    </div>
+
+    <!-- AQUECIMENTO -->
+    <div id="aquecimento" class="table-container active">
+        <table>
+            <thead>
+                <tr>
+                    <th>Atividade</th>
+                    <th>Tempo</th>
+                    <th>Foco</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Pular Corda (Estilo Boxeador)</td>
+                    <td>10 a 15 min</td>
+                    <td>Cardio & Ritmo</td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/r0eVhjgG0ks" target="_blank">Ver</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- TREINO A: Peito, Ombro e Tríceps -->
+    <div id="treinoA" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Supino Reto Barra</td>
+                    <td>4</td>
+                    <td>8-10</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtu.be/Kr2erpSyu3M?is=vdKQr743Y9Qyma9P" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Supino Inclinado Halter</td>
+                    <td>3</td>
+                    <td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtu.be/_Yqfd8y2JOw?is=isHI0PafyHGahOUe" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Elevação Lateral</td>
+                    <td>3</td>
+                    <td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/ot9nwSC1JnA?is=vYiwAzVd8zPOCNo3" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Tríceps Pulldown</td>
+                    <td>3</td>
+                    <td>12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/u36jNfqh8_U?is=bIHnTwEL-Hg_iXk8" target="_blank">Assistir</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- TREINO B: Pernas (Foco Quadríceps) -->
+    <div id="treinoB" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Agachamento Smith</td>
+                    <td>4</td>
+                    <td>8-10</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtu.be/wx7FRJyCNBs?is=75Vz1hDhgtTBw_tR" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Bulgarian Split Squat</td>
+                    <td>3</td>
+                    <td>10</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/_HukgYk7lTw?is=_OhmKDOPMnm6jfxk" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Cadeira Flexora</td>
+                    <td>3</td>
+                    <td>12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/T46yKiz8laY?is=G6xAnN0G8vc3bOnR" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Panturrilha Smith</td>
+                    <td>4</td>
+                    <td>15-20</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/CO8u-I8j_Ys?is=-qO_DlhqSrICnsoy" target="_blank">Assistir</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- TREINO C: Costas, Bíceps e Abdômen -->
+    <div id="treinoC" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Puxada Alta / Remada</td>
+                    <td>4</td>
+                    <td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/AX1-0IxL11g?is=J0McBDoz8UTXqDKK" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Remada Serrote</td>
+                    <td>3</td>
+                    <td>10</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/L2FuijYFTvE?is=WH1ZogQTHrZm8juM" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Rosca Direta Halteres</td>
+                    <td>3</td>
+                    <td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/MfsDC0ymFm8?is=Ebq6STA6cAHhpTBr" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Rosca Martelo</td>
+                    <td>3</td>
+                    <td>12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/0rRpv6o140o?is=aysHZMCoheQvaimX" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Abdominal Supra Solo</td>
+                    <td>3</td>
+                    <td>15-20</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/vRDR_MmFHcI?is=LqKCzB3Azei_DOed" target="_blank">Assistir</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- TREINO D: Pernas (Foco Posterior e Glúteos) -->
+    <div id="treinoD" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Stiff Smith / Halteres</td>
+                    <td>4</td>
+                    <td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/ZTVC_Vj2vhc?is=ehV8wtHHuMnWk1Uc" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Elevação Pélvica Smith</td>
+                    <td>3</td>
+                    <td>12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/KnzBqA1pAKg?is=nzoYa01hca2MEodE" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Cadeira Flexora</td>
+                    <td>4</td>
+                    <td>12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/T46yKiz8laY?is=yziFGb34IQi1MSVH" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Panturrilha Sentado</td>
+                    <td>4</td>
+                    <td>15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/CO8u-I8j_Ys?is=5T3eQcNg0TTBC50n" target="_blank">Assistir</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Cronômetro Flutuante no Rodapé -->
+    <div class="timer-bar">
+        <div class="timer-title">⏱️ Tempo de Descanso</div>
+        <div class="timer-controls">
+            <button class="timer-btn" onclick="startTimer(45)">45s</button>
+            <button class="timer-btn" onclick="startTimer(60)">1 Min</button>
+            <div class="timer-display" id="time">00:00</div>
+            <button class="timer-btn" onclick="startTimer(90)">1m30s</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. Função das Abas
+        function openTab(evt, treinoName) {
+            const containers = document.querySelectorAll('.table-container');
+            containers.forEach(container => container.classList.remove('active'));
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            document.getElementById(treinoName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        // 2. Sistema de Memória (Nome, Inputs e Ofensiva)
+        document.addEventListener("DOMContentLoaded", () => {
+            // Carrega Nome
+            const nomeSalvo = localStorage.getItem('meuTreino_nomeAluno');
+            if(nomeSalvo) document.getElementById('nome-aluno').textContent = nomeSalvo;
+
+            // Carrega Foguinhos
+            const streakSalvo = localStorage.getItem('meuTreino_streak');
+            if(streakSalvo) document.getElementById('streak-count').textContent = streakSalvo;
+
+            // Carrega Inputs e Checkboxes
+            const todosInputs = document.querySelectorAll('input');
+            todosInputs.forEach((input, index) => {
+                const chaveMemoria = 'meuTreino_campo_' + index;
+                const valorSalvo = localStorage.getItem(chaveMemoria);
+                if (valorSalvo !== null) {
+                    if (input.type === 'checkbox') input.checked = (valorSalvo === 'true');
+                    else if (input.type === 'number') input.value = valorSalvo;
+                }
+                input.addEventListener('change', () => {
+                    if (input.type === 'checkbox') localStorage.setItem(chaveMemoria, input.checked);
+                    else if (input.type === 'number') localStorage.setItem(chaveMemoria, input.value);
+                });
+            });
+
+            // Verifica Tela Cheia (PWA)
+            const jaViuInstall = localStorage.getItem('meuTreino_viuInstall');
+            if (!window.matchMedia('(display-mode: standalone)').matches && !jaViuInstall) {
+                document.getElementById('install-banner').style.display = 'flex';
+            }
+        });
+
+        // 3. Edição do Nome
+        function editarNome() {
+            const nomeAtual = document.getElementById('nome-aluno').textContent;
+            const novoNome = prompt("Qual é o seu nome ou apelido?", nomeAtual === "Atleta" ? "" : nomeAtual);
+            if (novoNome && novoNome.trim() !== "") {
+                localStorage.setItem('meuTreino_nomeAluno', novoNome);
+                document.getElementById('nome-aluno').textContent = novoNome;
+            }
+        }
+
+        // 4. Envio de Registro/Compartilhamento (WhatsApp Aberto)
+        function enviarRelatorio() {
+            let streak = parseInt(localStorage.getItem('meuTreino_streak') || '0');
+            const ultimoRegistro = localStorage.getItem('meuTreino_ultimoRegistro');
+            const dataHoje = new Date().toDateString();
+
+            // Só aumenta o foguinho 1 vez por dia
+            if (ultimoRegistro !== dataHoje) {
+                streak += 1;
+                localStorage.setItem('meuTreino_streak', streak);
+                localStorage.setItem('meuTreino_ultimoRegistro', dataHoje);
+                document.getElementById('streak-count').textContent = streak;
+            }
+
+            const nome = localStorage.getItem('meuTreino_nomeAluno') || 'Atleta';
+            
+            // Nova mensagem com cara de diário de treino
+            const mensagem = `✅ Treino concluído com sucesso!\n👤 Nome: ${nome}\n🔥 Ofensiva da semana: ${streak} treino(s)\n\n"Disciplina é fazer o que precisa ser feito!"`;
+            
+            // Link do WhatsApp sem número. Abre a tela "Encaminhar para..." no celular do usuário
+            const linkWhatsapp = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+            
+            window.open(linkWhatsapp, '_blank');
+        }
+
+        // 5. Apagar Tudo (Zerar Semana)
+        function limparTreinos() {
+            if(confirm("Deseja apagar as cargas, checklists e reiniciar sua contagem de treinos da semana?")) {
+                localStorage.clear();
+                location.reload(); 
+            }
+        }
+
+        // 6. Fechar Banner Install
+        function fecharBannerInstall() {
+            document.getElementById('install-banner').style.display = 'none';
+            localStorage.setItem('meuTreino_viuInstall', 'true');
+        }
+
+        // 7. Sistema de Dicas
+        const dicasAutocuidado = [
+            "Beba água! 💧 A hidratação previne cãibras e ajuda no músculo.",
+            "O músculo cresce no descanso! 😴 Tente dormir bem à noite.",
+            "A alimentação é o seu combustível. 🥗 Coma bem no pós-treino.",
+            "Respeite seu corpo. 🧘 Se doer estranho, pare.",
+            "Não dependa só da motivação, crie disciplina. 🚀",
+            "Alongamento previne lesões. 🤸‍♂️ Melhore sua mobilidade.",
+            "Reduza o estresse para não atrapalhar os ganhos. 🧠",
+            "Comemore suas vitórias! 🎉 Ir treinar já é sucesso."
+        ];
+        const elementoTextoDica = document.getElementById('texto-dica');
+        function mudarDica() {
+            elementoTextoDica.style.opacity = 0; 
+            setTimeout(() => {
+                elementoTextoDica.textContent = dicasAutocuidado[Math.floor(Math.random() * dicasAutocuidado.length)];
+                elementoTextoDica.style.opacity = 1;
+            }, 500);
+        }
+        setInterval(mudarDica, 10000);
+        setTimeout(mudarDica, 100);
+
+        // 8. Cronômetro
+        let countdown;
+        const timerDisplay = document.getElementById('time');
+        function startTimer(seconds) {
+            clearInterval(countdown);
+            const then = Date.now() + seconds * 1000;
+            displayTimeLeft(seconds);
+            countdown = setInterval(() => {
+                const secondsLeft = Math.round((then - Date.now()) / 1000);
+                if(secondsLeft < 0) {
+                    clearInterval(countdown);
+                    if ("vibrate" in navigator) navigator.vibrate([200, 100, 200]);
+                    alert("⏰ Descanso finalizado! Bora treinar!");
+                    timerDisplay.textContent = "00:00";
+                    return;
+                }
+                displayTimeLeft(secondsLeft);
+            }, 1000);
+        }
+        function displayTimeLeft(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainderSeconds = seconds % 60;
+            timerDisplay.textContent = `${minutes < 10 ? '0' : ''}${minutes}:${remainderSeconds < 10 ? '0' : ''}${remainderSeconds}`;
+        }
+    </script>
+</body>
+</html>
