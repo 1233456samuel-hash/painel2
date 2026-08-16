@@ -493,8 +493,7 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-        <div id="pernas" class="table-container">
+    <div id="pernas" class="table-container">
         <table>
             <thead>
                 <tr>
@@ -726,13 +725,17 @@
 
     <script>
         function openTab(evt, treinoName) {
+            // Limpa a busca ao trocar de aba manualmente
             document.getElementById('searchInput').value = '';
             
             const containers = document.querySelectorAll('.table-container');
             containers.forEach(container => {
                 container.style.display = 'none';
                 container.classList.remove('active');
+                // Restaura todas as linhas caso estivessem ocultas pela busca anterior
+                container.querySelectorAll('tbody tr').forEach(linha => linha.style.display = '');
             });
+
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             
@@ -747,21 +750,32 @@
             const containers = document.querySelectorAll('.table-container');
 
             if (termo === "") {
-                containers.forEach(c => c.style.display = 'none');
+                // Quando apagar a busca, restaura todas as linhas e volta a exibir apenas a aba ativa atual
+                containers.forEach(container => {
+                    container.style.display = 'none';
+                    container.querySelectorAll('tbody tr').forEach(linha => linha.style.display = '');
+                });
+
                 const abaAtiva = document.querySelector('.tab-btn.active');
-                if(abaAtiva) {
-                    let nomeTab = 'aquecimento';
-                    if(abaAtiva.textContent.includes('Peito')) nomeTab = 'peito';
-                    else if(abaAtiva.textContent.includes('Costas')) nomeTab = 'costas';
-                    else if(abaAtiva.textContent.includes('Pernas')) nomeTab = 'pernas';
-                    else if(abaAtiva.textContent.includes('Ombros')) nomeTab = 'ombros';
-                    else if(abaAtiva.textContent.includes('Braços')) nomeTab = 'bracos';
-                    else if(abaAtiva.textContent.includes('Core')) nomeTab = 'abdomen';
-                    document.getElementById(nomeTab).style.display = 'block';
+                let nomeTab = 'aquecimento';
+                if (abaAtiva) {
+                    const texto = abaAtiva.textContent;
+                    if(texto.includes('Peito')) nomeTab = 'peito';
+                    else if(texto.includes('Costas')) nomeTab = 'costas';
+                    else if(texto.includes('Pernas')) nomeTab = 'pernas';
+                    else if(texto.includes('Ombros')) nomeTab = 'ombros';
+                    else if(texto.includes('Braços')) nomeTab = 'bracos';
+                    else if(texto.includes('Core')) nomeTab = 'abdomen';
+                }
+                const target = document.getElementById(nomeTab);
+                if(target) {
+                    target.style.display = 'block';
+                    target.classList.add('active');
                 }
                 return;
             }
 
+            // Durante a digitação da busca, exibe todas as tabelas e filtra os resultados correspondentes
             containers.forEach(container => {
                 container.style.display = 'block';
                 const linhas = container.querySelectorAll('tbody tr');
@@ -793,6 +807,7 @@
             const nomeSalvo = localStorage.getItem('meuTreino_nomeAluno');
             if(nomeSalvo) document.getElementById('nome-aluno').textContent = nomeSalvo;
 
+            // Inicializa exibindo apenas a primeira aba
             document.querySelectorAll('.table-container').forEach((c, idx) => {
                 if(idx !== 0) c.style.display = 'none';
             });
@@ -909,4 +924,5 @@
         }
     </script>
 </body>
-</html>
+                    </html>
+</div>
