@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#000000">
-    <!-- Adicionando suporte para instalação em Tela Cheia (PWA) -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Meus Treinos</title>
+    <title>Meu Painel de Treinos</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icone.jpg">
@@ -40,8 +39,6 @@
             padding-bottom: 100px;
             min-height: 100vh;
         }
-
-        /* Banner de Instalação do App */
         .install-banner {
             background-color: rgba(0, 0, 0, 0.85);
             border-bottom: 2px solid var(--accent-color);
@@ -62,7 +59,6 @@
             cursor: pointer;
             padding: 0 10px;
         }
-
         h1 {
             text-align: center;
             font-size: 1.5rem;
@@ -70,8 +66,6 @@
             color: #fff;
             text-shadow: 2px 2px 8px rgba(0,0,0,1);
         }
-
-        /* Perfil do Usuário e Ofensiva */
         .user-profile {
             background-color: rgba(0, 0, 0, 0.7);
             border: 1px solid var(--border-color);
@@ -97,11 +91,10 @@
         }
         .streak-counter {
             font-size: 1.1rem;
-            color: #ff9800; /* Cor do foguinho */
+            color: #ff9800;
             font-weight: bold;
             text-shadow: 1px 1px 3px rgba(0,0,0,1);
         }
-        
         .music-player {
             max-width: 400px;
             margin: 0 auto 20px auto;
@@ -112,11 +105,7 @@
             background-color: rgba(0, 0, 0, 0.8);
             padding: 10px;
         }
-        audio {
-            width: 100%;
-            outline: none;
-        }
-
+        audio { width: 100%; outline: none; }
         .teacher-notes {
             max-width: 600px;
             margin: 0 auto 20px auto;
@@ -139,41 +128,42 @@
             color: #e2e8f0;
             transition: opacity 0.5s ease-in-out;
         }
-
-        /* Botões Globais (WhatsApp e Limpar) */
         .action-buttons {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             gap: 10px;
-            max-width: 400px;
+            max-width: 100%;
             margin: 0 auto 20px auto;
+            justify-content: center;
+        }
+        .btn-finish {
+            background-color: var(--whatsapp-color);
+            color: white;
+            border: none;
+            padding: 12px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            flex: 1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: 0.2s;
         }
         .btn-clear {
             background-color: rgba(255, 255, 255, 0.1);
             color: white;
             border: 1px solid var(--border-color);
-            padding: 12px 20px;
+            padding: 12px 10px;
             border-radius: 8px;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 0.95rem;
             cursor: pointer;
+            flex: 1;
             text-shadow: 1px 1px 3px rgba(0,0,0,1);
             transition: 0.2s;
         }
-        .btn-whatsapp {
-            background-color: var(--whatsapp-color);
-            color: white;
-            border: none;
-            padding: 14px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1.05rem;
-            cursor: pointer;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            transition: 0.2s;
-        }
-        .btn-whatsapp:active, .btn-clear:active { transform: scale(0.95); }
-
+        .btn-finish:active, .btn-clear:active { transform: scale(0.95); }
         .tabs {
             display: flex;
             justify-content: center;
@@ -230,7 +220,6 @@
             font-weight: bold;
         }
         tr:last-child td { border-bottom: none; }
-        
         .load-input {
             width: 60px;
             padding: 6px;
@@ -248,7 +237,6 @@
             accent-color: var(--accent-color);
             cursor: pointer;
         }
-
         a.video-link {
             background-color: rgba(220, 38, 38, 0.3); 
             color: #fecaca; 
@@ -260,7 +248,6 @@
             transition: 0.2s;
             border: 1px solid rgba(220, 38, 38, 0.5);
         }
-        
         .timer-bar {
             position: fixed;
             bottom: 0;
@@ -312,7 +299,6 @@
 </head>
 <body>
 
-    <!-- Banner PWA (Ensina a colocar em Tela Cheia) -->
     <div id="install-banner" class="install-banner" style="display: none;">
         <span>📲 Para melhor experiência, adicione este painel à Tela Inicial do seu celular!</span>
         <button onclick="fecharBannerInstall()">✖</button>
@@ -320,20 +306,19 @@
 
     <h1>💪 Meu Painel de Treinos</h1>
 
-    <!-- Perfil Dinâmico do Aluno -->
     <div class="user-profile">
         <div class="user-name-wrapper">
             Olá, <span id="nome-aluno">Atleta</span> 
             <button onclick="editarNome()" class="btn-edit-name" title="Editar Nome">✏️</button>
         </div>
         <div class="streak-counter">
-            🔥 <span id="streak-count">0</span> treinos concluídos na semana
+            🔥 <span id="streak-count">0</span> exercícios concluídos na semana
         </div>
     </div>
 
     <div class="music-player">
         <audio controls>
-            <source src="Jax - Veni Vidi Vici Partes 1,2,3,4,5.m4a" type="audio/mp4">
+            <source src="Jax - Veni Vidi Vici Partes 1,2,3,4,5_compressed (1).m4a" type="audio/mp4">
             Seu navegador não suporta áudio.
         </audio>
     </div>
@@ -343,13 +328,12 @@
         <span id="texto-dica">Carregando dica...</span>
     </div>
 
-    <!-- Botões de Ação (Compartilhar e Reset) -->
     <div class="action-buttons">
-        <button class="btn-whatsapp" onclick="enviarRelatorio()">
-            ✅ Compartilhar / Salvar Treino Concluído
+        <button class="btn-finish" onclick="finalizarTreino()">
+            ✅ Finalizar Treino
         </button>
         <button class="btn-clear" onclick="limparTreinos()">
-            🔄 Limpar Memória (Nova Semana)
+            🔄 Limpar Memória
         </button>
     </div>
 
@@ -361,7 +345,6 @@
         <button class="tab-btn" onclick="openTab(event, 'treinoD')">Treino D</button>
     </div>
 
-    <!-- AQUECIMENTO -->
     <div id="aquecimento" class="table-container active">
         <table>
             <thead>
@@ -385,7 +368,6 @@
         </table>
     </div>
 
-    <!-- TREINO A: Peito, Ombro e Tríceps -->
     <div id="treinoA" class="table-container">
         <table>
             <thead>
@@ -435,7 +417,6 @@
         </table>
     </div>
 
-    <!-- TREINO B: Pernas (Foco Quadríceps) -->
     <div id="treinoB" class="table-container">
         <table>
             <thead>
@@ -484,8 +465,6 @@
             </tbody>
         </table>
     </div>
-
-    <!-- TREINO C: Costas, Bíceps e Abdômen -->
     <div id="treinoC" class="table-container">
         <table>
             <thead>
@@ -543,7 +522,6 @@
         </table>
     </div>
 
-    <!-- TREINO D: Pernas (Foco Posterior e Glúteos) -->
     <div id="treinoD" class="table-container">
         <table>
             <thead>
@@ -593,7 +571,6 @@
         </table>
     </div>
 
-    <!-- Cronômetro Flutuante no Rodapé -->
     <div class="timer-bar">
         <div class="timer-title">⏱️ Tempo de Descanso</div>
         <div class="timer-controls">
@@ -605,7 +582,6 @@
     </div>
 
     <script>
-        // 1. Função das Abas
         function openTab(evt, treinoName) {
             const containers = document.querySelectorAll('.table-container');
             containers.forEach(container => container.classList.remove('active'));
@@ -613,429 +589,6 @@
             buttons.forEach(btn => btn.classList.remove('active'));
             document.getElementById(treinoName).classList.add('active');
             evt.currentTarget.classList.add('active');
-        }
-
-        // 2. Sistema de Memória (Nome, Inputs e Ofensiva)
-        document.addEventListener("DOMContentLoaded", () => {
-            // Carrega Nome
-            const nomeSalvo = localStorage.getItem('meuTreino_nomeAluno');
-            if(nomeSalvo) document.getElementById('nome-aluno').textContent = nomeSalvo;
-
-            // Carrega Foguinhos
-            const streakSalvo = localStorage.getItem('meuTreino_streak');
-            if(streakSalvo) document.getElementById('streak-count').textContent = streakSalvo;
-
-            // Carrega Inputs e Checkboxes
-            const todosInputs = document.querySelectorAll('input');
-            todosInputs.forEach((input, index) => {
-                const chaveMemoria = 'meuTreino_campo_' + index;
-                const valorSalvo = localStorage.getItem(chaveMemoria);
-                if (valorSalvo !== null) {
-                    if (input.type === 'checkbox') input.checked = (valorSalvo === 'true');
-                    else if (input.type === 'number') input.value = valorSalvo;
-                }
-                input.addEventListener('change', () => {
-                    if (input.type === 'checkbox') localStorage.setItem(chaveMemoria, input.checked);
-                    else if (input.type === 'number') localStorage.setItem(chaveMemoria, input.value);
-                });
-            });
-
-            // Verifica Tela Cheia (PWA)
-            const jaViuInstall = localStorage.getItem('meuTreino_viuInstall');
-            if (!window.matchMedia('(display-mode: standalone)').matches && !jaViuInstall) {
-                document.getElementById('install-banner').style.display = 'flex';
-            }
-        });
-
-        // 3. Edição do Nome
-        function editarNome() {
-            const nomeAtual = document.getElementById('nome-aluno').textContent;
-            const novoNome = prompt("Qual é o seu nome ou apelido?", nomeAtual === "Atleta" ? "" : nomeAtual);
-            if (novoNome && novoNome.trim() !== "") {
-                localStorage.setItem('meuTreino_nomeAluno', novoNome);
-                document.getElementById('nome-aluno').textContent = novoNome;
-            }
-        }
-
-        // 4. Envio de Registro/Compartilhamento (WhatsApp Aberto)
-        function enviarRelatorio() {
-            let streak = parseInt(localStorage.getItem('meuTreino_streak') || '0');
-            const ultimoRegistro = localStorage.getItem('meuTreino_ultimoRegistro');
-            const dataHoje = new Date().toDateString();
-
-            // Só aumenta o foguinho 1 vez por dia
-            if (ultimoRegistro !== dataHoje) {
-                streak += 1;
-                localStorage.setItem('meuTreino_streak', streak);
-                localStorage.setItem('meuTreino_ultimoRegistro', dataHoje);
-                document.getElementById('streak-count').textContent = streak;
-            }
-
-            const nome = localStorage.getItem('meuTreino_nomeAluno') || 'Atleta';
-            
-            // Nova mensagem com cara de diário de treino
-            const mensagem = `✅ Treino concluído com sucesso!\n👤 Nome: ${nome}\n🔥 Ofensiva da semana: ${streak} treino(s)\n\n"Disciplina é fazer o que precisa ser feito!"`;
-            
-            // Link do WhatsApp sem número. Abre a tela "Encaminhar para..." no celular do usuário
-            const linkWhatsapp = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
-            
-            window.open(linkWhatsapp, '_blank');
-        }
-
-        // 5. Apagar Tudo (Zerar Semana)
-        function limparTreinos() {
-            if(confirm("Deseja apagar as cargas, checklists e reiniciar sua contagem de treinos da semana?")) {
-                localStorage.clear();
-                location.reload(); 
-            }
-        }
-
-        // 6. Fechar Banner Install
-        function fecharBannerInstall() {
-            document.getElementById('install-banner').style.display = 'none';
-            localStorage.setItem('meuTreino_viuInstall', 'true');
-        }
-
-        // 7. Sistema de Dicas
-        const dicasAutocuidado = [
-            "Beba água! 💧 A hidratação previne cãibras e ajuda no músculo.",
-            "O músculo cresce no descanso! 😴 Tente dormir bem à noite.",
-            "A alimentação é o seu combustível. 🥗 Coma bem no pós-treino.",
-            "Respeite seu corpo. 🧘 Se doer estranho, pare.",
-            "Não dependa só da motivação, crie disciplina. 🚀",
-            "Alongamento previne lesões. 🤸‍♂️ Melhore sua mobilidade.",
-            "Reduza o estresse para não atrapalhar os ganhos. 🧠",
-            "Comemore suas vitórias! 🎉 Ir treinar já é sucesso."
-        ];
-        const elementoTextoDica = document.getElementById('texto-dica');
-        function mudarDica() {
-            elementoTextoDica.style.opacity = 0; 
-            setTimeout(() => {
-                elementoTextoDica.textContent = dicasAutocuidado[Math.floor(Math.random() * dicasAutocuidado.length)];
-                elementoTextoDica.style.opacity = 1;
-            }, 500);
-        }
-        setInterval(mudarDica, 10000);
-        setTimeout(mudarDica, 100);
-
-        // 8. Cronômetro
-        let countdown;
-        const timerDisplay = document.getElementById('time');
-        function startTimer(seconds) {
-            clearInterval(countdown);
-            const then = Date.now() + seconds * 1000;
-            displayTimeLeft(seconds);
-            countdown = setInterval(() => {
-                const secondsLeft = Math.round((then - Date.now()) / 1000);
-                if(secondsLeft < 0) {
-                    clearInterval(countdown);
-                    if ("vibrate" in navigator) navigator.vibrate([200, 100, 200]);
-                    alert("⏰ Descanso finalizado! Bora treinar!");
-                    timerDisplay.textContent = "00:00";
-                    return;
-                }
-                displayTimeLeft(secondsLeft);
-            }, 1000);
-        }
-        function displayTimeLeft(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const remainderSeconds = seconds % 60;
-            timerDisplay.textContent = `${minutes < 10 ? '0' : ''}${minutes}:${remainderSeconds < 10 ? '0' : ''}${remainderSeconds}`;
-        }
-    </script>
-</body>
-</html>
-    <div id="pernas" class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Exercício</th>
-                    <th>Séries</th>
-                    <th>Reps</th>
-                    <th>Carga</th>
-                    <th>Feito</th>
-                    <th>Vídeo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Agachamento Livre ou Smith</td>
-                    <td>4</td>
-                    <td>8-10</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtu.be/wx7FRJyCNBs" target="_blank">Assistir</a></td>
-                </tr>
-                <tr>
-                    <td>Leg Press 45°</td>
-                    <td>4</td>
-                    <td>10-12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtu.be/ZTVC_Vj2vhc" target="_blank">Assistir</a></td>
-                </tr>
-                <tr>
-                    <td>Cadeira Extensora</td>
-                    <td>3</td>
-                    <td>12-15</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/T46yKiz8laY" target="_blank">Assistir</a></td>
-                </tr>
-                <tr>
-                    <td>Cadeira Flexora</td>
-                    <td>3</td>
-                    <td>12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/T46yKiz8laY" target="_blank">Assistir</a></td>
-                </tr>
-                <tr>
-                    <td>Stiff com Barra ou Halteres</td>
-                    <td>3</td>
-                    <td>10-12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/ZTVC_Vj2vhc" target="_blank">Assistir</a></td>
-                </tr>
-                <tr>
-                    <td>Elevação Pélvica</td>
-                    <td>3</td>
-                    <td>12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/KnzBqA1pAKg" target="_blank">Assistir</a></td>
-                </tr>
-                <tr>
-                    <td>Panturrilha em Pé / Smith</td>
-                    <td>4</td>
-                    <td>15-20</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/CO8u-I8j_Ys" target="_blank">Assistir</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="ombros" class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Exercício</th>
-                    <th>Séries</th>
-                    <th>Reps</th>
-                    <th>Carga</th>
-                    <th>Feito</th>
-                    <th>Vídeo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Desenvolvimento com Halteres</td>
-                    <td>4</td>
-                    <td>8-10</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/ot9nwSC1JnA" target="_blank">Assistir</a></td>
-                </tr>
-                <tr>
-                    <td>Elevação Lateral</td>
-                    <td>4</td>
-                    <td>12-15</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/ot9nwSC1JnA" target="_blank">Assistir</a></td>
-                </tr>
-                <tr>
-                    <td>Elevação Frontal</td>
-                    <td>3</td>
-                    <td>12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/ot9nwSC1JnA" target="_blank">Assistir</a></td>
-                </tr>
-                <tr>
-                    <td>Crucifixo Inverso (Ombro Posterior)</td>
-                    <td>3</td>
-                    <td>12-15</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/ot9nwSC1JnA" target="_blank">Assistir</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="bracos" class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Exercício</th>
-                    <th>Séries</th>
-                    <th>Reps</th>
-                    <th>Carga</th>
-                    <th>Feito</th>
-                    <th>Vídeo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Rosca Direta com Halteres</td>
-                    <td>3</td>
-                    <td>10-12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/MfsDC0ymFm8" target="_blank">Assistir</a></td>
-                </tr>
-                <tr>
-                    <td>Rosca Martelo</td>
-                    <td>3</td>
-                    <td>12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/0rRpv6o140o" target="_blank">Assistir</a></td>
-                </tr>
-                <tr>
-                    <td>Rosca Scott ou na Polia</td>
-                    <td>3</td>
-                    <td>12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/MfsDC0ymFm8" target="_blank">Assistir</a></td>
-                </tr>
-                <tr>
-                    <td>Tríceps Pulldown / Corda</td>
-                    <td>3</td>
-                    <td>12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/u36jNfqh8_U" target="_blank">Assistir</a></td>
-                </tr>
-                <tr>
-                    <td>Tríceps Testa com Barra W</td>
-                    <td>3</td>
-                    <td>10-12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/u36jNfqh8_U" target="_blank">Assistir</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="abdomen" class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Exercício</th>
-                    <th>Séries</th>
-                    <th>Reps</th>
-                    <th>Carga</th>
-                    <th>Feito</th>
-                    <th>Vídeo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Abdominal Supra no Solo</td>
-                    <td>3</td>
-                    <td>15-20</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/vRDR_MmFHcI" target="_blank">Assistir</a></td>
-                </tr>
-                <tr>
-                    <td>Abdominal Infra (Elevação de Pernas)</td>
-                    <td>3</td>
-                    <td>12-15</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/vRDR_MmFHcI" target="_blank">Assistir</a></td>
-                </tr>
-                <tr>
-                    <td>Prancha abdominal</td>
-                    <td>3</td>
-                    <td>45s</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://youtube.com/shorts/vRDR_MmFHcI" target="_blank">Assistir</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="timer-bar">
-        <div class="timer-title">⏱️ Tempo de Descanso</div>
-        <div class="timer-controls">
-            <button class="timer-btn" onclick="startTimer(45)">45s</button>
-            <button class="timer-btn" onclick="startTimer(60)">1 Min</button>
-            <div class="timer-display" id="time">00:00</div>
-            <button class="timer-btn" onclick="startTimer(90)">1m30s</button>
-        </div>
-    </div>
-
-    <script>
-        function openTab(evt, treinoName) {
-            // Se houver pesquisa ativa, limpa ao trocar de aba para evitar confusão
-            document.getElementById('searchInput').value = '';
-            
-            const containers = document.querySelectorAll('.table-container');
-            containers.forEach(container => {
-                container.style.display = 'none';
-                container.classList.remove('active');
-            });
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            
-            const target = document.getElementById(treinoName);
-            target.style.display = 'block';
-            target.classList.add('active');
-            evt.currentTarget.classList.add('active');
-        }
-
-        function filtrarExercicios() {
-            const termo = document.getElementById('searchInput').value.toLowerCase().trim();
-            const containers = document.querySelectorAll('.table-container');
-
-            if (termo === "") {
-                // Restaura a aba ativa padrão
-                containers.forEach(c => c.style.display = 'none');
-                const abaAtiva = document.querySelector('.tab-btn.active');
-                if(abaAtiva) {
-                    // Descobre qual aba está ativa pelo texto ou onclick
-                    let nomeTab = 'aquecimento';
-                    if(abaAtiva.textContent.includes('Peito')) nomeTab = 'peito';
-                    else if(abaAtiva.textContent.includes('Costas')) nomeTab = 'costas';
-                    else if(abaAtiva.textContent.includes('Pernas')) nomeTab = 'pernas';
-                    else if(abaAtiva.textContent.includes('Ombros')) nomeTab = 'ombros';
-                    else if(abaAtiva.textContent.includes('Braços')) nomeTab = 'bracos';
-                    else if(abaAtiva.textContent.includes('Core')) nomeTab = 'abdomen';
-                    document.getElementById(nomeTab).style.display = 'block';
-                }
-                return;
-            }
-
-            // Exibe todas as abas e filtra linha por linha
-            containers.forEach(container => {
-                container.style.display = 'block';
-                const linhas = container.querySelectorAll('tbody tr');
-                let encontrouNaTabela = false;
-
-                linhas.forEach(linha => {
-                    const textoLinha = linha.cells[0].textContent.toLowerCase();
-                    if (textoLinha.includes(termo)) {
-                        linha.style.display = '';
-                        encontrouNaTabela = true;
-                    } else {
-                        linha.style.display = 'none';
-                    }
-                });
-
-                if (!encontrouNaTabela) {
-                    container.style.display = 'none';
-                }
-            });
         }
 
         function atualizarContagem() {
@@ -1048,12 +601,7 @@
             const nomeSalvo = localStorage.getItem('meuTreino_nomeAluno');
             if(nomeSalvo) document.getElementById('nome-aluno').textContent = nomeSalvo;
 
-            // Garante que apenas a primeira aba apareça no início
-            document.querySelectorAll('.table-container').forEach((c, idx) => {
-                if(idx !== 0) c.style.display = 'none';
-            });
-
-            const todosInputs = document.querySelectorAll('input:not(#searchInput)');
+            const todosInputs = document.querySelectorAll('input');
             todosInputs.forEach((input, index) => {
                 const chaveMemoria = 'meuTreino_campo_' + index;
                 const valorSalvo = localStorage.getItem(chaveMemoria);
@@ -1097,11 +645,11 @@
                 return;
             }
 
-            alert(`🎉 Treino atualizado! Você completou ${total} exercícios nesta semana.`);
+            alert(`🎉 Treino finalizado! Você completou ${total} exercícios nesta semana.`);
 
             if(confirm("Deseja compartilhar seu relatório no WhatsApp?")) {
                 const nome = localStorage.getItem('meuTreino_nomeAluno') || 'Atleta';
-                const mensagem = `✅ Meu Treino Atualizado!\n👤 Nome: ${nome}\n🔥 Exercícios concluídos na semana: ${total}\n\n"Disciplina é fazer o que precisa ser feito!"`;
+                const mensagem = `✅ Treino atualizado com sucesso!\n👤 Nome: ${nome}\n🔥 Exercícios concluídos na semana: ${total}\n\n"Disciplina é fazer o que precisa ser feito!"`;
                 
                 window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(mensagem)}`, '_blank');
             }
