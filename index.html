@@ -1139,6 +1139,29 @@
         setInterval(mudarDica, 10000);
         setTimeout(mudarDica, 100);
 
+        // Função para emitir o som de bipe digital direto pelo navegador
+        function tocarBip() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, audioCtx.currentTime); // Frequência do bipe (Tom Agudo)
+                
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+                
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.8);
+            } catch (e) {
+                console.log("Áudio bloqueado pelo navegador até haver interação.");
+            }
+        }
+
         let countdown;
         const timerDisplay = document.getElementById('time');
         function startTimer(seconds) {
@@ -1149,7 +1172,8 @@
                 const secondsLeft = Math.round((then - Date.now()) / 1000);
                 if(secondsLeft < 0) {
                     clearInterval(countdown);
-                    if ("vibrate" in navigator) navigator.vibrate([200, 100, 200]);
+                    tocarBip(); // Toca o bipe sonoro
+                    if ("vibrate" in navigator) navigator.vibrate([300, 100, 300, 100, 300]); // Vibração forte
                     alert("⏰ Descanso finalizado! Bora treinar!");
                     timerDisplay.textContent = "00:00";
                     return;
