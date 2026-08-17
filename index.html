@@ -1,191 +1,924 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meu Treino</title>
-<style>
-  :root { --bg: #121212; --card: #1e1e1e; --text: #f0f0f0; --primary: #bb86fc; }
-  body { margin: 0; font-family: sans-serif; background: var(--bg); color: var(--text); padding-bottom: 80px; }
-  header { padding: 15px; background: #000; text-align: center; }
-  input[type="text"] { width: 90%; padding: 10px; margin-top: 10px; border-radius: 8px; border: none; outline: none; }
-  
-  .tabs { display: flex; overflow-x: auto; background: #000; padding: 10px; gap: 10px; scrollbar-width: none; }
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab-btn { background: #333; color: white; border: none; padding: 10px 20px; border-radius: 20px; white-space: nowrap; font-size: 14px; }
-  .tab-btn.active { background: var(--primary); color: black; font-weight: bold; }
-  
-  .container { padding: 15px; }
-  .exercise-group { display: none; }
-  .exercise-group.active { display: block; }
-  
-  .card { background: var(--card); padding: 15px; margin-bottom: 15px; border-radius: 10px; }
-  .card h3 { margin: 0 0 10px 0; font-size: 18px; }
-  .controls { display: flex; gap: 10px; align-items: center; }
-  .controls input[type="number"] { width: 60px; padding: 8px; border-radius: 5px; border: none; text-align: center; font-weight: bold; }
-  .controls input[type="checkbox"] { width: 24px; height: 24px; accent-color: var(--primary); }
-  .controls button { background: var(--primary); border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; color: black; font-weight: bold; width: 100%; }
-  
-  .timer-floating { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); padding: 10px 30px; border-radius: 30px; color: black; font-weight: bold; font-size: 18px; display: none; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-  
-  .tips { background: #333; padding: 12px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-style: italic; color: #ccc; }
-  .audio-player, .counter-section { background: var(--card); padding: 15px; border-radius: 10px; margin-bottom: 15px; text-align: center; }
-  
-  .btn-whatsapp { background: #25D366; color: white; border: none; padding: 14px; width: 100%; border-radius: 8px; font-weight: bold; font-size: 16px; margin-top: 15px; }
-  .counter-btn { background: var(--primary); border: none; padding: 5px 15px; border-radius: 5px; font-weight: bold; margin-left: 10px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#000000">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Meu Painel de Treinos</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icone.jpg">
+    <link rel="icon" type="image/jpeg" href="icone.jpg">
+
+    <style>
+        :root {
+            --card-bg: rgba(0, 0, 0, 0.65);
+            --text-color: #ffffff;
+            --accent-color: #dc2626; 
+            --whatsapp-color: #25D366;
+            --border-color: rgba(255, 255, 255, 0.15);
+        }
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-image: url('https://i.postimg.cc/90WWSkg5/863807f68d8353be04d208021f498380.jpg');
+            background-color: #000000;
+            background-size: cover; 
+            background-position: top center; 
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--text-color);
+            margin: 0;
+            padding: 15px;
+            padding-bottom: 120px;
+            min-height: 100vh;
+        }
+        .install-banner {
+            background-color: rgba(0, 0, 0, 0.85);
+            border-bottom: 2px solid var(--accent-color);
+            padding: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .install-banner button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0 10px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0,0,0,1);
+        }
+        .user-profile {
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+            backdrop-filter: blur(2px);
+        }
+        .user-name-wrapper {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .btn-edit-name {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-left: 5px;
+            filter: drop-shadow(1px 1px 2px black);
+        }
+        .streak-counter {
+            font-size: 1.1rem;
+            color: #ff9800;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
+        }
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto 15px auto;
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--accent-color);
+            color: white;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .search-input::placeholder { color: #aaa; }
+        .music-player {
+            max-width: 400px;
+            margin: 0 auto 15px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+        }
+        audio { width: 100%; outline: none; }
+        .teacher-notes {
+            max-width: 600px;
+            margin: 0 auto 15px auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-color);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
+            min-height: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        #texto-dica {
+            display: block;
+            margin-top: 5px;
+            font-style: italic;
+            color: #e2e8f0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .action-buttons {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            max-width: 100%;
+            margin: 0 auto 15px auto;
+            justify-content: center;
+        }
+        .btn-finish {
+            background-color: var(--whatsapp-color);
+            color: white;
+            border: none;
+            padding: 12px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            flex: 1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: 0.2s;
+        }
+        .btn-clear {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid var(--border-color);
+            padding: 12px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            flex: 1;
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
+            transition: 0.2s;
+        }
+        .btn-finish:active, .btn-clear:active { transform: scale(0.95); }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .tab-btn.active {
+            background-color: var(--accent-color);
+            color: #fff; 
+            border-color: var(--accent-color);
+            text-shadow: none;
+        }
+        .table-container {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow-x: auto;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.8);
+            backdrop-filter: blur(2px);
+        }
+        .table-container.active { display: block; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+        th, td {
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--border-color);
+            text-shadow: 1px 1px 3px rgba(0,0,0,1); 
+            vertical-align: middle;
+        }
+        th {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #f87171; 
+            font-weight: bold;
+        }
+        tr:last-child td { border-bottom: none; }
+        .load-input {
+            width: 60px;
+            padding: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            color: white;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .load-input::placeholder { color: #aaa; font-weight: normal; }
+        .check-set {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--accent-color);
+            cursor: pointer;
+        }
+        a.video-link {
+            background-color: rgba(220, 38, 38, 0.3); 
+            color: #fecaca; 
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: 0.2s;
+            border: 1px solid rgba(220, 38, 38, 0.5);
+        }
+        .timer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            border-top: 2px solid var(--accent-color);
+            padding: 10px 15px 15px 15px;
+            box-sizing: border-box;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.8);
+        }
+        .timer-title {
+            color: #aaaaaa;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+        .timer-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        .timer-display {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            width: 70px;
+            text-align: center;
+        }
+        .timer-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+    </style>
 </head>
 <body>
 
-<header>
-  <h2>Painel de Treinos</h2>
-  <input type="text" id="search" placeholder="Buscar exercício..." onkeyup="searchExercise()">
-</header>
-
-<div class="tabs">
-  <button class="tab-btn active" onclick="showTab('peito')">Peito</button>
-  <button class="tab-btn" onclick="showTab('costas')">Costas</button>
-  <button class="tab-btn" onclick="showTab('pernas')">Pernas</button>
-</div>
-
-<div class="container">
-  <div class="tips" id="daily-tip">Mantenha a postura e hidrate-se!</div>
-  
-  <div class="audio-player">
-    <audio controls style="width: 100%; outline: none;">
-      <source src="seu-audio.mp3" type="audio/mpeg">
-      Seu navegador não suporta áudio.
-    </audio>
-  </div>
-
-  <div class="counter-section">
-    Treinos concluídos: <span id="workout-count" style="font-weight:bold; font-size: 18px; color: var(--primary);">0</span>
-    <button class="counter-btn" onclick="addWorkout()">+1 Treino</button>
-  </div>
-
-  <div id="peito" class="exercise-group active">
-    <div class="card" data-name="Supino Reto">
-      <h3>Supino Reto</h3>
-      <div class="controls">
-        <input type="number" placeholder="Kg" class="load-input" data-id="supino">
-        <input type="checkbox" class="done-check" data-id="supino-check">
-        <button onclick="startTimer()">⏳ Descanso</button>
-      </div>
+    <div id="install-banner" class="install-banner" style="display: none;">
+        <span>📲 Para melhor experiência, adicione este painel à Tela Inicial do seu celular!</span>
+        <button onclick="fecharBannerInstall()">✖</button>
     </div>
-  </div>
 
-  <div id="costas" class="exercise-group">
-    <div class="card" data-name="Puxada Frontal">
-      <h3>Puxada Frontal</h3>
-      <div class="controls">
-        <input type="number" placeholder="Kg" class="load-input" data-id="puxada">
-        <input type="checkbox" class="done-check" data-id="puxada-check">
-        <button onclick="startTimer()">⏳ Descanso</button>
-      </div>
+    <h1>💪 Meu Painel de Treinos</h1>
+
+    <div class="user-profile">
+        <div class="user-name-wrapper">
+            Olá, <span id="nome-aluno">Atleta</span> 
+            <button onclick="editarNome()" class="btn-edit-name" title="Editar Nome">✏️</button>
+        </div>
+        <div class="streak-counter">
+            🔥 <span id="streak-count">0</span> exercícios concluídos na semana
+        </div>
     </div>
-  </div>
 
-  <div id="pernas" class="exercise-group">
-    <div class="card" data-name="Agachamento">
-      <h3>Agachamento</h3>
-      <div class="controls">
-        <input type="number" placeholder="Kg" class="load-input" data-id="agachamento">
-        <input type="checkbox" class="done-check" data-id="agachamento-check">
-        <button onclick="startTimer()">⏳ Descanso</button>
-      </div>
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="🔍 Pesquisar qualquer exercício..." onkeyup="filtrarExercicios()">
     </div>
-    <div class="card" data-name="Cadeira Extensora">
-      <h3>Cadeira Extensora</h3>
-      <div class="controls">
-        <input type="number" placeholder="Kg" class="load-input" data-id="extensora">
-        <input type="checkbox" class="done-check" data-id="extensora-check">
-        <button onclick="startTimer()">⏳ Descanso</button>
-      </div>
+
+    <div class="music-player">
+        <audio controls>
+            <source src="Jax - Veni Vidi Vici Partes 1,2,3,4,5_compressed (1).m4a" type="audio/mp4">
+            Seu navegador não suporta áudio.
+        </audio>
     </div>
-  </div>
 
-  <button class="btn-whatsapp" onclick="shareWhatsApp()">📱 Compartilhar Progresso</button>
-</div>
+    <div class="teacher-notes">
+        <strong>💡 Insight do Dia:</strong> 
+        <span id="texto-dica">Carregando dica...</span>
+    </div>
 
-<div class="timer-floating" id="timer">01:00</div>
+    <div class="action-buttons">
+        <button class="btn-finish" onclick="finalizarTreino()">
+            ✅ Finalizar Treino
+        </button>
+        <button class="btn-clear" onclick="limparTreinos()">
+            🔄 Limpar Memória
+        </button>
+    </div>
 
-<script>
-  const tips = [
-    "Beba água entre as séries!", 
-    "Foque na contração muscular, não apenas no peso.", 
-    "A postura correta evita lesões.", 
-    "Chegando perto de pular que nem boxeador! Bora pro treino.",
-    "Respeite seu limite, mas entregue seu máximo!"
-  ];
-  document.getElementById('daily-tip').innerText = tips[Math.floor(Math.random() * tips.length)];
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'aquecimento')">Cardio</button>
+        <button class="tab-btn" onclick="openTab(event, 'peito')">Peito</button>
+        <button class="tab-btn" onclick="openTab(event, 'costas')">Costas</button>
+        <button class="tab-btn" onclick="openTab(event, 'pernas')">Pernas</button>
+        <button class="tab-btn" onclick="openTab(event, 'ombros')">Ombros</button>
+        <button class="tab-btn" onclick="openTab(event, 'bracos')">Braços</button>
+        <button class="tab-btn" onclick="openTab(event, 'abdomen')">Core</button>
+    </div>
 
-  function showTab(tabId) {
-    document.querySelectorAll('.exercise-group').forEach(group => group.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active');
-    event.target.classList.add('active');
-  }
+    <div id="aquecimento" class="table-container active">
+        <table>
+            <thead>
+                <tr>
+                    <th>Atividade</th>
+                    <th>Tempo</th>
+                    <th>Foco</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Pular Corda (Estilo Boxeador)</td>
+                    <td>10 a 15 min</td>
+                    <td>Cardio & Ritmo</td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/r0eVhjgG0ks" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Esteira / Corrida Leve</td>
+                    <td>10 min</td>
+                    <td>Aquecimento Geral</td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/Y2Fz2L0vL1Q" target="_blank">Ver</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-  function searchExercise() {
-    let input = document.getElementById('search').value.toLowerCase();
-    document.querySelectorAll('.card').forEach(card => {
-      let name = card.getAttribute('data-name').toLowerCase();
-      card.style.display = name.includes(input) ? "block" : "none";
-    });
-  }
+    <div id="peito" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Supino Reto com Barra</td>
+                    <td>4</td>
+                    <td>8-10</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtu.be/Kr2erpSyu3M" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Supino Inclinado com Halteres</td>
+                    <td>3</td>
+                    <td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtu.be/_Yqfd8y2JOw" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Crucifixo Reto ou Inclinado</td>
+                    <td>3</td>
+                    <td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/ot9nwSC1JnA" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Crossover / Polia Alta</td>
+                    <td>3</td>
+                    <td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/u36jNfqh8_U" target="_blank">Assistir</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-  let currentInterval;
-  function startTimer() {
-    let timerEl = document.getElementById('timer');
-    timerEl.style.display = "block";
-    let timeLeft = 60; // 1 minuto de descanso
-    timerEl.innerText = `01:00`;
-    
-    if(currentInterval) clearInterval(currentInterval);
-    
-    currentInterval = setInterval(() => {
-      timeLeft--;
-      let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-      let s = (timeLeft % 60).toString().padStart(2, '0');
-      timerEl.innerText = `${m}:${s}`;
-      
-      if (timeLeft <= 0) {
-        clearInterval(currentInterval);
-        timerEl.style.display = "none";
-        if (navigator.vibrate) navigator.vibrate([300, 100, 300, 100, 300]); // Vibra o celular ao fim
-        alert("Fim do descanso! Bora pra próxima série!");
-      }
-    }, 1000);
-  }
+    <div id="costas" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Puxada Alta / Pulldown</td>
+                    <td>4</td>
+                    <td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/AX1-0IxL11g" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Remada Curvada com Barra</td>
+                    <td>4</td>
+                    <td>8-10</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtu.be/wx7FRJyCNBs" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Remada Serrote com Halter</td>
+                    <td>3</td>
+                    <td>10</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/L2FuijYFTvE" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Remada Baixa na Polia</td>
+                    <td>3</td>
+                    <td>12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/T46yKiz8laY" target="_blank">Assistir</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-  function addWorkout() {
-    let count = parseInt(localStorage.getItem('workoutCount') || '0') + 1;
-    localStorage.setItem('workoutCount', count);
-    document.getElementById('workout-count').innerText = count;
-  }
+    <div id="pernas" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Agachamento Livre ou Smith</td>
+                    <td>4</td>
+                    <td>8-10</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtu.be/wx7FRJyCNBs" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Leg Press 45°</td>
+                    <td>4</td>
+                    <td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtu.be/ZTVC_Vj2vhc" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Cadeira Extensora</td>
+                    <td>3</td>
+                    <td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/T46yKiz8laY" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Cadeira Flexora</td>
+                    <td>3</td>
+                    <td>12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/T46yKiz8laY" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Stiff com Barra ou Halteres</td>
+                    <td>3</td>
+                    <td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/ZTVC_Vj2vhc" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Elevação Pélvica</td>
+                    <td>3</td>
+                    <td>12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/KnzBqA1pAKg" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Panturrilha em Pé / Smith</td>
+                    <td>4</td>
+                    <td>15-20</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/CO8u-I8j_Ys" target="_blank">Assistir</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-  function shareWhatsApp() {
-    let count = localStorage.getItem('workoutCount') || 0;
-    let text = `🏋️ Treino Concluído no Painel!\n🔥 Total de treinos acumulados: ${count}\n\nAcompanhando a evolução dia após dia!`;
-    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`);
-  }
+    <div id="ombros" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Desenvolvimento com Halteres</td>
+                    <td>4</td>
+                    <td>8-10</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/ot9nwSC1JnA" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Elevação Lateral</td>
+                    <td>4</td>
+                    <td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/ot9nwSC1JnA" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Elevação Frontal</td>
+                    <td>3</td>
+                    <td>12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/ot9nwSC1JnA" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Crucifixo Inverso (Ombro Posterior)</td>
+                    <td>3</td>
+                    <td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/ot9nwSC1JnA" target="_blank">Assistir</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-  // LocalStorage - Salvar Cargas
-  document.querySelectorAll('.load-input').forEach(input => {
-    let id = input.getAttribute('data-id');
-    if(localStorage.getItem(id)) input.value = localStorage.getItem(id);
-    input.addEventListener('input', () => localStorage.setItem(id, input.value));
-  });
+    <div id="bracos" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Rosca Direta com Halteres</td>
+                    <td>3</td>
+                    <td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/MfsDC0ymFm8" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Rosca Martelo</td>
+                    <td>3</td>
+                    <td>12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/0rRpv6o140o" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Rosca Scott ou na Polia</td>
+                    <td>3</td>
+                    <td>12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/MfsDC0ymFm8" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Tríceps Pulldown / Corda</td>
+                    <td>3</td>
+                    <td>12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/u36jNfqh8_U" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Tríceps Testa com Barra W</td>
+                    <td>3</td>
+                    <td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/u36jNfqh8_U" target="_blank">Assistir</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-  // LocalStorage - Salvar Status do Checkbox
-  document.querySelectorAll('.done-check').forEach(check => {
-    let id = check.getAttribute('data-id');
-    if(localStorage.getItem(id) === 'true') check.checked = true;
-    check.addEventListener('change', () => localStorage.setItem(id, check.checked));
-  });
+    <div id="abdomen" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Abdominal Supra no Solo</td>
+                    <td>3</td>
+                    <td>15-20</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/vRDR_MmFHcI" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Abdominal Infra (Elevação de Pernas)</td>
+                    <td>3</td>
+                    <td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/vRDR_MmFHcI" target="_blank">Assistir</a></td>
+                </tr>
+                <tr>
+                    <td>Prancha abdominal</td>
+                    <td>3</td>
+                    <td>45s</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://youtube.com/shorts/vRDR_MmFHcI" target="_blank">Assistir</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-  // Inicializar Contador ao abrir a página
-  document.getElementById('workout-count').innerText = localStorage.getItem('workoutCount') || '0';
-</script>
+    <div class="timer-bar">
+        <div class="timer-title">⏱️ Tempo de Descanso</div>
+        <div class="timer-controls">
+            <button class="timer-btn" onclick="startTimer(45)">45s</button>
+            <button class="timer-btn" onclick="startTimer(60)">1 Min</button>
+            <div class="timer-display" id="time">00:00</div>
+            <button class="timer-btn" onclick="startTimer(90)">1m30s</button>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, treinoName) {
+            document.getElementById('searchInput').value = '';
+            
+            const containers = document.querySelectorAll('.table-container');
+            containers.forEach(container => {
+                container.style.display = 'none';
+                container.classList.remove('active');
+                container.querySelectorAll('tbody tr').forEach(linha => linha.style.display = '');
+            });
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            const target = document.getElementById(treinoName);
+            target.style.display = 'block';
+            target.classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        function filtrarExercicios() {
+            const termo = document.getElementById('searchInput').value.toLowerCase().trim();
+            const containers = document.querySelectorAll('.table-container');
+
+            if (termo === "") {
+                containers.forEach(container => {
+                    container.style.display = 'none';
+                    container.querySelectorAll('tbody tr').forEach(linha => linha.style.display = '');
+                });
+
+                const abaAtiva = document.querySelector('.tab-btn.active');
+                let nomeTab = 'aquecimento';
+                if (abaAtiva) {
+                    const texto = abaAtiva.textContent;
+                    if(texto.includes('Peito')) nomeTab = 'peito';
+                    else if(texto.includes('Costas')) nomeTab = 'costas';
+                    else if(texto.includes('Pernas')) nomeTab = 'pernas';
+                    else if(texto.includes('Ombros')) nomeTab = 'ombros';
+                    else if(texto.includes('Braços')) nomeTab = 'bracos';
+                    else if(texto.includes('Core')) nomeTab = 'abdomen';
+                }
+                const target = document.getElementById(nomeTab);
+                if(target) {
+                    target.style.display = 'block';
+                    target.classList.add('active');
+                }
+                return;
+            }
+
+            containers.forEach(container => {
+                container.style.display = 'block';
+                const linhas = container.querySelectorAll('tbody tr');
+                let encontrouNaTabela = false;
+
+                linhas.forEach(linha => {
+                    const textoLinha = linha.cells[0].textContent.toLowerCase();
+                    if (textoLinha.includes(termo)) {
+                        linha.style.display = '';
+                        encontrouNaTabela = true;
+                    } else {
+                        linha.style.display = 'none';
+                    }
+                });
+
+                if (!encontrouNaTabela) {
+                    container.style.display = 'none';
+                }
+            });
+        }
+
+        function atualizarContagem() {
+            const total = document.querySelectorAll('.check-set:checked').length;
+            document.getElementById('streak-count').textContent = total;
+            return total;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const nomeSalvo = localStorage.getItem('meuTreino_nomeAluno');
+            if(nomeSalvo) document.getElementById('nome-aluno').textContent = nomeSalvo;
+
+            document.querySelectorAll('.table-container').forEach((c, idx) => {
+                if(idx !== 0) c.style.display = 'none';
+            });
+
+            const todosInputs = document.querySelectorAll('input:not(#searchInput)');
+            todosInputs.forEach((input, index) => {
+                const chaveMemoria = 'meuTreino_campo_' + index;
+                const valorSalvo = localStorage.getItem(chaveMemoria);
+                if (valorSalvo !== null) {
+                    if (input.type === 'checkbox') input.checked = (valorSalvo === 'true');
+                    else if (input.type === 'number') input.value = valorSalvo;
+                }
+                input.addEventListener('change', () => {
+                    if (input.type === 'checkbox') {
+                        localStorage.setItem(chaveMemoria, input.checked);
+                        atualizarContagem();
+                    }
+                    else if (input.type === 'number') {
+                        localStorage.setItem(chaveMemoria, input.value);
+                    }
+                });
+            });
+
+            atualizarContagem();
+
+            const jaViuInstall = localStorage.getItem('meuTreino_viuInstall');
+            if (!window.matchMedia('(display-mode: standalone)').matches && !jaViuInstall) {
+                document.getElementById('install-banner').style.display = 'flex';
+            }
+        });
+
+        function editarNome() {
+            const nomeAtual = document.getElementById('nome-aluno').textContent;
+            const novoNome = prompt("Qual é o seu nome ou apelido?", nomeAtual === "Atleta" ? "" : nomeAtual);
+            if (novoNome && novoNome.trim() !== "") {
+                localStorage.setItem('meuTreino_nomeAluno', novoNome);
+                document.getElementById('nome-aluno').textContent = novoNome;
+            }
+        }
+
+        function finalizarTreino() {
+            const total = atualizarContagem();
+            
+            if (total === 0) {
+                alert("⚠️ Você ainda não marcou nenhum exercício como feito!");
+                return;
+            }
+
+            alert(`🎉 Treino finalizado! Você completou ${total} exercícios nesta semana.`);
+
+            if(confirm("Deseja compartilhar seu relatório no WhatsApp?")) {
+                const nome = localStorage.getItem('meuTreino_nomeAluno') || 'Atleta';
+                const mensagem = `✅ Meu Treino Atualizado!\n👤 Nome: ${nome}\n🔥 Exercícios concluídos na semana: ${total}\n\n"Disciplina é fazer o que precisa ser feito!"`;
+                
+                window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(mensagem)}`, '_blank');
+            }
+        }
+
+        function limparTreinos() {
+            if(confirm("Deseja apagar as cargas, checklists e reiniciar sua contagem de exercícios da semana?")) {
+                localStorage.clear();
+                location.reload(); 
+            }
+        }
+
+        function fecharBannerInstall() {
+            document.getElementById('install-banner').style.display = 'none';
+            localStorage.setItem('meuTreino_viuInstall', 'true');
+        }
+
+        const dicasAutocuidado = [
+            "Beba água! 💧 A hidratação previne cãibras e ajuda no músculo.",
+            "O músculo cresce no descanso! 😴 Tente dormir bem à noite.",
+            "A alimentação é o seu combustível. 🥗 Coma bem no pós-treino.",
+            "Respeite seu corpo. 🧘 Se doer estranho, pare.",
+            "Não dependa só da motivação, crie disciplina. 🚀",
+            "Alongamento previne lesões. 🤸‍♂️ Melhore sua mobilidade.",
+            "Reduza o estresse para não atrapalhar os ganhos. 🧠",
+            "Comemore suas vitórias! 🎉 Ir treinar já é sucesso."
+        ];
+        const elementoTextoDica = document.getElementById('texto-dica');
+        function mudarDica() {
+            elementoTextoDica.style.opacity = 0; 
+            setTimeout(() => {
+                elementoTextoDica.textContent = dicasAutocuidado[Math.floor(Math.random() * dicasAutocuidado.length)];
+                elementoTextoDica.style.opacity = 1;
+            }, 500);
+        }
+        setInterval(mudarDica, 10000);
+        setTimeout(mudarDica, 100);
+
+        let countdown;
+        const timerDisplay = document.getElementById('time');
+        function startTimer(seconds) {
+            clearInterval(countdown);
+            const then = Date.now() + seconds * 1000;
+            displayTimeLeft(seconds);
+            countdown = setInterval(() => {
+                const secondsLeft = Math.round((then - Date.now()) / 1000);
+                if(secondsLeft < 0) {
+                    clearInterval(countdown);
+                    if ("vibrate" in navigator) navigator.vibrate([200, 100, 200]);
+                    alert("⏰ Descanso finalizado! Bora treinar!");
+                    timerDisplay.textContent = "00:00";
+                    return;
+                }
+                displayTimeLeft(secondsLeft);
+            }, 1000);
+        }
+        function displayTimeLeft(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainderSeconds = seconds % 60;
+            timerDisplay.textContent = `${minutes < 10 ? '0' : ''}${minutes}:${remainderSeconds < 10 ? '0' : ''}${remainderSeconds}`;
+        }
+    </script>
 </body>
 </html>
