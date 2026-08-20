@@ -38,7 +38,7 @@
         #main-app { display: none; }
 
         h1 { text-align: center; font-size: 1.5rem; margin-bottom: 15px; color: #fff; text-shadow: 2px 2px 8px #000; }
-        .user-profile, .bmi-container, .eight-ball-container {
+        .user-profile, .bmi-container, .music-player-container, .eight-ball-container {
             background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px;
             padding: 15px; text-align: center; margin: 0 auto 15px auto; max-width: 600px; box-shadow: 0 4px 15px rgba(0,0,0,0.8); backdrop-filter: blur(2px);
         }
@@ -128,6 +128,19 @@
     <div id="main-app">
         <h1>💪 Meu Painel de Treinos</h1>
 
+        <!-- PLAYER DE SOM FIXO NA PÁGINA INICIAL -->
+        <div class="music-player-container">
+            <div class="bmi-title" style="color: #f472b6;">🎧 Som de Academia (Foco Total)</div>
+            <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 10px;">Escolha o estilo eletrônico para o seu treino:</div>
+            <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px;">
+                <button class="bmi-btn" style="background-color: #2563eb;" onclick="tocarRitmo('edm')">⚡ EDM Workout</button>
+                <button class="bmi-btn" style="background-color: #dc2626;" onclick="tocarRitmo('hardstyle')">🔥 Hardstyle Gym</button>
+                <button class="bmi-btn" style="background-color: #7c3aed;" onclick="tocarRitmo('bass')">🔊 Bass Boosted</button>
+            </div>
+            <div id="status-musica" style="font-weight: bold; color: #60a5fa; font-size: 0.85rem; margin-bottom: 8px;">Pronto para tocar</div>
+            <audio id="audioPlayer" controls style="width: 100%; max-width: 320px; height: 36px; outline: none;"></audio>
+        </div>
+
         <div class="user-profile">
             <div class="user-name-wrapper">
                 <span>Olá, <span id="nome-aluno">Atleta</span></span>
@@ -208,7 +221,7 @@
                 <button class="tab-btn" onclick="openTab(event, 'panturrilha')">Panturrilha</button>
             </div>
 
-            <!-- Sub-abas: Core, Cardio, Música, Bola 8 & Outros -->
+            <!-- Sub-abas: Core, Cardio, Bola 8 & Outros -->
             <div id="cat-geral-div" class="sub-tabs-wrapper">
                 <button class="tab-btn" onclick="openTab(event, 'abdomen')">Abdômen</button>
                 <button class="tab-btn" onclick="openTab(event, 'lombar')">Lombar</button>
@@ -216,7 +229,6 @@
                 <button class="tab-btn" onclick="openTab(event, 'cardio')">Cardio</button>
                 <button class="tab-btn" onclick="openTab(event, 'casa')">Casa</button>
                 <button class="tab-btn" onclick="openTab(event, 'recuperacao')" style="border-color: #3b82f6; color: #60a5fa;">🧘 Recuperação</button>
-                <button class="tab-btn" onclick="openTab(event, 'musica')" style="border-color: #ec4899; color: #f472b6;">🎵 Som</button>
                 <button class="tab-btn" onclick="openTab(event, 'desafios')" style="border-color: #f59e0b; color: #fbbf24;">🎱 Bola 8</button>
             </div>
         </div>
@@ -500,27 +512,7 @@
             </table>
         </div>
 
-        <!-- 20. PLAYER DE SOM / MÚSICA -->
-        <div id="musica" class="table-container">
-            <div style="padding: 25px; text-align: center;">
-                <h3 style="margin-top: 0; color: #f472b6;">🎧 Som do Treino</h3>
-                <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 20px;">Escolha o seu ritmo para manter o foco total sem sair do painel:</p>
-                
-                <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px;">
-                    <button class="bmi-btn" style="background-color: #db2777;" onclick="tocarRitmo('piseiro')">🤠 Piseiro</button>
-                    <button class="bmi-btn" style="background-color: #2563eb;" onclick="tocarRitmo('rap')">🎤 Rap</button>
-                    <button class="bmi-btn" style="background-color: #16a34a;" onclick="tocarRitmo('funk')">🔊 Funk</button>
-                    <button class="bmi-btn" style="background-color: #d97706;" onclick="tocarRitmo('reggae')">🌴 Reggae</button>
-                </div>
-
-                <div style="background: rgba(0,0,0,0.6); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; align-items: center; gap: 12px;">
-                    <div id="status-musica" style="font-weight: bold; color: #60a5fa; font-size: 0.95rem;">Nenhum som selecionado</div>
-                    <audio id="audioPlayer" controls style="width: 100%; max-width: 320px; outline: none;"></audio>
-                </div>
-            </div>
-        </div>
-
-        <!-- 21. DESAFIO DA BOLA 8 -->
+        <!-- 20. DESAFIO DA BOLA 8 -->
         <div id="desafios" class="table-container">
             <div class="eight-ball-container" style="margin: 0; border: none; background: transparent; box-shadow: none;">
                 <h3 style="margin-top:0;">🎱 Desafio da Bola 8</h3>
@@ -573,25 +565,26 @@
             document.body.style.backgroundImage = `url('${fundoEscolhido}')`;
         }
 
-        // Função para alternar e tocar os ritmos de treino direto na aba de som
+        // Ritmos de academia reais e funcionais via stream de rádio eletrônica/EDM
         function tocarRitmo(estilo) {
             const player = document.getElementById('audioPlayer');
             const status = document.getElementById('status-musica');
             
-            // Links de stream de áudio públicos e animados para cada vibe
             const streams = {
-                piseiro: { nome: "🤠 Piseiro & Forró Eletrônico", url: "https://ice.fabricahost.com.br/radiovaivive" },
-                rap: { nome: "🎤 Rap & Hip-Hop Workout", url: "https://streams.radio.co/s4315f6087/listen" },
-                funk: { nome: "🔊 Funk & Batidas Pesadas", url: "https://stm1.hostcast.com.br:8260/stream" },
-                reggae: { nome: "🌴 Reggae Roots & Vibes", url: "https://stream.zeno.fm/f3wvbb704quuv" }
+                edm: { nome: "⚡ EDM & Club Workout", url: "https://streams.radio.co/s4315f6087/listen" },
+                hardstyle: { nome: "🔥 Hardstyle & Heavy Gym Beats", url: "https://icecast.omroep.nl/3fm-bb-mp3" },
+                bass: { nome: "🔊 Bass Boosted Workout Radio", url: "https://stream.zeno.fm/f3wvbb704quuv" }
             };
 
             const escolhido = streams[estilo];
             if(escolhido) {
                 status.textContent = "Tocando: " + escolhido.nome;
                 player.src = escolhido.url;
-                player.play().catch(() => {
-                    alert("Toque no botão 'Play' do player para iniciar o som!");
+                player.play().then(() => {
+                    console.log("Reproduzindo com sucesso");
+                }).catch((e) => {
+                    console.error(e);
+                    alert("Toque no play do player para iniciar o som!");
                 });
             }
         }
@@ -878,7 +871,7 @@
                 return;
             }
             containers.forEach(container => {
-                if(container.id === 'montar-fichas' || container.id === 'desafios' || container.id === 'musica') return;
+                if(container.id === 'montar-fichas' || container.id === 'desafios') return;
                 container.style.display = 'block';
                 let encontrou = false;
                 container.querySelectorAll('tbody tr').forEach(linha => {
@@ -1039,7 +1032,6 @@
         }
 
         let countdown; const timerDisplay = document.getElementById('time');
-        let timerAtivo = false;
         function startTimer(sec) {
             clearInterval(countdown); const end = Date.now() + sec * 1000;
             const update = () => {
