@@ -58,9 +58,16 @@
         .btn-finish { background-color: var(--whatsapp-color); color: white; border: none; padding: 12px 10px; border-radius: 8px; font-weight: 600; cursor: pointer; flex: 1; }
         .btn-clear { background-color: rgba(255,255,255,0.1); color: white; border: 1px solid var(--border-color); padding: 12px 10px; border-radius: 8px; font-weight: 600; cursor: pointer; flex: 1; }
         
-        .tabs { display: flex; justify-content: center; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; max-width: 900px; margin-left: auto; margin-right: auto; }
+        /* SISTEMA DE ABAS ORGANIZADAS POR CATEGORIAS */
+        .category-container { max-width: 900px; margin: 0 auto 15px auto; display: flex; flex-direction: column; gap: 8px; }
+        .main-categories { display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; }
+        .main-cat-btn { background-color: rgba(0,0,0,0.85); color: #cbd5e1; border: 1px solid var(--border-color); padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.9rem; flex: 1; min-width: 130px; text-align: center; }
+        .main-cat-btn.active { background-color: var(--accent-color); color: #fff; border-color: var(--accent-color); box-shadow: 0 4px 10px rgba(220,38,38,0.4); }
+
+        .sub-tabs-wrapper { display: none; background: rgba(0,0,0,0.6); padding: 8px; border-radius: 10px; border: 1px solid var(--border-color); justify-content: center; gap: 5px; flex-wrap: wrap; }
+        .sub-tabs-wrapper.active { display: flex; }
         .tab-btn { background-color: rgba(0,0,0,0.75); color: var(--text-color); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.85rem; }
-        .tab-btn.active { background-color: var(--accent-color); color: #fff; border-color: var(--accent-color); }
+        .tab-btn.active { background-color: #2563eb; color: #fff; border-color: #3b82f6; }
         .tab-custom { background-color: rgba(37, 99, 235, 0.4); border-color: rgba(37, 99, 235, 0.8); color: #93c5fd; }
         .tab-custom.active { background-color: #2563eb; color: #fff; }
 
@@ -162,33 +169,55 @@
             <button class="btn-clear" onclick="limparTreinos()">🔄 Limpar Memória</button>
         </div>
 
-        <!-- ABAS DE NAVEGAÇÃO -->
-        <div class="tabs">
-            <button id="btn-tab-a" class="tab-btn tab-custom active" onclick="openTab(event, 'treino-a')">🔥 Treino A</button>
-            <button class="tab-btn tab-custom" onclick="openTab(event, 'treino-b')">🔥 Treino B</button>
-            <button class="tab-btn tab-custom" onclick="openTab(event, 'treino-c')">🔥 Treino C</button>
-            <button class="tab-btn tab-custom" onclick="openTab(event, 'treino-d')">🔥 Treino D</button>
-            <button class="tab-btn" onclick="openTab(event, 'montar-fichas')" style="background-color: #1e293b; border-color: #475569;">⚙️ Montar Fichas</button>
-            
-            <button class="tab-btn" onclick="openTab(event, 'peito')">1. Peito</button>
-            <button class="tab-btn" onclick="openTab(event, 'costas')">2. Costas</button>
-            <button class="tab-btn" onclick="openTab(event, 'ombros')">3. Ombros</button>
-            <button class="tab-btn" onclick="openTab(event, 'trapezio')">4. Trapézio</button>
-            <button class="tab-btn" onclick="openTab(event, 'biceps')">5. Bíceps</button>
-            <button class="tab-btn" onclick="openTab(event, 'triceps')">6. Tríceps</button>
-            <button class="tab-btn" onclick="openTab(event, 'antebraco')">7. Antebraço</button>
-            <button class="tab-btn" onclick="openTab(event, 'quadriceps')">8. Quadríceps</button>
-            <button class="tab-btn" onclick="openTab(event, 'posterior')">9. Posterior</button>
-            <button class="tab-btn" onclick="openTab(event, 'gluteos')">10. Glúteos</button>
-            <button class="tab-btn" onclick="openTab(event, 'adutores')">11. Adutores</button>
-            <button class="tab-btn" onclick="openTab(event, 'abdutores')">12. Abdutores</button>
-            <button class="tab-btn" onclick="openTab(event, 'panturrilha')">13. Panturrilha</button>
-            <button class="tab-btn" onclick="openTab(event, 'abdomen')">14. Abdômen</button>
-            <button class="tab-btn" onclick="openTab(event, 'lombar')">15. Lombar</button>
-            <button class="tab-btn" onclick="openTab(event, 'compostos')">16. Compostos</button>
-            <button class="tab-btn" onclick="openTab(event, 'cardio')">17. Cardio</button>
-            <button class="tab-btn" onclick="openTab(event, 'casa')">18. Casa</button>
-            <button class="tab-btn" onclick="openTab(event, 'recuperacao')" style="border-color: #3b82f6; color: #60a5fa;">🧘 Recuperação</button>
+        <!-- MENU DE CATEGORIAS E SUB-ABAS -->
+        <div class="category-container">
+            <!-- Categoria Principal -->
+            <div class="main-categories">
+                <button class="main-cat-btn active" onclick="trocarCategoria(event, 'cat-fichas-div')">🔥 Minhas Fichas</button>
+                <button class="main-cat-btn" onclick="trocarCategoria(event, 'cat-superiores-div')">🦾 Superiores</button>
+                <button class="main-cat-btn" onclick="trocarCategoria(event, 'cat-inferiores-div')">🦵 Inferiores</button>
+                <button class="main-cat-btn" onclick="trocarCategoria(event, 'cat-geral-div')">⚡ Core & Outros</button>
+            </div>
+
+            <!-- Sub-abas: Minhas Fichas -->
+            <div id="cat-fichas-div" class="sub-tabs-wrapper active">
+                <button id="btn-tab-a" class="tab-btn tab-custom active" onclick="openTab(event, 'treino-a')">🔥 Treino A</button>
+                <button class="tab-btn tab-custom" onclick="openTab(event, 'treino-b')">🔥 Treino B</button>
+                <button class="tab-btn tab-custom" onclick="openTab(event, 'treino-c')">🔥 Treino C</button>
+                <button class="tab-btn tab-custom" onclick="openTab(event, 'treino-d')">🔥 Treino D</button>
+                <button class="tab-btn" onclick="openTab(event, 'montar-fichas')" style="background-color: #1e293b; border-color: #475569;">⚙️ Montar Fichas</button>
+            </div>
+
+            <!-- Sub-abas: Membros Superiores -->
+            <div id="cat-superiores-div" class="sub-tabs-wrapper">
+                <button class="tab-btn" onclick="openTab(event, 'peito')">Peito</button>
+                <button class="tab-btn" onclick="openTab(event, 'costas')">Costas</button>
+                <button class="tab-btn" onclick="openTab(event, 'ombros')">Ombros</button>
+                <button class="tab-btn" onclick="openTab(event, 'trapezio')">Trapézio</button>
+                <button class="tab-btn" onclick="openTab(event, 'biceps')">Bíceps</button>
+                <button class="tab-btn" onclick="openTab(event, 'triceps')">Tríceps</button>
+                <button class="tab-btn" onclick="openTab(event, 'antebraco')">Antebraço</button>
+            </div>
+
+            <!-- Sub-abas: Membros Inferiores -->
+            <div id="cat-inferiores-div" class="sub-tabs-wrapper">
+                <button class="tab-btn" onclick="openTab(event, 'quadriceps')">Quadríceps</button>
+                <button class="tab-btn" onclick="openTab(event, 'posterior')">Posterior</button>
+                <button class="tab-btn" onclick="openTab(event, 'gluteos')">Glúteos</button>
+                <button class="tab-btn" onclick="openTab(event, 'adutores')">Adutores</button>
+                <button class="tab-btn" onclick="openTab(event, 'abdutores')">Abdutores</button>
+                <button class="tab-btn" onclick="openTab(event, 'panturrilha')">Panturrilha</button>
+            </div>
+
+            <!-- Sub-abas: Core, Cardio & Outros -->
+            <div id="cat-geral-div" class="sub-tabs-wrapper">
+                <button class="tab-btn" onclick="openTab(event, 'abdomen')">Abdômen</button>
+                <button class="tab-btn" onclick="openTab(event, 'lombar')">Lombar</button>
+                <button class="tab-btn" onclick="openTab(event, 'compostos')">Compostos</button>
+                <button class="tab-btn" onclick="openTab(event, 'cardio')">Cardio</button>
+                <button class="tab-btn" onclick="openTab(event, 'casa')">Casa</button>
+                <button class="tab-btn" onclick="openTab(event, 'recuperacao')" style="border-color: #3b82f6; color: #60a5fa;">🧘 Recuperação</button>
+            </div>
         </div>
 
         <!-- ABA MONTAR FICHAS COM BOTÃO DE CONFIRMAR -->
@@ -644,10 +673,19 @@
         }
 
         function marcarTagProvisoria(idUnico, letra) {
-            const btn = document.getElementById(`tag_${idUnico}_${letra}`);
-            const classeAtiva = `active-${letra.toLowerCase()}`;
-            btn.classList.toggle(classeAtiva);
+            const btn = document.getElementById(`tag_${ex.idUnico}_${letra}`); // Correção leve garantida abaixo
         }
+
+        // Função corrigida para marcar tag provisória
+        document.addEventListener('click', function(e) {
+            if(e.target && e.target.classList.contains('btn-tag')) {
+                // Alterna cor conforme a letra correspondente
+                if(e.target.textContent === 'A') e.target.classList.toggle('active-a');
+                if(e.target.textContent === 'B') e.target.classList.toggle('active-b');
+                if(e.target.textContent === 'C') e.target.classList.toggle('active-c');
+                if(e.target.textContent === 'D') e.target.classList.toggle('active-d');
+            }
+        });
 
         function salvarEConfirmarFichas() {
             const exercicios = coletarTodosExercicios();
@@ -665,7 +703,8 @@
             atualizarAbasPersonalizadas();
             alert("✅ Fichas salvas e atualizadas com sucesso!");
             
-            // Redireciona para o Treino A automaticamente
+            // Redireciona para a aba do Treino A
+            trocarCategoria(null, 'cat-fichas-div');
             const btnTreinoA = document.getElementById('btn-tab-a');
             openTab({ currentTarget: btnTreinoA }, 'treino-a');
         }
@@ -696,7 +735,7 @@
                     container.innerHTML = `
                         <div style="padding: 30px; text-align: center; color: #aaa;">
                             <p style="font-size: 1.1rem; margin-bottom: 10px;">Nenhum exercício adicionado no <strong>Treino ${letra.toUpperCase()}</strong> ainda.</p>
-                            <button class="auth-btn" style="max-width: 200px; margin: 0 auto;" onclick="openTab(event, 'montar-fichas')">⚙️ Ir para Montar Fichas</button>
+                            <button class="auth-btn" style="max-width: 200px; margin: 0 auto;" onclick="trocarCategoria(null, 'cat-fichas-div'); openTab(null, 'montar-fichas')">⚙️ Ir para Montar Fichas</button>
                         </div>
                     `;
                 } else {
@@ -744,6 +783,19 @@
             atualizarContagem();
         }
 
+        function trocarCategoria(evt, catId) {
+            document.querySelectorAll('.sub-tabs-wrapper').forEach(w => w.classList.remove('active'));
+            document.querySelectorAll('.main-cat-btn').forEach(b => b.classList.remove('active'));
+
+            document.getElementById(catId).classList.add('active');
+            if(evt && evt.currentTarget) {
+                evt.currentTarget.classList.add('active');
+            } else {
+                // Ativa o primeiro botão correspondente se chamado via script
+                document.querySelector(`.main-cat-btn`).classList.add('active');
+            }
+        }
+
         function openTab(evt, treinoName) {
             document.getElementById('searchInput').value = '';
             document.querySelectorAll('.table-container').forEach(c => { c.style.display = 'none'; c.classList.remove('active'); c.querySelectorAll('tbody tr').forEach(l => l.style.display = ''); });
@@ -764,8 +816,8 @@
             const containers = document.querySelectorAll('.table-container');
             if (termo === "") {
                 containers.forEach(c => { c.style.display = 'none'; c.querySelectorAll('tbody tr').forEach(l => l.style.display = ''); });
-                const abaAtiva = document.querySelector('.tab-btn.active');
-                if(abaAtiva) abaAtiva.click(); else openTab({currentTarget: document.querySelector('.tab-btn')}, 'treino-a');
+                trocarCategoria(null, 'cat-fichas-div');
+                openTab({currentTarget: document.getElementById('btn-tab-a')}, 'treino-a');
                 return;
             }
             containers.forEach(container => {
