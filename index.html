@@ -317,7 +317,7 @@
             white-space: nowrap;
         }
         th, td {
-            padding: 14px 12px;
+            padding: 12px;
             border-bottom: 1px solid var(--border-color);
             text-shadow: 1px 1px 3px rgba(0,0,0,1); 
             vertical-align: middle;
@@ -328,6 +328,23 @@
             font-weight: bold;
         }
         tr:last-child td { border-bottom: none; }
+        
+        /* ESTILOS DE MINIATURA (THUMBNAIL) DO EXERCÍCIO */
+        .exercise-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .exercise-thumb {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.3);
+            flex-shrink: 0;
+            background-color: #222;
+        }
+
         .load-input {
             width: 60px;
             padding: 6px;
@@ -553,6 +570,8 @@
         <button class="tab-btn tab-recuperacao" onclick="openTab(event, 'recuperacao')">🧘 Recuperação</button>
     </div>
 
+    <!-- ABAS DE TREINOS COM MINIATURAS PROFISSIONAIS -->
+    
     <!-- ABA: GLÚTEOS & MEMBROS INFERIORES -->
     <div id="gluteos" class="table-container">
         <table>
@@ -568,49 +587,73 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Elevação Pélvica com Barra/Halter</td>
-                    <td>4</td>
-                    <td>12-15</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Elevação Pélvica">
+                            <span>Elevação Pélvica com Barra/Halter</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>12-15</td>
                     <td><input type="number" class="load-input" placeholder="kg"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+elevacao+pelvica" target="_blank">Ver</a></td>
                 </tr>
                 <tr>
-                    <td>Cadeira Abdutora</td>
-                    <td>4</td>
-                    <td>15-20</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Abdutora">
+                            <span>Cadeira Abdutora</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>15-20</td>
                     <td><input type="number" class="load-input" placeholder="kg"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+cadeira+abdutora" target="_blank">Ver</a></td>
                 </tr>
                 <tr>
-                    <td>Agachamento Búlgaro com Halteres</td>
-                    <td>3</td>
-                    <td>10-12</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Búlgaro">
+                            <span>Agachamento Búlgaro com Halteres</span>
+                        </div>
+                    </td>
+                    <td>3</td><td>10-12</td>
                     <td><input type="number" class="load-input" placeholder="kg"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+agachamento+bulgaro" target="_blank">Ver</a></td>
                 </tr>
                 <tr>
-                    <td>Stiff com Halteres ou Barra</td>
-                    <td>3</td>
-                    <td>12</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Stiff">
+                            <span>Stiff com Halteres ou Barra</span>
+                        </div>
+                    </td>
+                    <td>3</td><td>12</td>
                     <td><input type="number" class="load-input" placeholder="kg"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+stiff+halteres" target="_blank">Ver</a></td>
                 </tr>
                 <tr>
-                    <td>Cadeira Adutora</td>
-                    <td>3</td>
-                    <td>15</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Adutora">
+                            <span>Cadeira Adutora</span>
+                        </div>
+                    </td>
+                    <td>3</td><td>15</td>
                     <td><input type="number" class="load-input" placeholder="kg"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+cadeira+adutora" target="_blank">Ver</a></td>
                 </tr>
                 <tr>
-                    <td>Ponte de Glúteos no Solo</td>
-                    <td>3</td>
-                    <td>20</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1566241142559-40e1dab266c6?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Ponte">
+                            <span>Ponte de Glúteos no Solo</span>
+                        </div>
+                    </td>
+                    <td>3</td><td>20</td>
                     <td><input type="number" class="load-input" disabled style="opacity: 0.2;"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=ponte+de+gluteos+solo" target="_blank">Ver</a></td>
@@ -633,37 +676,57 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Polichinelos Intensos</td>
-                    <td>3 x 45s</td>
-                    <td>Aquecimento & Cardio</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Polichinelo">
+                            <span>Polichinelos Intensos</span>
+                        </div>
+                    </td>
+                    <td>3 x 45s</td><td>Aquecimento & Cardio</td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=como+fazer+polichinelo" target="_blank">Ver</a></td>
                 </tr>
                 <tr>
-                    <td>Mountain Climbers (Escalador)</td>
-                    <td>3 x 40s</td>
-                    <td>Core & Queima</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1566241142559-40e1dab266c6?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Mountain Climber">
+                            <span>Mountain Climbers (Escalador)</span>
+                        </div>
+                    </td>
+                    <td>3 x 40s</td><td>Core & Queima</td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=mountain+climbers+exercicio" target="_blank">Ver</a></td>
                 </tr>
                 <tr>
-                    <td>Agachamento Livre sem Peso</td>
-                    <td>3 x 20</td>
-                    <td>Tonificação de Pernas</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Agachamento">
+                            <span>Agachamento Livre sem Peso</span>
+                        </div>
+                    </td>
+                    <td>3 x 20</td><td>Tonificação de Pernas</td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+agachamento+livre" target="_blank">Ver</a></td>
                 </tr>
                 <tr>
-                    <td>Prancha com Toque no Ombro</td>
-                    <td>3 x 45s</td>
-                    <td>Estabilidade Abdômen</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1566241142559-40e1dab266c6?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Prancha">
+                            <span>Prancha com Toque no Ombro</span>
+                        </div>
+                    </td>
+                    <td>3 x 45s</td><td>Estabilidade Abdômen</td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=prancha+com+toque+no+ombro" target="_blank">Ver</a></td>
                 </tr>
                 <tr>
-                    <td>Burpees</td>
-                    <td>3 x 12</td>
-                    <td>Gasto Calórico Total</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Burpee">
+                            <span>Burpees</span>
+                        </div>
+                    </td>
+                    <td>3 x 12</td><td>Gasto Calórico Total</td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=como+fazer+burpee" target="_blank">Ver</a></td>
                 </tr>
@@ -686,17 +749,25 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Pular Corda (Estilo Boxeador)</td>
-                    <td>-</td>
-                    <td>10-15 min</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Corda">
+                            <span>Pular Corda (Estilo Boxeador)</span>
+                        </div>
+                    </td>
+                    <td>-</td><td>10-15 min</td>
                     <td><input type="number" class="load-input" disabled style="opacity: 0.2;"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=como+pular+corda+boxeador" target="_blank">Ver</a></td>
                 </tr>
                 <tr>
-                    <td>Cadeira Extensora</td>
-                    <td>4</td>
-                    <td>12-15</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Extensora">
+                            <span>Cadeira Extensora</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>12-15</td>
                     <td><input type="number" class="load-input" placeholder="kg"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+cadeira+extensora" target="_blank">Ver</a></td>
@@ -718,9 +789,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Alongamento de Lombar (Abraçar Joelhos)</td>
-                    <td>1 a 2 min</td>
-                    <td>Alívio de tensão na coluna</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1566241142559-40e1dab266c6?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Alongamento">
+                            <span>Alongamento de Lombar (Abraçar Joelhos)</span>
+                        </div>
+                    </td>
+                    <td>1 a 2 min</td><td>Alívio de tensão na coluna</td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=alongamento+lombar+joelho+peito" target="_blank">Ver</a></td>
                 </tr>
@@ -741,16 +816,24 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Pular Corda (Estilo Boxeador)</td>
-                    <td>10 a 15 min</td>
-                    <td>Cardio & Ritmo</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Corda">
+                            <span>Pular Corda (Estilo Boxeador)</span>
+                        </div>
+                    </td>
+                    <td>10 a 15 min</td><td>Cardio & Ritmo</td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=como+pular+corda+boxeador" target="_blank">Ver</a></td>
                 </tr>
                 <tr>
-                    <td>Polichinelos (Sem equipamento)</td>
-                    <td>3 a 5 min</td>
-                    <td>Aquecimento Casa/Prédio</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Polichinelo">
+                            <span>Polichinelos (Sem equipamento)</span>
+                        </div>
+                    </td>
+                    <td>3 a 5 min</td><td>Aquecimento Casa/Prédio</td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=como+fazer+polichinelo" target="_blank">Ver</a></td>
                 </tr>
@@ -772,9 +855,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Supino Reto com Barra</td>
-                    <td>4</td>
-                    <td>8-12</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Supino">
+                            <span>Supino Reto com Barra</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>8-12</td>
                     <td><input type="number" class="load-input" placeholder="kg"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+supino+reto+barra" target="_blank">Ver</a></td>
@@ -797,9 +884,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Puxada Alta / Pulldown</td>
-                    <td>4</td>
-                    <td>10-12</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Puxada">
+                            <span>Puxada Alta / Pulldown</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>10-12</td>
                     <td><input type="number" class="load-input" placeholder="kg"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+puxada+alta+frente" target="_blank">Ver</a></td>
@@ -822,9 +913,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Agachamento Livre ou Smith</td>
-                    <td>4</td>
-                    <td>8-12</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Agachamento">
+                            <span>Agachamento Livre ou Smith</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>8-12</td>
                     <td><input type="number" class="load-input" placeholder="kg"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+agachamento+livre" target="_blank">Ver</a></td>
@@ -847,9 +942,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Desenvolvimento com Halteres</td>
-                    <td>4</td>
-                    <td>8-10</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Ombros">
+                            <span>Desenvolvimento com Halteres</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>8-10</td>
                     <td><input type="number" class="load-input" placeholder="kg"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+desenvolvimento+halteres" target="_blank">Ver</a></td>
@@ -872,9 +971,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Rosca Direta (Barra Reta ou W)</td>
-                    <td>4</td>
-                    <td>10-12</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Rosca">
+                            <span>Rosca Direta (Barra Reta ou W)</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>10-12</td>
                     <td><input type="number" class="load-input" placeholder="kg"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+rosca+direta+barra" target="_blank">Ver</a></td>
@@ -897,9 +1000,13 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Prancha Isométrica</td>
-                    <td>3</td>
-                    <td>45s a 1 min</td>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1566241142559-40e1dab266c6?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Prancha">
+                            <span>Prancha Isométrica</span>
+                        </div>
+                    </td>
+                    <td>3</td><td>45s a 1 min</td>
                     <td><input type="number" class="load-input" placeholder="kg"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+prancha+isometrica+abdominal" target="_blank">Ver</a></td>
@@ -1081,7 +1188,6 @@
 
             resultado.textContent = `IMC: ${imc} (${classificacao})`;
             
-            // Atualiza meta de água com base no peso (Peso x 35ml)
             const metaAgua = Math.round(peso * 35);
             document.getElementById('agua-meta').textContent = metaAgua;
             localStorage.setItem('meuTreino_metaAgua', metaAgua);
