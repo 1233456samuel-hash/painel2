@@ -264,6 +264,15 @@
             transition: 0.2s;
             border: 1px solid rgba(220, 38, 38, 0.5);
         }
+        /* Cor personalizada para o botão de recuperação */
+        .tab-recuperacao {
+            border-color: #3b82f6 !important; 
+            color: #60a5fa !important;
+        }
+        .tab-recuperacao.active {
+            background-color: #3b82f6 !important;
+            color: #fff !important;
+        }
         .timer-bar {
             position: fixed;
             bottom: 0;
@@ -366,6 +375,7 @@
         <button class="tab-btn" onclick="openTab(event, 'ombros')">Ombros</button>
         <button class="tab-btn" onclick="openTab(event, 'bracos')">Braços</button>
         <button class="tab-btn" onclick="openTab(event, 'abdomen')">Core</button>
+        <button class="tab-btn tab-recuperacao" onclick="openTab(event, 'recuperacao')">🧘 Recuperação</button>
     </div>
 
     <!-- ABA: TREINO EM CASA -->
@@ -429,6 +439,58 @@
                     <td><input type="number" class="load-input" disabled style="opacity: 0.2;"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=prancha+isometrica" target="_blank">Ver</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ABA: RECUPERAÇÃO / ALONGAMENTO -->
+    <div id="recuperacao" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Alongamento / Soltura</th>
+                    <th>Tempo</th>
+                    <th>Foco</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Alongamento de Lombar (Abraçar Joelhos deitado)</td>
+                    <td>1 a 2 min</td>
+                    <td>Alívio de tensão na coluna</td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=alongamento+lombar+joelho+peito" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Alongamento Peitoral e Ombros (Apoiado na Porta)</td>
+                    <td>30s cada lado</td>
+                    <td>Postura e articulações superiores</td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=alongamento+peitoral+porta" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Alongamento de Antebraço e Punhos</td>
+                    <td>30s cada braço</td>
+                    <td>Soltura após uso de ferramentas/peso</td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=alongamento+antebraco" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Soltura de Panturrilha (Usando um Degrau)</td>
+                    <td>45s cada perna</td>
+                    <td>Alívio após caminhada/escadas</td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=alongamento+panturrilha+degrau" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Mobilidade de Quadril (Agachamento Profundo / Cócoras)</td>
+                    <td>1 min</td>
+                    <td>Descompressão lombar geral</td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=mobilidade+quadril+cocoras" target="_blank">Ver</a></td>
                 </tr>
             </tbody>
         </table>
@@ -1070,6 +1132,7 @@
                 if (abaAtiva) {
                     const texto = abaAtiva.textContent;
                     if(texto.includes('Em Casa')) nomeTab = 'casa';
+                    else if(texto.includes('Recuperação')) nomeTab = 'recuperacao';
                     else if(texto.includes('Peito')) nomeTab = 'peito';
                     else if(texto.includes('Costas')) nomeTab = 'costas';
                     else if(texto.includes('Pernas')) nomeTab = 'pernas';
