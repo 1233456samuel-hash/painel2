@@ -46,13 +46,14 @@
         .check-set { width: 22px; height: 22px; accent-color: var(--accent-color); cursor: pointer; }
         a.video-link { background-color: rgba(220,38,38,0.3); color: #fecaca; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-weight: bold; border: 1px solid rgba(220,38,38,0.5); }
         
-        /* BOLA 8 - ANIMAÇÃO */
+        /* BOLA 8 - ANIMAÇÃO E BOTÃO DE VÍDEO */
         .eight-ball { width: 80px; height: 80px; background: radial-gradient(circle at 30% 30%, #555, #000); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: inset -5px -5px 15px rgba(0,0,0,0.8), 0 8px 15px rgba(0,0,0,0.9); transition: transform 0.1s; }
         .eight-ball:active { transform: scale(0.9); }
         .white-circle { width: 35px; height: 35px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: black; font-weight: 900; font-size: 1.2rem; box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5); }
         .shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
         @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0) rotate(-5deg); } 20%, 80% { transform: translate3d(2px, 0, 0) rotate(5deg); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0) rotate(-5deg); } 40%, 60% { transform: translate3d(4px, 0, 0) rotate(5deg); } }
-        #desafio-resultado { margin-top: 15px; font-weight: bold; color: #f87171; min-height: 24px; text-shadow: 1px 1px 2px black; }
+        #desafio-resultado { margin-top: 15px; font-weight: bold; color: #f87171; min-height: 50px; text-shadow: 1px 1px 2px black; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .btn-desafio-video { background-color: rgba(37, 99, 235, 0.2); color: #93c5fd; padding: 8px 15px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; border: 1px solid rgba(37, 99, 235, 0.4); display: none; } /* Escondido até sortear */
 
         .timer-bar { position: fixed; bottom: 0; left: 0; width: 100%; background-color: rgba(0,0,0,0.95); border-top: 2px solid var(--accent-color); padding: 10px 15px; z-index: 100; display: flex; flex-direction: column; align-items: center; }
         .timer-title { color: #aaa; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
@@ -378,7 +379,10 @@
         <h3 style="margin-top:0;">🎱 Desafio da Bola 8</h3>
         <p>A Bola 8 vai sortear um desafio surpresa de queima!</p>
         <div class="eight-ball" id="bola8" onclick="sortearDesafio()"><div class="white-circle">8</div></div>
-        <div id="desafio-resultado">Toque na bola para sortear</div>
+        <div id="desafio-resultado">
+            <span id="texto-desafio">Toque na bola para sortear</span>
+            <a id="link-desafio" class="btn-desafio-video" href="#" target="_blank">▶️ Ver como faz</a>
+        </div>
     </div>
 
     <div class="timer-bar">
@@ -482,49 +486,55 @@
         }
         function resetarAgua() { localStorage.setItem('meuTreino_aguaAtual', 0); document.getElementById('agua-contador').textContent = 0; }
 
-        /* NOVA LÓGICA DA BOLA 8 - MAIS DESAFIOS E NÃO REPETE SEGUIDO */
+        /* BOLA 8 COM LINKS PARA O YOUTUBE */
         const desafiosBola8 = [
-            "50 Polichinelos diretos!",
-            "1 minuto cravado de Prancha Isométrica!",
-            "Máximo de flexões até a falha!",
-            "2 minutos direto pulando corda!",
-            "30 Burpees o mais rápido possível!",
-            "40 Mountain Climbers (20 cada perna)!",
-            "Agachamento isométrico (na parede) por 1 min!",
-            "30 Agachamentos com salto (Jump Squat)!",
-            "50 Abdominais Curtos (Supra)!",
-            "20 Flexões + 20 Agachamentos livres!",
-            "3 minutos de Pular Corda sem errar!",
-            "Prancha alternando braços (sobe e desce) por 45s!",
-            "100 elevações de panturrilha em pé!",
-            "Sprint no lugar (Skipping alto) por 1 minuto!",
-            "20 Meio sugados (Sprawls) sem parar!"
+            { texto: "50 Polichinelos diretos!", busca: "Como+fazer+Polichinelo+correto" },
+            { texto: "1 minuto de Prancha Isométrica!", busca: "Como+fazer+Prancha+Isometrica" },
+            { texto: "Máximo de flexões até a falha!", busca: "Como+fazer+Flexao+de+braco" },
+            { texto: "2 minutos direto pulando corda!", busca: "Como+pular+corda+treino" },
+            { texto: "30 Burpees o mais rápido possível!", busca: "Como+fazer+Burpee+passo+a+passo" },
+            { texto: "40 Mountain Climbers (20 cada perna)!", busca: "Como+fazer+Mountain+Climber" },
+            { texto: "Agachamento isométrico na parede (1 min)!", busca: "Agachamento+isometrico+na+parede" },
+            { texto: "30 Agachamentos com salto (Jump Squat)!", busca: "Agachamento+com+salto+Jump+Squat" },
+            { texto: "50 Abdominais Curtos (Supra)!", busca: "Abdominal+curto+supra+como+fazer" },
+            { texto: "20 Flexões + 20 Agachamentos livres!", busca: "Flexao+e+agachamento" },
+            { texto: "3 minutos de Pular Corda sem errar!", busca: "Como+pular+corda" },
+            { texto: "Prancha alternando braços por 45s!", busca: "Prancha+sobe+e+desce+alternando+bracos" },
+            { texto: "100 elevações de panturrilha em pé!", busca: "Elevacao+de+panturrilha+em+pe" },
+            { texto: "Sprint no lugar (Skipping) por 1 minuto!", busca: "Skipping+alto+sprint+no+lugar" },
+            { texto: "20 Meio sugados (Sprawls) sem parar!", busca: "Como+fazer+Sprawl+meio+sugado" }
         ];
         
         let ultimoDesafioSorteado = -1;
 
         function sortearDesafio() {
             const b = document.getElementById('bola8'); 
-            const r = document.getElementById('desafio-resultado');
+            const t = document.getElementById('texto-desafio');
+            const link = document.getElementById('link-desafio');
             
             b.classList.remove('shake'); 
             void b.offsetWidth; 
             b.classList.add('shake');
             
-            r.textContent = "Sorteando..."; 
-            r.style.color = "#ccc";
+            t.textContent = "Sorteando..."; 
+            t.style.color = "#ccc";
+            link.style.display = "none";
             
             setTimeout(() => {
                 let randomIndex;
-                // Garante que o sorteio atual seja diferente do último
                 do {
                     randomIndex = Math.floor(Math.random() * desafiosBola8.length);
                 } while (randomIndex === ultimoDesafioSorteado);
                 
                 ultimoDesafioSorteado = randomIndex;
+                const desafio = desafiosBola8[randomIndex];
                 
-                r.textContent = "🔥 " + desafiosBola8[randomIndex]; 
-                r.style.color = "#f87171";
+                t.textContent = "🔥 " + desafio.texto; 
+                t.style.color = "#f87171";
+                
+                link.href = "https://www.youtube.com/results?search_query=" + desafio.busca;
+                link.style.display = "inline-block";
+                
             }, 600);
         }
 
