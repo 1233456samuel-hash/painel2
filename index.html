@@ -10,7 +10,6 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            /* Fundo dinâmico controlado por JavaScript */
             background-color: #000; background-size: cover; background-position: top center; background-attachment: fixed;
             color: var(--text-color); margin: 0; padding: 15px; padding-bottom: 140px; min-height: 100vh;
         }
@@ -209,7 +208,7 @@
                 <button class="tab-btn" onclick="openTab(event, 'panturrilha')">Panturrilha</button>
             </div>
 
-            <!-- Sub-abas: Core, Cardio, Bola 8 & Outros -->
+            <!-- Sub-abas: Core, Cardio, Música, Bola 8 & Outros -->
             <div id="cat-geral-div" class="sub-tabs-wrapper">
                 <button class="tab-btn" onclick="openTab(event, 'abdomen')">Abdômen</button>
                 <button class="tab-btn" onclick="openTab(event, 'lombar')">Lombar</button>
@@ -217,6 +216,7 @@
                 <button class="tab-btn" onclick="openTab(event, 'cardio')">Cardio</button>
                 <button class="tab-btn" onclick="openTab(event, 'casa')">Casa</button>
                 <button class="tab-btn" onclick="openTab(event, 'recuperacao')" style="border-color: #3b82f6; color: #60a5fa;">🧘 Recuperação</button>
+                <button class="tab-btn" onclick="openTab(event, 'musica')" style="border-color: #ec4899; color: #f472b6;">🎵 Som</button>
                 <button class="tab-btn" onclick="openTab(event, 'desafios')" style="border-color: #f59e0b; color: #fbbf24;">🎱 Bola 8</button>
             </div>
         </div>
@@ -500,7 +500,27 @@
             </table>
         </div>
 
-        <!-- 20. DESAFIO DA BOLA 8 -->
+        <!-- 20. PLAYER DE SOM / MÚSICA -->
+        <div id="musica" class="table-container">
+            <div style="padding: 25px; text-align: center;">
+                <h3 style="margin-top: 0; color: #f472b6;">🎧 Som do Treino</h3>
+                <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 20px;">Escolha o seu ritmo para manter o foco total sem sair do painel:</p>
+                
+                <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px;">
+                    <button class="bmi-btn" style="background-color: #db2777;" onclick="tocarRitmo('piseiro')">🤠 Piseiro</button>
+                    <button class="bmi-btn" style="background-color: #2563eb;" onclick="tocarRitmo('rap')">🎤 Rap</button>
+                    <button class="bmi-btn" style="background-color: #16a34a;" onclick="tocarRitmo('funk')">🔊 Funk</button>
+                    <button class="bmi-btn" style="background-color: #d97706;" onclick="tocarRitmo('reggae')">🌴 Reggae</button>
+                </div>
+
+                <div style="background: rgba(0,0,0,0.6); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                    <div id="status-musica" style="font-weight: bold; color: #60a5fa; font-size: 0.95rem;">Nenhum som selecionado</div>
+                    <audio id="audioPlayer" controls style="width: 100%; max-width: 320px; outline: none;"></audio>
+                </div>
+            </div>
+        </div>
+
+        <!-- 21. DESAFIO DA BOLA 8 -->
         <div id="desafios" class="table-container">
             <div class="eight-ball-container" style="margin: 0; border: none; background: transparent; box-shadow: none;">
                 <h3 style="margin-top:0;">🎱 Desafio da Bola 8</h3>
@@ -529,7 +549,7 @@
         let modoCadastro = false;
 
         document.addEventListener("DOMContentLoaded", () => {
-            sortearFundoTela(); // Sorteia o fundo assim que abre a página
+            sortearFundoTela();
             const logado = localStorage.getItem('meuTreino_sessaoAtiva');
             if (logado) {
                 usuarioAtual = logado;
@@ -537,7 +557,6 @@
             }
         });
 
-        // Função para sortear uma imagem de fundo aleatória da internet (vibe de academia)
         function sortearFundoTela() {
             const fundosGym = [
                 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600&auto=format&fit=crop&q=80',
@@ -552,6 +571,29 @@
             ];
             const fundoEscolhido = fundosGym[Math.floor(Math.random() * fundosGym.length)];
             document.body.style.backgroundImage = `url('${fundoEscolhido}')`;
+        }
+
+        // Função para alternar e tocar os ritmos de treino direto na aba de som
+        function tocarRitmo(estilo) {
+            const player = document.getElementById('audioPlayer');
+            const status = document.getElementById('status-musica');
+            
+            // Links de stream de áudio públicos e animados para cada vibe
+            const streams = {
+                piseiro: { nome: "🤠 Piseiro & Forró Eletrônico", url: "https://ice.fabricahost.com.br/radiovaivive" },
+                rap: { nome: "🎤 Rap & Hip-Hop Workout", url: "https://streams.radio.co/s4315f6087/listen" },
+                funk: { nome: "🔊 Funk & Batidas Pesadas", url: "https://stm1.hostcast.com.br:8260/stream" },
+                reggae: { nome: "🌴 Reggae Roots & Vibes", url: "https://stream.zeno.fm/f3wvbb704quuv" }
+            };
+
+            const escolhido = streams[estilo];
+            if(escolhido) {
+                status.textContent = "Tocando: " + escolhido.nome;
+                player.src = escolhido.url;
+                player.play().catch(() => {
+                    alert("Toque no botão 'Play' do player para iniciar o som!");
+                });
+            }
         }
 
         function alternarModoAuth() {
@@ -594,7 +636,7 @@
 
             localStorage.setItem('meuTreino_sessaoAtiva', u);
             usuarioAtual = u;
-            sortearFundoTela(); // Sorteia um novo fundo ao logar também!
+            sortearFundoTela();
             entrarNoSistema();
         }
 
@@ -836,7 +878,7 @@
                 return;
             }
             containers.forEach(container => {
-                if(container.id === 'montar-fichas' || container.id === 'desafios') return;
+                if(container.id === 'montar-fichas' || container.id === 'desafios' || container.id === 'musica') return;
                 container.style.display = 'block';
                 let encontrou = false;
                 container.querySelectorAll('tbody tr').forEach(linha => {
@@ -997,6 +1039,7 @@
         }
 
         let countdown; const timerDisplay = document.getElementById('time');
+        let timerAtivo = false;
         function startTimer(sec) {
             clearInterval(countdown); const end = Date.now() + sec * 1000;
             const update = () => {
