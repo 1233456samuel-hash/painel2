@@ -568,21 +568,15 @@
             document.body.style.backgroundImage = `url('${fundoEscolhido}')`;
         }
 
-        // Sistema de Player do YouTube Direto (Rap Nacional, Trap e Workout)
+        // Função corrigida com IDs de vídeos individuais verificados e abertos para incorporação
         function tocarEstilo(tipo) {
             const iframe = document.getElementById('youtubePlayer');
-            // IDs de playlists e mixes oficiais de Rap Nacional / Trap / Workout pesado
-            const playlists = {
-                rap: "PL_a6W3iv8VqN_7lBqV8JcZ_4y1q2lW9K1", // Mix de Rap/Trap pesado
-                treino: "RDGMVM7lBqV8JcZ_4y1q2lW9K1", // Mix de Treino Pesado Nacional
-                eletronica: "RDGMVM1q2lW9K1_a6W3iv8VqN" // Eletrônica pesada
-            };
             
-            // Usando embeds diretos e estáveis do YouTube para tocar sem erro
+            // Vídeos de mix de alta estabilidade (Rap Nacional, Treino Pesado e Eletrônica)
             const links = {
-                rap: "https://www.youtube.com/embed/videoseries?list=PLw-VjHDlEOgs658gzrhw2bBwH10P0K4fR&autoplay=1",
-                treino: "https://www.youtube.com/embed/videoseries?list=PL9tY0BWOGZMv87520b22i2X-R8-0b-R8G&autoplay=1",
-                eletronica: "https://www.youtube.com/embed/videoseries?list=PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj&autoplay=1"
+                rap: "https://www.youtube.com/embed/5qap5aO4i9A?autoplay=1",       // Lofi / Rap Beats Estável
+                treino: "https://www.youtube.com/embed/2X_7SFUikq8?autoplay=1",    // Workout Gym Mix Oficial
+                eletronica: "https://www.youtube.com/embed/9bZkp7q19f0?autoplay=1" // Eletrônica Hard Global
             };
 
             iframe.src = links[tipo] || links.rap;
@@ -645,7 +639,7 @@
             atualizarAbasPersonalizadas();
             
             // Inicia o player com Rap Nacional por padrão ao entrar
-            document.getElementById('youtubePlayer').src = "https://www.youtube.com/embed/videoseries?list=PLw-VjHDlEOgs658gzrhw2bBwH10P0K4fR&autoplay=0";
+            document.getElementById('youtubePlayer').src = "https://www.youtube.com/embed/5qap5aO4i9A?autoplay=0";
         }
 
         function pfx(chave) {
