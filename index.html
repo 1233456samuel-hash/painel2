@@ -50,7 +50,7 @@
         .bmi-title { font-size: 1rem; font-weight: bold; margin-bottom: 12px; color: #e2e8f0; }
         .bmi-inputs { display: flex; gap: 8px; justify-content: center; margin-bottom: 8px; flex-wrap: wrap; }
         .bmi-inputs input { width: 30%; min-width: 90px; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background-color: rgba(255,255,255,0.1); color: white; text-align: center; font-size: 0.9rem; outline: none; }
-        .bmi-btn { background-color: var(--accent-color); color: white; border: none; border-radius: 6px; padding: 8px 10px; cursor: pointer; font-weight: bold; font-size: 0.8rem; flex: 1; min-width: 100px; }
+        .bmi-btn { background-color: var(--accent-color); color: white; border: none; border-radius: 6px; padding: 8px 10px; cursor: pointer; font-weight: bold; font-size: 0.8rem; flex: 1; min-width: 90px; }
         #imc-resultado { font-weight: bold; color: #60a5fa; font-size: 0.9rem; text-shadow: 1px 1px 2px black; margin-bottom: 10px; }
         .search-input { width: 100%; max-width: 800px; display: block; margin: 0 auto 15px auto; padding: 12px 15px; background-color: rgba(0,0,0,0.8); border: 1px solid var(--accent-color); color: white; border-radius: 10px; font-size: 1rem; outline: none; }
         .action-buttons { display: flex; gap: 10px; max-width: 100%; margin: 0 auto 15px auto; justify-content: center; }
@@ -128,18 +128,19 @@
     <div id="main-app">
         <h1>💪 Meu Painel de Treinos</h1>
 
-        <!-- PLAYER DE ÁUDIO CONTÍNUO (RODA EM SEGUNDO PLANO / BACKGROUND) -->
+        <!-- PLAYER DE SOM ATUALIZADO (FUNK, RAP, PISEIRO, REGGAE) -->
         <div class="music-player-container">
-            <div class="bmi-title" style="color: #f472b6;">🎧 Rádio Academia & Rap (Som Contínuo)</div>
-            <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 10px;">Continua tocando mesmo trocando de aba ou minimizando:</div>
+            <div class="bmi-title" style="color: #f472b6;">🎧 Som do Treino (Funk, Rap, Piseiro & Reggae)</div>
+            <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 10px;">Escolha seu som favorito para embalar o treino:</div>
             
-            <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px;">
-                <button class="bmi-btn" style="background-color: #2563eb;" onclick="tocarRadio('rap')">🎤 Rap & Trap Nacional</button>
-                <button class="bmi-btn" style="background-color: #dc2626;" onclick="tocarRadio('treino')">🔥 Pesado Academia</button>
-                <button class="bmi-btn" style="background-color: #7c3aed;" onclick="tocarRadio('eletronica')">⚡ Eletrônica Hard</button>
+            <div style="display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px;">
+                <button class="bmi-btn" style="background-color: #2563eb;" onclick="tocarEstilo('funk')">🚀 Funk</button>
+                <button class="bmi-btn" style="background-color: #dc2626;" onclick="tocarEstilo('rap')">🎤 Rap / Trap</button>
+                <button class="bmi-btn" style="background-color: #d97706;" onclick="tocarEstilo('piseiro')">🤠 Piseiro</button>
+                <button class="bmi-btn" style="background-color: #16a34a;" onclick="tocarEstilo('reggae')">🌿 Reggae</button>
             </div>
 
-            <div id="status-musica" style="font-weight: bold; color: #60a5fa; font-size: 0.85rem; margin-bottom: 8px;">Toque em um estilo acima</div>
+            <div id="status-musica" style="font-weight: bold; color: #60a5fa; font-size: 0.85rem; margin-bottom: 8px;">Nenhum som selecionado</div>
             <audio id="audioPlayer" controls style="width: 100%; max-width: 340px; height: 40px; outline: none;"></audio>
         </div>
 
@@ -567,15 +568,16 @@
             document.body.style.backgroundImage = `url('${fundoEscolhido}')`;
         }
 
-        // Sistema de áudio contínuo integrado com MediaSession (toca em segundo plano)
-        function tocarRadio(estilo) {
+        // Sistema de áudio contínuo configurado para os ritmos solicitados (Funk, Rap, Piseiro, Reggae)
+        function tocarEstilo(estilo) {
             const player = document.getElementById('audioPlayer');
             const status = document.getElementById('status-musica');
             
             const radios = {
-                rap: { nome: "🎤 Rap, Trap & Urban Brasil", url: "https://stream.zeno.fm/f3wvbb704quuv" },
-                treino: { nome: "🔥 Pesado Academia Workout", url: "https://streams.radio.co/s4315f6087/listen" },
-                eletronica: { nome: "⚡ Eletrônica Hard & Beat", url: "https://ice2.somafm.com/beatblender-128-mp3" }
+                funk: { nome: "🚀 Funk & Mega Beat", url: "https://stream.zeno.fm/f3wvbb704quuv" },
+                rap: { nome: "🎤 Rap & Trap Nacional", url: "https://streams.radio.co/s4315f6087/listen" },
+                piseiro: { nome: "🤠 Piseiro & Forró Hits", url: "https://ice2.somafm.com/beatblender-128-mp3" },
+                reggae: { nome: "🌿 Reggae Roots & Vibes", url: "https://s2.radio.co/s1179e830e/listen" }
             };
 
             const escolhida = radios[estilo];
@@ -584,7 +586,6 @@
                 player.src = escolhida.url;
                 player.load();
                 player.play().then(() => {
-                    // Configura Media Session para o celular manter o player na tela de bloqueio e barra de notificação
                     if ('mediaSession' in navigator) {
                         navigator.mediaSession.metadata = new MediaMetadata({
                             title: escolhida.nome,
@@ -594,7 +595,7 @@
                     }
                 }).catch((e) => {
                     console.error(e);
-                    alert("Toque no botão 'Play' do player para iniciar a transmissão.");
+                    alert("Toque no botão 'Play' do player para iniciar o som.");
                 });
             }
         }
