@@ -95,6 +95,13 @@
             font-weight: bold;
             text-shadow: 1px 1px 3px rgba(0,0,0,1);
         }
+        .streak-days-counter {
+            font-size: 1rem;
+            color: #4ade80;
+            font-weight: bold;
+            margin-top: 6px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,1);
+        }
         
         /* ESTILOS DA CALCULADORA DE IMC */
         .bmi-container {
@@ -452,13 +459,15 @@
         <div class="streak-counter">
             🔥 <span id="streak-count">0</span> exercícios concluídos na semana
         </div>
+        <div class="streak-days-counter">
+            ⚡ Ofensiva: <span id="streak-days">0</span> dias seguidos
+        </div>
     </div>
 
-    <!-- CALCULADORA DE IMC (CORRIGIDA E AUTOMÁTICA) -->
+    <!-- CALCULADORA DE IMC -->
     <div class="bmi-container">
         <div class="bmi-title">⚖️ Diário de Peso e IMC</div>
         <div class="bmi-inputs">
-            <!-- inputmode="decimal" facilita em celulares e oninput calcula na mesma hora -->
             <input type="text" inputmode="decimal" id="peso" placeholder="Peso (kg)" oninput="calcularIMC()">
             <input type="text" inputmode="decimal" id="altura" placeholder="Alt (m)" oninput="calcularIMC()">
             <button class="bmi-btn" onclick="calcularIMC()">Salvar</button>
@@ -902,7 +911,6 @@
     </div>
 
     <script>
-        // Funções de Tab e Pesquisa
         function openTab(evt, treinoName) {
             document.getElementById('searchInput').value = '';
             const containers = document.querySelectorAll('.table-container');
@@ -970,13 +978,63 @@
             return total;
         }
 
-        // CALCULADORA DE IMC ATUALIZADA
+        // SISTEMA DE OFENSIVA DE DIAS
+        function verificarOfensiva() {
+            const lastDate = localStorage.getItem('meuTreino_lastDate');
+            let streak = parseInt(localStorage.getItem('meuTreino_streakDays')) || 0;
+            
+            if (lastDate) {
+                const hoje = new Date();
+                hoje.setHours(0,0,0,0);
+                const ultima = new Date(lastDate);
+                ultima.setHours(0,0,0,0);
+                
+                const diffTime = hoje - ultima;
+                const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+                
+                if (diffDays > 1) {
+                    streak = 0;
+                    localStorage.setItem('meuTreino_streakDays', 0);
+                }
+            }
+            document.getElementById('streak-days').textContent = streak;
+        }
+
+        function registrarOfensiva() {
+            const hojeStr = new Date().toISOString().split('T')[0];
+            const lastDate = localStorage.getItem('meuTreino_lastDate');
+            let streak = parseInt(localStorage.getItem('meuTreino_streakDays')) || 0;
+            
+            if (lastDate === hojeStr) return; // Já registrou hoje
+            
+            if (lastDate) {
+                const hoje = new Date();
+                hoje.setHours(0,0,0,0);
+                const ultima = new Date(lastDate);
+                ultima.setHours(0,0,0,0);
+                
+                const diffDays = Math.round((hoje - ultima) / (1000 * 60 * 60 * 24));
+                
+                if (diffDays === 1) {
+                    streak += 1;
+                } else if (diffDays > 1) {
+                    streak = 1;
+                }
+            } else {
+                streak = 1;
+            }
+            
+            localStorage.setItem('meuTreino_streakDays', streak);
+            localStorage.setItem('meuTreino_lastDate', hojeStr);
+            document.getElementById('streak-days').textContent = streak;
+        }
+
+        // CALCULADORA DE IMC
         function calcularIMC() {
             const pesoInput = document.getElementById('peso');
             const alturaInput = document.getElementById('altura');
             const resultado = document.getElementById('imc-resultado');
 
-            // Substitui vírgula por ponto automaticamente para não dar erro
             let pesoStr = pesoInput.value.replace(',', '.');
             let alturaStr = alturaInput.value.replace(',', '.');
             
@@ -988,7 +1046,6 @@
                 return;
             }
 
-            // Se a pessoa digitar a altura em centímetros (ex: 175) corrige sozinho
             if (altura > 3) {
                 altura = altura / 100;
             }
@@ -1003,7 +1060,6 @@
 
             resultado.textContent = `Seu IMC: ${imc} (${classificacao})`;
             
-            // Salva na memória do celular os valores originais que foram digitados
             localStorage.setItem('meuTreino_peso', pesoInput.value);
             localStorage.setItem('meuTreino_altura', alturaInput.value);
         }
@@ -1014,7 +1070,7 @@
             const resultado = document.getElementById('desafio-resultado');
             
             bola.classList.remove('shake');
-            void bola.offsetWidth; // Força o reflow para reiniciar a animação
+            void bola.offsetWidth; 
             bola.classList.add('shake');
             resultado.textContent = "Sorteando...";
             resultado.style.color = "#ccc";
@@ -1037,13 +1093,14 @@
             const nomeSalvo = localStorage.getItem('meuTreino_nomeAluno');
             if(nomeSalvo) document.getElementById('nome-aluno').textContent = nomeSalvo;
 
-            // Carrega Peso e Altura salvos e já faz a conta sozinho
+            verificarOfensiva(); // Checa os dias seguidos ao abrir a página
+
             const pesoSalvo = localStorage.getItem('meuTreino_peso');
             const alturaSalva = localStorage.getItem('meuTreino_altura');
             if(pesoSalvo && alturaSalva) {
                 document.getElementById('peso').value = pesoSalvo;
                 document.getElementById('altura').value = alturaSalva;
-                calcularIMC(); // Aciona a conta já de início
+                calcularIMC(); 
             }
 
             document.querySelectorAll('.table-container').forEach((c, idx) => {
@@ -1092,26 +1149,34 @@
                 alert("⚠️ Você ainda não marcou nenhum exercício como feito!");
                 return;
             }
+
+            registrarOfensiva(); // Atualiza a ofensiva de dias seguidos ao finalizar
+
             alert(`🎉 Treino finalizado! Você completou ${total} exercícios nesta semana.`);
             if(confirm("Deseja compartilhar seu relatório no WhatsApp?")) {
                 const nome = localStorage.getItem('meuTreino_nomeAluno') || 'Atleta';
                 const peso = document.getElementById('peso').value || "Não informado";
-                const mensagem = `✅ Meu Treino Atualizado!\n👤 Nome: ${nome}\n⚖️ Peso Atual: ${peso}kg\n🔥 Exercícios concluídos na semana: ${total}\n\n"Disciplina é fazer o que precisa ser feito!"`;
+                const diasOfensiva = localStorage.getItem('meuTreino_streakDays') || 1;
+                const mensagem = `✅ Meu Treino Atualizado!\n👤 Nome: ${nome}\n⚖️ Peso Atual: ${peso}kg\n⚡ Ofensiva: ${diasOfensiva} dias seguidos\n🔥 Exercícios na semana: ${total}\n\n"Disciplina é fazer o que precisa ser feito!"`;
                 window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(mensagem)}`, '_blank');
             }
         }
 
         function limparTreinos() {
-            if(confirm("Deseja apagar as cargas, checklists e reiniciar sua contagem de exercícios da semana? (Seu peso e altura não serão apagados)")) {
+            if(confirm("Deseja apagar as cargas, checklists e reiniciar sua contagem de exercícios da semana? (Seu peso, altura e ofensiva não serão apagados)")) {
                 const p = localStorage.getItem('meuTreino_peso');
                 const a = localStorage.getItem('meuTreino_altura');
                 const n = localStorage.getItem('meuTreino_nomeAluno');
+                const s = localStorage.getItem('meuTreino_streakDays');
+                const ld = localStorage.getItem('meuTreino_lastDate');
                 
                 localStorage.clear();
                 
                 if(p) localStorage.setItem('meuTreino_peso', p);
                 if(a) localStorage.setItem('meuTreino_altura', a);
                 if(n) localStorage.setItem('meuTreino_nomeAluno', n);
+                if(s) localStorage.setItem('meuTreino_streakDays', s);
+                if(ld) localStorage.setItem('meuTreino_lastDate', ld);
                 
                 location.reload(); 
             }
