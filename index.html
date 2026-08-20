@@ -358,6 +358,7 @@
     </div>
 
     <div class="tabs">
+        <button class="tab-btn" onclick="openTab(event, 'casa')" style="border-color: #25D366; color: #25D366;">🏠 Em Casa</button>
         <button class="tab-btn active" onclick="openTab(event, 'aquecimento')">Cardio</button>
         <button class="tab-btn" onclick="openTab(event, 'peito')">Peito</button>
         <button class="tab-btn" onclick="openTab(event, 'costas')">Costas</button>
@@ -365,6 +366,72 @@
         <button class="tab-btn" onclick="openTab(event, 'ombros')">Ombros</button>
         <button class="tab-btn" onclick="openTab(event, 'bracos')">Braços</button>
         <button class="tab-btn" onclick="openTab(event, 'abdomen')">Core</button>
+    </div>
+
+    <!-- ABA: TREINO EM CASA -->
+    <div id="casa" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Pular Corda (Estilo Boxeador)</td>
+                    <td>-</td>
+                    <td>10-15 min</td>
+                    <td><input type="number" class="load-input" disabled style="opacity: 0.2;"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=como+pular+corda+boxeador" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Cadeira Extensora</td>
+                    <td>4</td>
+                    <td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+cadeira+extensora" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Agachamento Livre ou Búlgaro</td>
+                    <td>4</td>
+                    <td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=agachamento+bulgaro+em+casa" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Flexão de Braços (Chão)</td>
+                    <td>4</td>
+                    <td>Máx</td>
+                    <td><input type="number" class="load-input" disabled style="opacity: 0.2;"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+flexao+de+bracos" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Tríceps no Banco/Cadeira</td>
+                    <td>3</td>
+                    <td>10-15</td>
+                    <td><input type="number" class="load-input" disabled style="opacity: 0.2;"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=triceps+banco+em+casa" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Prancha Isométrica</td>
+                    <td>3</td>
+                    <td>45s a 1 min</td>
+                    <td><input type="number" class="load-input" disabled style="opacity: 0.2;"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=prancha+isometrica" target="_blank">Ver</a></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <!-- ABA: CARDIO / AQUECIMENTO -->
@@ -971,7 +1038,7 @@
     <script>
         function openTab(evt, treinoName) {
             document.getElementById('searchInput').value = '';
-            
+
             const containers = document.querySelectorAll('.table-container');
             containers.forEach(container => {
                 container.style.display = 'none';
@@ -981,7 +1048,7 @@
 
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
-            
+
             const target = document.getElementById(treinoName);
             target.style.display = 'block';
             target.classList.add('active');
@@ -1002,7 +1069,8 @@
                 let nomeTab = 'aquecimento';
                 if (abaAtiva) {
                     const texto = abaAtiva.textContent;
-                    if(texto.includes('Peito')) nomeTab = 'peito';
+                    if(texto.includes('Em Casa')) nomeTab = 'casa';
+                    else if(texto.includes('Peito')) nomeTab = 'peito';
                     else if(texto.includes('Costas')) nomeTab = 'costas';
                     else if(texto.includes('Pernas')) nomeTab = 'pernas';
                     else if(texto.includes('Ombros')) nomeTab = 'ombros';
@@ -1090,7 +1158,7 @@
 
         function finalizarTreino() {
             const total = atualizarContagem();
-            
+
             if (total === 0) {
                 alert("⚠️ Você ainda não marcou nenhum exercício como feito!");
                 return;
@@ -1101,7 +1169,7 @@
             if(confirm("Deseja compartilhar seu relatório no WhatsApp?")) {
                 const nome = localStorage.getItem('meuTreino_nomeAluno') || 'Atleta';
                 const mensagem = `✅ Meu Treino Atualizado!\n👤 Nome: ${nome}\n🔥 Exercícios concluídos na semana: ${total}\n\n"Disciplina é fazer o que precisa ser feito!"`;
-                
+
                 window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(mensagem)}`, '_blank');
             }
         }
@@ -1139,22 +1207,21 @@
         setInterval(mudarDica, 10000);
         setTimeout(mudarDica, 100);
 
-        // Função para emitir o som de bipe digital direto pelo navegador
         function tocarBip() {
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 const osc = audioCtx.createOscillator();
                 const gainNode = audioCtx.createGain();
-                
+
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(880, audioCtx.currentTime); // Frequência do bipe (Tom Agudo)
-                
+                osc.frequency.setValueAtTime(880, audioCtx.currentTime); 
+
                 gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
                 gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
-                
+
                 osc.connect(gainNode);
                 gainNode.connect(audioCtx.destination);
-                
+
                 osc.start();
                 osc.stop(audioCtx.currentTime + 0.8);
             } catch (e) {
@@ -1172,8 +1239,8 @@
                 const secondsLeft = Math.round((then - Date.now()) / 1000);
                 if(secondsLeft < 0) {
                     clearInterval(countdown);
-                    tocarBip(); // Toca o bipe sonoro
-                    if ("vibrate" in navigator) navigator.vibrate([300, 100, 300, 100, 300]); // Vibração forte
+                    tocarBip(); 
+                    if ("vibrate" in navigator) navigator.vibrate([300, 100, 300, 100, 300]); 
                     alert("⏰ Descanso finalizado! Bora treinar!");
                     timerDisplay.textContent = "00:00";
                     return;
