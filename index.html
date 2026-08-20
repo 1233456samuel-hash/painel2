@@ -128,20 +128,19 @@
     <div id="main-app">
         <h1>💪 Meu Painel de Treinos</h1>
 
-        <!-- PLAYER DE SOM DO YOUTUBE (NACIONAL, RAP, TRAP & GYM) -->
+        <!-- PLAYER DE ÁUDIO CONTÍNUO (RODA EM SEGUNDO PLANO / BACKGROUND) -->
         <div class="music-player-container">
-            <div class="bmi-title" style="color: #f472b6;">🎧 Som & Rap de Academia (YouTube Oficial)</div>
-            <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 10px;">Toque direto no painel sem sair do app:</div>
+            <div class="bmi-title" style="color: #f472b6;">🎧 Rádio Academia & Rap (Som Contínuo)</div>
+            <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 10px;">Continua tocando mesmo trocando de aba ou minimizando:</div>
             
             <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px;">
-                <button class="bmi-btn" style="background-color: #2563eb;" onclick="tocarEstilo('rap')">🎤 Rap & Trap Nacional</button>
-                <button class="bmi-btn" style="background-color: #dc2626;" onclick="tocarEstilo('treino')">🔥 Pesado Academia</button>
-                <button class="bmi-btn" style="background-color: #7c3aed;" onclick="tocarEstilo('eletronica')">⚡ Eletrônica Hard</button>
+                <button class="bmi-btn" style="background-color: #2563eb;" onclick="tocarRadio('rap')">🎤 Rap & Trap Nacional</button>
+                <button class="bmi-btn" style="background-color: #dc2626;" onclick="tocarRadio('treino')">🔥 Pesado Academia</button>
+                <button class="bmi-btn" style="background-color: #7c3aed;" onclick="tocarRadio('eletronica')">⚡ Eletrônica Hard</button>
             </div>
 
-            <div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; background: #111; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color);">
-                <iframe id="youtubePlayer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            </div>
+            <div id="status-musica" style="font-weight: bold; color: #60a5fa; font-size: 0.85rem; margin-bottom: 8px;">Toque em um estilo acima</div>
+            <audio id="audioPlayer" controls style="width: 100%; max-width: 340px; height: 40px; outline: none;"></audio>
         </div>
 
         <div class="user-profile">
@@ -568,18 +567,36 @@
             document.body.style.backgroundImage = `url('${fundoEscolhido}')`;
         }
 
-        // Função corrigida com IDs de vídeos individuais verificados e abertos para incorporação
-        function tocarEstilo(tipo) {
-            const iframe = document.getElementById('youtubePlayer');
+        // Sistema de áudio contínuo integrado com MediaSession (toca em segundo plano)
+        function tocarRadio(estilo) {
+            const player = document.getElementById('audioPlayer');
+            const status = document.getElementById('status-musica');
             
-            // Vídeos de mix de alta estabilidade (Rap Nacional, Treino Pesado e Eletrônica)
-            const links = {
-                rap: "https://www.youtube.com/embed/5qap5aO4i9A?autoplay=1",       // Lofi / Rap Beats Estável
-                treino: "https://www.youtube.com/embed/2X_7SFUikq8?autoplay=1",    // Workout Gym Mix Oficial
-                eletronica: "https://www.youtube.com/embed/9bZkp7q19f0?autoplay=1" // Eletrônica Hard Global
+            const radios = {
+                rap: { nome: "🎤 Rap, Trap & Urban Brasil", url: "https://stream.zeno.fm/f3wvbb704quuv" },
+                treino: { nome: "🔥 Pesado Academia Workout", url: "https://streams.radio.co/s4315f6087/listen" },
+                eletronica: { nome: "⚡ Eletrônica Hard & Beat", url: "https://ice2.somafm.com/beatblender-128-mp3" }
             };
 
-            iframe.src = links[tipo] || links.rap;
+            const escolhida = radios[estilo];
+            if(escolhida) {
+                status.textContent = "Tocando: " + escolhida.nome;
+                player.src = escolhida.url;
+                player.load();
+                player.play().then(() => {
+                    // Configura Media Session para o celular manter o player na tela de bloqueio e barra de notificação
+                    if ('mediaSession' in navigator) {
+                        navigator.mediaSession.metadata = new MediaMetadata({
+                            title: escolhida.nome,
+                            artist: 'Meu Painel de Treinos',
+                            album: 'Gym Radio Session'
+                        });
+                    }
+                }).catch((e) => {
+                    console.error(e);
+                    alert("Toque no botão 'Play' do player para iniciar a transmissão.");
+                });
+            }
         }
 
         function alternarModoAuth() {
@@ -637,9 +654,6 @@
             carregarDadosUsuario();
             construirBuilderFichas();
             atualizarAbasPersonalizadas();
-            
-            // Inicia o player com Rap Nacional por padrão ao entrar
-            document.getElementById('youtubePlayer').src = "https://www.youtube.com/embed/5qap5aO4i9A?autoplay=0";
         }
 
         function pfx(chave) {
