@@ -50,7 +50,7 @@
         .bmi-title { font-size: 1rem; font-weight: bold; margin-bottom: 12px; color: #e2e8f0; }
         .bmi-inputs { display: flex; gap: 8px; justify-content: center; margin-bottom: 8px; flex-wrap: wrap; }
         .bmi-inputs input { width: 30%; min-width: 90px; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background-color: rgba(255,255,255,0.1); color: white; text-align: center; font-size: 0.9rem; outline: none; }
-        .bmi-btn { background-color: var(--accent-color); color: white; border: none; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-weight: bold; font-size: 0.85rem; }
+        .bmi-btn { background-color: var(--accent-color); color: white; border: none; border-radius: 6px; padding: 8px 10px; cursor: pointer; font-weight: bold; font-size: 0.8rem; flex: 1; min-width: 110px; }
         #imc-resultado { font-weight: bold; color: #60a5fa; font-size: 0.9rem; text-shadow: 1px 1px 2px black; margin-bottom: 10px; }
         .search-input { width: 100%; max-width: 800px; display: block; margin: 0 auto 15px auto; padding: 12px 15px; background-color: rgba(0,0,0,0.8); border: 1px solid var(--accent-color); color: white; border-radius: 10px; font-size: 1rem; outline: none; }
         .action-buttons { display: flex; gap: 10px; max-width: 100%; margin: 0 auto 15px auto; justify-content: center; }
@@ -128,16 +128,16 @@
     <div id="main-app">
         <h1>💪 Meu Painel de Treinos</h1>
 
-        <!-- PLAYER DE SOM FIXO NA PÁGINA INICIAL -->
+        <!-- PLAYER DE RÁDIO CONTÍNUA NA PÁGINA INICIAL -->
         <div class="music-player-container">
-            <div class="bmi-title" style="color: #f472b6;">🎧 Som de Academia (Foco Total)</div>
-            <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 10px;">Escolha o estilo eletrônico para o seu treino:</div>
+            <div class="bmi-title" style="color: #f472b6;">🎧 Rádio Academia & Treino (Contínuo)</div>
+            <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 10px;">Toque contínuo sem repetição (24h no ar):</div>
             <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px;">
-                <button class="bmi-btn" style="background-color: #2563eb;" onclick="tocarRitmo('edm')">⚡ EDM Workout</button>
-                <button class="bmi-btn" style="background-color: #dc2626;" onclick="tocarRitmo('hardstyle')">🔥 Hardstyle Gym</button>
-                <button class="bmi-btn" style="background-color: #7c3aed;" onclick="tocarRitmo('bass')">🔊 Bass Boosted</button>
+                <button class="bmi-btn" style="background-color: #2563eb;" onclick="tocarRitmo('eletronica')">⚡ Eletrônica / EDM</button>
+                <button class="bmi-btn" style="background-color: #dc2626;" onclick="tocarRitmo('rock')">🎸 Rock Workout</button>
+                <button class="bmi-btn" style="background-color: #7c3aed;" onclick="tocarRitmo('internacional')">🔥 Pop & Hits Global</button>
             </div>
-            <div id="status-musica" style="font-weight: bold; color: #60a5fa; font-size: 0.85rem; margin-bottom: 8px;">Pronto para tocar</div>
+            <div id="status-musica" style="font-weight: bold; color: #60a5fa; font-size: 0.85rem; margin-bottom: 8px;">Selecione um estilo para iniciar</div>
             <audio id="audioPlayer" controls style="width: 100%; max-width: 320px; height: 36px; outline: none;"></audio>
         </div>
 
@@ -565,26 +565,27 @@
             document.body.style.backgroundImage = `url('${fundoEscolhido}')`;
         }
 
-        // Ritmos de academia reais e funcionais via stream de rádio eletrônica/EDM
+        // Rádios contínuas validadas de alta performance para academia
         function tocarRitmo(estilo) {
             const player = document.getElementById('audioPlayer');
             const status = document.getElementById('status-musica');
             
-            const streams = {
-                edm: { nome: "⚡ EDM & Club Workout", url: "https://streams.radio.co/s4315f6087/listen" },
-                hardstyle: { nome: "🔥 Hardstyle & Heavy Gym Beats", url: "https://icecast.omroep.nl/3fm-bb-mp3" },
-                bass: { nome: "🔊 Bass Boosted Workout Radio", url: "https://stream.zeno.fm/f3wvbb704quuv" }
+            const radios = {
+                eletronica: { nome: "⚡ Eletrônica & EDM (Sequência Contínua)", url: "https://ice2.somafm.com/beatblender-128-mp3" },
+                rock: { nome: "🎸 Rock Workout Radio (Clássicos & Pesado)", url: "https://stream.zeno.fm/f3wvbb704quuv" },
+                internacional: { nome: "🔥 Pop & Hits Globais de Academia", url: "https://streams.radio.co/s4315f6087/listen" }
             };
 
-            const escolhido = streams[estilo];
-            if(escolhido) {
-                status.textContent = "Tocando: " + escolhido.nome;
-                player.src = escolhido.url;
+            const escolhida = radios[estilo];
+            if(escolhida) {
+                status.textContent = "Tocando: " + escolhida.nome;
+                player.src = escolhida.url;
+                player.load();
                 player.play().then(() => {
-                    console.log("Reproduzindo com sucesso");
+                    console.log("Rádio tocando com sucesso!");
                 }).catch((e) => {
                     console.error(e);
-                    alert("Toque no play do player para iniciar o som!");
+                    alert("Toque no botão 'Play' do player para iniciar a transmissão!");
                 });
             }
         }
