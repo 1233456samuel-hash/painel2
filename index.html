@@ -33,9 +33,9 @@
             width: 100%; padding: 12px; background-color: var(--accent-color); color: white; border: none;
             border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 5px; box-shadow: 0 4px 10px rgba(220,38,38,0.4);
         }
-        .auth-switch { margin-top: 15px; font-size: 0.9kt; color: #cbd5e1; cursor: pointer; text-decoration: underline; background: none; border: none; }
+        .auth-switch { margin-top: 15px; font-size: 0.9rem; color: #cbd5e1; cursor: pointer; text-decoration: underline; background: none; border: none; }
 
-        /* PAINEL PRINCIPAL (OCULTO ATÉ LOGAR) */
+        /* PAINEL PRINCIPAL */
         #main-app { display: none; }
 
         h1 { text-align: center; font-size: 1.5rem; margin-bottom: 15px; color: #fff; text-shadow: 2px 2px 8px #000; }
@@ -57,9 +57,13 @@
         .action-buttons { display: flex; gap: 10px; max-width: 100%; margin: 0 auto 15px auto; justify-content: center; }
         .btn-finish { background-color: var(--whatsapp-color); color: white; border: none; padding: 12px 10px; border-radius: 8px; font-weight: 600; cursor: pointer; flex: 1; }
         .btn-clear { background-color: rgba(255,255,255,0.1); color: white; border: 1px solid var(--border-color); padding: 12px 10px; border-radius: 8px; font-weight: 600; cursor: pointer; flex: 1; }
+        
         .tabs { display: flex; justify-content: center; gap: 5px; margin-bottom: 20px; flex-wrap: wrap; max-width: 900px; margin-left: auto; margin-right: auto; }
         .tab-btn { background-color: rgba(0,0,0,0.75); color: var(--text-color); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.85rem; }
         .tab-btn.active { background-color: var(--accent-color); color: #fff; border-color: var(--accent-color); }
+        .tab-custom { background-color: rgba(37, 99, 235, 0.4); border-color: rgba(37, 99, 235, 0.8); color: #93c5fd; }
+        .tab-custom.active { background-color: #2563eb; color: #fff; }
+
         .table-container { display: none; max-width: 900px; margin: 0 auto; background-color: var(--card-bg); border-radius: 12px; overflow-x: auto; border: 1px solid var(--border-color); box-shadow: 0 8px 30px rgba(0,0,0,0.8); }
         .table-container.active { display: block; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem; white-space: nowrap; }
@@ -70,6 +74,16 @@
         .load-input { width: 60px; padding: 6px; background-color: rgba(255,255,255,0.1); border: 1px solid var(--border-color); color: white; border-radius: 6px; text-align: center; font-weight: bold; }
         .check-set { width: 22px; height: 22px; accent-color: var(--accent-color); cursor: pointer; }
         a.video-link { background-color: rgba(220,38,38,0.3); color: #fecaca; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-weight: bold; border: 1px solid rgba(220,38,38,0.5); }
+
+        /* ESTILOS PARA MONTAGEM DE FICHAS */
+        .ficha-builder-grid { padding: 15px; display: flex; flex-direction: column; gap: 10px; max-height: 500px; overflow-y: auto; }
+        .builder-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
+        .builder-btns { display: flex; gap: 5px; }
+        .btn-tag { width: 32px; height: 32px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.5); color: #aaa; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
+        .btn-tag.active-a { background: #dc2626; color: white; border-color: #ef4444; }
+        .btn-tag.active-b { background: #2563eb; color: white; border-color: #3b82f6; }
+        .btn-tag.active-c { background: #16a34a; color: white; border-color: #22c55e; }
+        .btn-tag.active-d { background: #d97706; color: white; border-color: #f59e0b; }
         
         .eight-ball { width: 80px; height: 80px; background: radial-gradient(circle at 30% 30%, #555, #000); border-radius: 50%; margin: 0 auto; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: inset -5px -5px 15px rgba(0,0,0,0.8), 0 8px 15px rgba(0,0,0,0.9); transition: transform 0.1s; }
         .eight-ball:active { transform: scale(0.9); }
@@ -147,8 +161,17 @@
             <button class="btn-clear" onclick="limparTreinos()">🔄 Limpar Memória</button>
         </div>
 
+        <!-- ABAS DE NAVEGAÇÃO -->
         <div class="tabs">
-            <button class="tab-btn active" onclick="openTab(event, 'peito')">1. Peito</button>
+            <!-- Suas Fichas Personalizadas -->
+            <button class="tab-btn tab-custom active" onclick="openTab(event, 'treino-a')">🔥 Treino A</button>
+            <button class="tab-btn tab-custom" onclick="openTab(event, 'treino-b')">🔥 Treino B</button>
+            <button class="tab-btn tab-custom" onclick="openTab(event, 'treino-c')">🔥 Treino C</button>
+            <button class="tab-btn tab-custom" onclick="openTab(event, 'treino-d')">🔥 Treino D</button>
+            <button class="tab-btn" onclick="openTab(event, 'montar-fichas')" style="background-color: #1e293b; border-color: #475569;">⚙️ Montar Fichas</button>
+            
+            <!-- Tabelas Padrão -->
+            <button class="tab-btn" onclick="openTab(event, 'peito')">1. Peito</button>
             <button class="tab-btn" onclick="openTab(event, 'costas')">2. Costas</button>
             <button class="tab-btn" onclick="openTab(event, 'ombros')">3. Ombros</button>
             <button class="tab-btn" onclick="openTab(event, 'trapezio')">4. Trapézio</button>
@@ -169,8 +192,33 @@
             <button class="tab-btn" onclick="openTab(event, 'recuperacao')" style="border-color: #3b82f6; color: #60a5fa;">🧘 Recuperação</button>
         </div>
 
+        <!-- ABA MONTAR FICHAS -->
+        <div id="montar-fichas" class="table-container">
+            <div style="padding: 15px; text-align: center; border-bottom: 1px solid var(--border-color);">
+                <h3 style="margin: 0; color: #93c5fd;">⚙️ Monte suas Fichas A, B, C e D</h3>
+                <p style="font-size: 0.85rem; color: #cbd5e1; margin: 5px 0 0 0;">Selecione em quais letras cada exercício vai entrar. Eles aparecerão automaticamente nas abas acima!</p>
+            </div>
+            <div class="ficha-builder-grid" id="builder-list">
+                <!-- Gerado dinamicamente via JS -->
+            </div>
+        </div>
+
+        <!-- ABAS DE TREINOS PERSONALIZADOS (A, B, C, D) -->
+        <div id="treino-a" class="table-container active">
+            <div id="conteudo-treino-a"></div>
+        </div>
+        <div id="treino-b" class="table-container">
+            <div id="conteudo-treino-b"></div>
+        </div>
+        <div id="treino-c" class="table-container">
+            <div id="conteudo-treino-c"></div>
+        </div>
+        <div id="treino-d" class="table-container">
+            <div id="conteudo-treino-d"></div>
+        </div>
+
         <!-- 1. PEITO -->
-        <div id="peito" class="table-container active">
+        <div id="peito" class="table-container">
             <table>
                 <thead><tr><th>Exercício</th><th>Séries</th><th>Reps</th><th>Carga</th><th>Feito</th><th>Vídeo</th></tr></thead>
                 <tbody>
@@ -445,7 +493,6 @@
         let usuarioAtual = null;
         let modoCadastro = false;
 
-        // VERIFICAR SE JÁ ESTÁ LOGADO AO ABRIR O SITE
         document.addEventListener("DOMContentLoaded", () => {
             const logado = localStorage.getItem('meuTreino_sessaoAtiva');
             if (logado) {
@@ -481,7 +528,6 @@
                     err.style.display = 'block';
                     return;
                 }
-                // Cadastra novo usuário
                 usuarios[u] = { senha: p, nome: u };
                 localStorage.setItem('meuTreino_usuariosDB', JSON.stringify(usuarios));
                 alert("Conta criada com sucesso! Entrando...");
@@ -493,7 +539,6 @@
                 }
             }
 
-            // Seta sessão ativa
             localStorage.setItem('meuTreino_sessaoAtiva', u);
             usuarioAtual = u;
             entrarNoSistema();
@@ -508,9 +553,10 @@
             document.getElementById('auth-screen').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
             carregarDadosUsuario();
+            construirBuilderFichas();
+            atualizarAbasPersonalizadas();
         }
 
-        // PREIXO PARA SALVAR OS DADOS SEPARADOS POR USUÁRIO
         function pfx(chave) {
             return `meuTreino_${usuarioAtual}_${chave}`;
         }
@@ -548,13 +594,147 @@
             atualizarContagem();
         }
 
+        // SISTEMA DE MONTAGEM DE FICHAS (A, B, C, D)
+        function coletarTodosExercicios() {
+            let lista = [];
+            const idsTabelas = ['peito', 'costas', 'ombros', 'trapezio', 'biceps', 'triceps', 'antebraco', 'quadriceps', 'posterior', 'gluteos', 'adutores', 'abdutores', 'panturrilha', 'abdomen', 'lombar', 'compostos', 'cardio', 'casa', 'recuperacao'];
+            
+            idsTabelas.forEach(id => {
+                const container = document.getElementById(id);
+                if(container) {
+                    const linhas = container.querySelectorAll('tbody tr');
+                    linhas.forEach((linha, lIdx) => {
+                        const nome = linha.cells[0].textContent.trim();
+                        const thumb = linha.querySelector('.exercise-thumb') ? linha.querySelector('.exercise-thumb').src : '';
+                        const series = linha.cells[1] ? linha.cells[1].textContent : '';
+                        const reps = linha.cells[2] ? linha.cells[2].textContent : '';
+                        const videoHTML = linha.cells[5] ? linha.cells[5].innerHTML : '';
+                        lista.innerHTML = ''; // safe
+                        lista.push({ idUnico: `${id}_${lIdx}`, nome, thumb, series, reps, videoHTML });
+                    });
+                }
+            });
+            return lista;
+        }
+
+        function construirBuilderFichas() {
+            const builderList = document.getElementById('builder-list');
+            builderList.innerHTML = '';
+            const exercicios = coletarTodosExercicios();
+
+            exercicios.forEach(ex => {
+                let tagsSalvas = JSON.parse(localStorage.getItem(pfx(`ficha_tags_${ex.idUnico}`))) || [];
+                
+                const item = document.createElement('div');
+                item.className = 'builder-item';
+                item.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 10px; text-align: left;">
+                        <img src="${ex.thumb}" style="width: 36px; height: 36px; border-radius: 6px; object-fit: cover;">
+                        <span style="font-size: 0.9rem; font-weight: bold;">${ex.nome}</span>
+                    </div>
+                    <div class="builder-btns">
+                        <button class="btn-tag ${tagsSalvas.includes('A') ? 'active-a' : ''}" onclick="toggleTagFicha('${ex.idUnico}', 'A')">A</button>
+                        <button class="btn-tag ${tagsSalvas.includes('B') ? 'active-b' : ''}" onclick="toggleTagFicha('${ex.idUnico}', 'B')">B</button>
+                        <button class="btn-tag ${tagsSalvas.includes('C') ? 'active-c' : ''}" onclick="toggleTagFicha('${ex.idUnico}', 'C')">C</button>
+                        <button class="btn-tag ${tagsSalvas.includes('D') ? 'active-d' : ''}" onclick="toggleTagFicha('${ex.idUnico}', 'D')">D</button>
+                    </div>
+                `;
+                builderList.appendChild(item);
+            });
+        }
+
+        function toggleTagFicha(idUnico, letra) {
+            let key = pfx(`ficha_tags_${idUnico}`);
+            let tags = JSON.parse(localStorage.getItem(key)) || [];
+            
+            if(tags.includes(letra)) {
+                tags = tags.filter(t => t !== letra);
+            } else {
+                tags.push(letra);
+            }
+            localStorage.setItem(key, JSON.stringify(tags));
+            construirBuilderFichas();
+            atualizarAbasPersonalizadas();
+        }
+
+        function atualizarAbasPersonalizadas() {
+            ['a', 'b', 'c', 'd'].forEach(letra => {
+                const container = document.getElementById(`conteudo-treino-${letra}`);
+                const exercicios = coletarTodosExercicios();
+                let selecionados = [];
+
+                exercicios.forEach(ex => {
+                    let tags = JSON.parse(localStorage.getItem(pfx(`ficha_tags_${ex.idUnico}`))) || [];
+                    if(tags.includes(letra.toUpperCase())) {
+                        selecionados.push(ex);
+                    }
+                });
+
+                if(selecionados.length === 0) {
+                    container.innerHTML = `
+                        <div style="padding: 30px; text-align: center; color: #aaa;">
+                            <p style="font-size: 1.1rem; margin-bottom: 10px;">Nenhum exercício adicionado no <strong>Treino ${letra.toUpperCase()}</strong> ainda.</p>
+                            <button class="auth-btn" style="max-width: 200px; margin: 0 auto;" onclick="openTab(event, 'montar-fichas')">⚙️ Ir para Montar Fichas</button>
+                        </div>
+                    `;
+                } else {
+                    let html = `
+                        <table>
+                            <thead><tr><th>Treino ${letra.toUpperCase()} (${selecionados.length} exerc.)</th><th>Séries</th><th>Reps</th><th>Carga</th><th>Feito</th><th>Vídeo</th></tr></thead>
+                            <tbody>
+                    `;
+                    selecionados.forEach((ex, idx) => {
+                        // Vincula com o estado global de inputs/checkboxes pelo idUnico
+                        const loadKey = pfx(`custom_load_${letra}_${ex.idUnico}`);
+                        const checkKey = pfx(`custom_check_${letra}_${ex.idUnico}`);
+                        const loadVal = localStorage.getItem(loadKey) || '';
+                        const checkVal = localStorage.getItem(checkKey) === 'true';
+
+                        html += `
+                            <tr>
+                                <td>
+                                    <div class="exercise-cell">
+                                        <img src="${ex.thumb}" class="exercise-thumb">
+                                        <span>${ex.nome}</span>
+                                    </div>
+                                </td>
+                                <td>${ex.series}</td>
+                                <td>${ex.reps}</td>
+                                <td><input type="number" class="load-input" value="${loadVal}" placeholder="kg" oninput="salvarCargaCustom('${letra}', '${ex.idUnico}', this.value)"></td>
+                                <td><input type="checkbox" class="check-set" ${checkVal ? 'checked' : ''} onchange="salvarCheckCustom('${letra}', '${ex.idUnico}', this.checked)"></td>
+                                <td>${ex.videoHTML}</td>
+                            </tr>
+                        `;
+                    });
+                    html += `</tbody></table>`;
+                    container.innerHTML = html;
+                }
+            });
+            atualizarContagem();
+        }
+
+        function salvarCargaCustom(letra, idUnico, val) {
+            localStorage.setItem(pfx(`custom_load_${letra}_${idUnico}`), val);
+        }
+
+        function salvarCheckCustom(letra, idUnico, checked) {
+            localStorage.setItem(pfx(`custom_check_${letra}_${idUnico}`), checked);
+            atualizarContagem();
+        }
+
         function openTab(evt, treinoName) {
             document.getElementById('searchInput').value = '';
             document.querySelectorAll('.table-container').forEach(c => { c.style.display = 'none'; c.classList.remove('active'); c.querySelectorAll('tbody tr').forEach(l => l.style.display = ''); });
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(treinoName).style.display = 'block';
-            document.getElementById(treinoName).classList.add('active');
-            evt.currentTarget.classList.add('active');
+            
+            const target = document.getElementById(treinoName);
+            if(target) {
+                target.style.display = 'block';
+                target.classList.add('active');
+            }
+            if(evt && evt.currentTarget) {
+                evt.currentTarget.classList.add('active');
+            }
         }
 
         function filtrarExercicios() {
@@ -563,10 +743,11 @@
             if (termo === "") {
                 containers.forEach(c => { c.style.display = 'none'; c.querySelectorAll('tbody tr').forEach(l => l.style.display = ''); });
                 const abaAtiva = document.querySelector('.tab-btn.active');
-                if(abaAtiva) abaAtiva.click(); else openTab({currentTarget: document.querySelector('.tab-btn')}, 'peito');
+                if(abaAtiva) abaAtiva.click(); else openTab({currentTarget: document.querySelector('.tab-btn')}, 'treino-a');
                 return;
             }
             containers.forEach(container => {
+                if(container.id === 'montar-fichas') return;
                 container.style.display = 'block';
                 let encontrou = false;
                 container.querySelectorAll('tbody tr').forEach(linha => {
@@ -578,7 +759,8 @@
         }
 
         function atualizarContagem() {
-            const total = document.querySelectorAll('.check-set:checked').length;
+            // Conta checks das tabelas normais + fichas personalizadas
+            let total = document.querySelectorAll('.check-set:checked').length;
             document.getElementById('streak-count').textContent = total;
             return total;
         }
@@ -717,7 +899,6 @@
                 let mem = {}; 
                 chavesParaManter.forEach(k => mem[k] = localStorage.getItem(pfx(k)));
                 
-                // Remove tudo do usuário atual
                 Object.keys(localStorage).forEach(key => {
                     if(key.startsWith(`meuTreino_${usuarioAtual}_`)) localStorage.removeItem(key);
                 });
