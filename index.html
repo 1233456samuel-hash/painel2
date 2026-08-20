@@ -103,7 +103,7 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,1);
         }
         
-        /* ESTILOS DA CALCULADORA DE IMC */
+        /* ESTILOS DA CALCULADORA DE IMC E MEDIDAS */
         .bmi-container {
             background-color: rgba(0, 0, 0, 0.7);
             border: 1px solid var(--border-color);
@@ -126,6 +126,7 @@
             gap: 10px;
             justify-content: center;
             margin-bottom: 10px;
+            flex-wrap: wrap;
         }
         .bmi-inputs input {
             width: 80px;
@@ -274,6 +275,24 @@
             background-color: #3b82f6 !important;
             color: #fff !important;
         }
+        .tab-gluteos {
+            border-color: #ec4899 !important;
+            color: #f472b6 !important;
+        }
+        .tab-gluteos.active {
+            background-color: #ec4899 !important;
+            color: #fff !important;
+        }
+        .tab-circuito {
+            border-color: #eab308 !important;
+            color: #facc15 !important;
+        }
+        .tab-circuito.active {
+            background-color: #eab308 !important;
+            color: #000 !important;
+            text-shadow: none;
+        }
+
         .table-container {
             display: none;
             max-width: 800px;
@@ -475,6 +494,30 @@
         <div id="imc-resultado">Preencha os dados acima</div>
     </div>
 
+    <!-- DIÁRIO DE MEDIDAS (CM) -->
+    <div class="bmi-container">
+        <div class="bmi-title">📏 Diário de Medidas (cm)</div>
+        <div class="bmi-inputs">
+            <input type="text" inputmode="decimal" id="med-cintura" placeholder="Cintura" oninput="salvarMedidas()">
+            <input type="text" inputmode="decimal" id="med-quadril" placeholder="Quadril" oninput="salvarMedidas()">
+            <input type="text" inputmode="decimal" id="med-coxa" placeholder="Coxa" oninput="salvarMedidas()">
+        </div>
+        <div id="medidas-status" style="font-size: 0.85rem; color: #a5f3fc;">Acompanhe sua evolução em centímetros</div>
+    </div>
+
+    <!-- HIDRATAÇÃO DIÁRIA -->
+    <div class="bmi-container">
+        <div class="bmi-title">💧 Hidratação Diária</div>
+        <div style="font-size: 0.95rem; margin-bottom: 8px;">
+            Água consumida: <span id="agua-contador" style="color: #60a5fa; font-weight: bold;">0</span> ml / <span id="agua-meta">2500</span> ml
+        </div>
+        <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+            <button class="bmi-btn" onclick="adicionarAgua(250)">+ 250ml</button>
+            <button class="bmi-btn" onclick="adicionarAgua(500)">+ 500ml</button>
+            <button class="bmi-btn" onclick="resetarAgua()" style="background-color: rgba(255,255,255,0.2);">Zerar</button>
+        </div>
+    </div>
+
     <div class="search-container">
         <input type="text" id="searchInput" class="search-input" placeholder="🔍 Pesquisar qualquer exercício..." onkeyup="filtrarExercicios()">
     </div>
@@ -501,6 +544,8 @@
     </div>
 
     <div class="tabs">
+        <button class="tab-btn tab-gluteos" onclick="openTab(event, 'gluteos')">🍑 Glúteos & Inferiores</button>
+        <button class="tab-btn tab-circuito" onclick="openTab(event, 'circuito')">🔥 Circuito Seca</button>
         <button class="tab-btn" onclick="openTab(event, 'casa')" style="border-color: #25D366; color: #25D366;">🏠 Em Casa</button>
         <button class="tab-btn active" onclick="openTab(event, 'aquecimento')">Cardio</button>
         <button class="tab-btn" onclick="openTab(event, 'peito')">Peito</button>
@@ -512,7 +557,125 @@
         <button class="tab-btn tab-recuperacao" onclick="openTab(event, 'recuperacao')">🧘 Recuperação</button>
     </div>
 
-    <!-- ABAS DE TREINOS -->
+    <!-- ABA: GLÚTEOS & MEMBROS INFERIORES -->
+    <div id="gluteos" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Elevação Pélvica com Barra/Halter</td>
+                    <td>4</td>
+                    <td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+elevacao+pelvica" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Cadeira Abdutora</td>
+                    <td>4</td>
+                    <td>15-20</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+cadeira+abdutora" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Agachamento Búlgaro com Halteres</td>
+                    <td>3</td>
+                    <td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+agachamento+bulgaro" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Stiff com Halteres ou Barra</td>
+                    <td>3</td>
+                    <td>12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+stiff+halteres" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Cadeira Adutora</td>
+                    <td>3</td>
+                    <td>15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+cadeira+adutora" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Ponte de Glúteos no Solo</td>
+                    <td>3</td>
+                    <td>20</td>
+                    <td><input type="number" class="load-input" disabled style="opacity: 0.2;"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=ponte+de+gluteos+solo" target="_blank">Ver</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ABA: CIRCUITO SECA & DEFINE -->
+    <div id="circuito" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Atividade em Circuito</th>
+                    <th>Tempo/Reps</th>
+                    <th>Foco</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Polichinelos Intensos</td>
+                    <td>3 x 45s</td>
+                    <td>Aquecimento & Cardio</td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=como+fazer+polichinelo" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Mountain Climbers (Escalador)</td>
+                    <td>3 x 40s</td>
+                    <td>Core & Queima</td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=mountain+climbers+exercicio" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Agachamento Livre sem Peso</td>
+                    <td>3 x 20</td>
+                    <td>Tonificação de Pernas</td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+agachamento+livre" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Prancha com Toque no Ombro</td>
+                    <td>3 x 45s</td>
+                    <td>Estabilidade Abdômen</td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=prancha+com+toque+no+ombro" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>Burpees</td>
+                    <td>3 x 12</td>
+                    <td>Gasto Calórico Total</td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=como+fazer+burpee" target="_blank">Ver</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ABAS RESTANTES -->
     <div id="casa" class="table-container">
         <table>
             <thead>
@@ -558,22 +721,6 @@
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+flexao+de+bracos" target="_blank">Ver</a></td>
                 </tr>
-                <tr>
-                    <td>Tríceps no Banco/Cadeira</td>
-                    <td>3</td>
-                    <td>10-15</td>
-                    <td><input type="number" class="load-input" disabled style="opacity: 0.2;"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=triceps+banco+em+casa" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>Prancha Isométrica</td>
-                    <td>3</td>
-                    <td>45s a 1 min</td>
-                    <td><input type="number" class="load-input" disabled style="opacity: 0.2;"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=prancha+isometrica" target="_blank">Ver</a></td>
-                </tr>
             </tbody>
         </table>
     </div>
@@ -603,20 +750,6 @@
                     <td>Postura e articulações</td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=alongamento+peitoral+porta" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>Alongamento de Antebraço e Punhos</td>
-                    <td>30s/braço</td>
-                    <td>Soltura de ferramentas/peso</td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=alongamento+antebraco" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>Soltura de Panturrilha (Degrau)</td>
-                    <td>45s/perna</td>
-                    <td>Alívio após escadas</td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=alongamento+panturrilha+degrau" target="_blank">Ver</a></td>
                 </tr>
             </tbody>
         </table>
@@ -648,13 +781,6 @@
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=como+fazer+polichinelo" target="_blank">Ver</a></td>
                 </tr>
-                <tr>
-                    <td>Burpees (Alta Intensidade)</td>
-                    <td>3 a 5 min</td>
-                    <td>Cardio/Força Casa</td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=como+fazer+burpee" target="_blank">Ver</a></td>
-                </tr>
             </tbody>
         </table>
     </div>
@@ -680,22 +806,6 @@
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+supino+reto+barra" target="_blank">Ver</a></td>
                 </tr>
-                <tr>
-                    <td>Crucifixo Reto (Halteres)</td>
-                    <td>3</td>
-                    <td>12-15</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+crucifixo+reto+halteres" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>Crossover / Polia Alta</td>
-                    <td>3</td>
-                    <td>12-15</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+crossover+polia+alta" target="_blank">Ver</a></td>
-                </tr>
             </tbody>
         </table>
     </div>
@@ -720,22 +830,6 @@
                     <td><input type="number" class="load-input" placeholder="kg"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+puxada+alta+frente" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>Remada Curvada com Barra</td>
-                    <td>4</td>
-                    <td>8-10</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+remada+curvada+barra" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>Remada Serrote com Halter</td>
-                    <td>3</td>
-                    <td>10-12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+remada+serrote+halter" target="_blank">Ver</a></td>
                 </tr>
             </tbody>
         </table>
@@ -763,28 +857,12 @@
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+agachamento+livre" target="_blank">Ver</a></td>
                 </tr>
                 <tr>
-                    <td>Leg Press 45°</td>
-                    <td>4</td>
-                    <td>10-12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+leg+press+45" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
                     <td>Cadeira Extensora</td>
                     <td>4</td>
                     <td>12-15</td>
                     <td><input type="number" class="load-input" placeholder="kg"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+cadeira+extensora" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>Mesa Flexora (Deitado)</td>
-                    <td>3</td>
-                    <td>10-12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+mesa+flexora" target="_blank">Ver</a></td>
                 </tr>
             </tbody>
         </table>
@@ -811,14 +889,6 @@
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+desenvolvimento+halteres" target="_blank">Ver</a></td>
                 </tr>
-                <tr>
-                    <td>Elevação Lateral com Halteres</td>
-                    <td>4</td>
-                    <td>12-15</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+elevacao+lateral+halteres" target="_blank">Ver</a></td>
-                </tr>
             </tbody>
         </table>
     </div>
@@ -844,14 +914,6 @@
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+rosca+direta+barra" target="_blank">Ver</a></td>
                 </tr>
-                <tr>
-                    <td>Tríceps Pulldown (Barra na Polia)</td>
-                    <td>4</td>
-                    <td>10-12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+triceps+pulley+barra" target="_blank">Ver</a></td>
-                </tr>
             </tbody>
         </table>
     </div>
@@ -869,14 +931,6 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Abdominal Supra no Solo</td>
-                    <td>3</td>
-                    <td>15-20</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+abdominal+supra+solo" target="_blank">Ver</a></td>
-                </tr>
                 <tr>
                     <td>Prancha Isométrica</td>
                     <td>3</td>
@@ -939,7 +993,9 @@
                 let nomeTab = 'aquecimento';
                 if (abaAtiva) {
                     const texto = abaAtiva.textContent;
-                    if(texto.includes('Em Casa')) nomeTab = 'casa';
+                    if(texto.includes('Glúteos')) nomeTab = 'gluteos';
+                    else if(texto.includes('Circuito')) nomeTab = 'circuito';
+                    else if(texto.includes('Em Casa')) nomeTab = 'casa';
                     else if(texto.includes('Recuperação')) nomeTab = 'recuperacao';
                     else if(texto.includes('Peito')) nomeTab = 'peito';
                     else if(texto.includes('Costas')) nomeTab = 'costas';
@@ -1005,7 +1061,7 @@
             const lastDate = localStorage.getItem('meuTreino_lastDate');
             let streak = parseInt(localStorage.getItem('meuTreino_streakDays')) || 0;
             
-            if (lastDate === hojeStr) return; // Já registrou hoje
+            if (lastDate === hojeStr) return; 
             
             if (lastDate) {
                 const hoje = new Date();
@@ -1029,7 +1085,7 @@
             document.getElementById('streak-days').textContent = streak;
         }
 
-        // CALCULADORA DE IMC
+        // CALCULADORA DE IMC E META DE ÁGUA
         function calcularIMC() {
             const pesoInput = document.getElementById('peso');
             const alturaInput = document.getElementById('altura');
@@ -1060,8 +1116,41 @@
 
             resultado.textContent = `Seu IMC: ${imc} (${classificacao})`;
             
+            // Calcula meta de água automática (Peso x 35ml)
+            const metaAgua = Math.round(peso * 35);
+            document.getElementById('agua-meta').textContent = metaAgua;
+            localStorage.setItem('meuTreino_metaAgua', metaAgua);
+
             localStorage.setItem('meuTreino_peso', pesoInput.value);
             localStorage.setItem('meuTreino_altura', alturaInput.value);
+        }
+
+        // DIÁRIO DE MEDIDAS
+        function salvarMedidas() {
+            const cintura = document.getElementById('med-cintura').value;
+            const quadril = document.getElementById('med-quadril').value;
+            const coxa = document.getElementById('med-coxa').value;
+
+            localStorage.setItem('meuTreino_cintura', cintura);
+            localStorage.setItem('meuTreino_quadril', quadril);
+            localStorage.setItem('meuTreino_coxa', coxa);
+            
+            if(cintura || quadril || coxa) {
+                document.getElementById('medidas-status').textContent = "Medidas salvas na memória! 💾";
+            }
+        }
+
+        // HIDRATAÇÃO DIÁRIA
+        function adicionarAgua(qtd) {
+            let atual = parseInt(localStorage.getItem('meuTreino_aguaAtual')) || 0;
+            atual += qtd;
+            localStorage.setItem('meuTreino_aguaAtual', atual);
+            document.getElementById('agua-contador').textContent = atual;
+        }
+
+        function resetarAgua() {
+            localStorage.setItem('meuTreino_aguaAtual', 0);
+            document.getElementById('agua-contador').textContent = 0;
         }
 
         // BOLA 8 - SORTEIO DE DESAFIO
@@ -1095,6 +1184,7 @@
 
             verificarOfensiva();
 
+            // Carrega dados salvos
             const pesoSalvo = localStorage.getItem('meuTreino_peso');
             const alturaSalva = localStorage.getItem('meuTreino_altura');
             if(pesoSalvo && alturaSalva) {
@@ -1102,6 +1192,13 @@
                 document.getElementById('altura').value = alturaSalva;
                 calcularIMC(); 
             }
+
+            document.getElementById('med-cintura').value = localStorage.getItem('meuTreino_cintura') || '';
+            document.getElementById('med-quadril').value = localStorage.getItem('meuTreino_quadril') || '';
+            document.getElementById('med-coxa').value = localStorage.getItem('meuTreino_coxa') || '';
+
+            const aguaAtual = localStorage.getItem('meuTreino_aguaAtual') || 0;
+            document.getElementById('agua-contador').textContent = aguaAtual;
 
             document.querySelectorAll('.table-container').forEach((c, idx) => {
                 if(idx !== 0) c.style.display = 'none';
@@ -1143,7 +1240,6 @@
             }
         }
 
-        // COMPARTILHAMENTO DIRETO PARA O APP DO WHATSAPP (ANDROID E iOS)
         function finalizarTreino() {
             const total = atualizarContagem();
             if (total === 0) {
@@ -1167,18 +1263,20 @@
                                  "🔥 Exercícios na semana: " + total + "\n\n" +
                                  "\"Disciplina é fazer o que precisa ser feito!\"";
 
-                // Força abrir o aplicativo do WhatsApp diretamente nos dispositivos móveis
                 window.location.href = "whatsapp://send?text=" + encodeURIComponent(mensagem);
             }
         }
 
         function limparTreinos() {
-            if(confirm("Deseja apagar as cargas, checklists e reiniciar sua contagem de exercícios da semana? (Seu peso, altura e ofensiva não serão apagados)")) {
+            if(confirm("Deseja apagar as cargas, checklists e reiniciar sua contagem de exercícios da semana? (Seu peso, medidas e ofensiva não serão apagados)")) {
                 const p = localStorage.getItem('meuTreino_peso');
                 const a = localStorage.getItem('meuTreino_altura');
                 const n = localStorage.getItem('meuTreino_nomeAluno');
                 const s = localStorage.getItem('meuTreino_streakDays');
                 const ld = localStorage.getItem('meuTreino_lastDate');
+                const cin = localStorage.getItem('meuTreino_cintura');
+                const qua = localStorage.getItem('meuTreino_quadril');
+                const cox = localStorage.getItem('meuTreino_coxa');
                 
                 localStorage.clear();
                 
@@ -1187,6 +1285,9 @@
                 if(n) localStorage.setItem('meuTreino_nomeAluno', n);
                 if(s) localStorage.setItem('meuTreino_streakDays', s);
                 if(ld) localStorage.setItem('meuTreino_lastDate', ld);
+                if(cin) localStorage.setItem('meuTreino_cintura', cin);
+                if(qua) localStorage.setItem('meuTreino_quadril', qua);
+                if(cox) localStorage.setItem('meuTreino_coxa', cox);
                 
                 location.reload(); 
             }
