@@ -1093,7 +1093,7 @@
             const nomeSalvo = localStorage.getItem('meuTreino_nomeAluno');
             if(nomeSalvo) document.getElementById('nome-aluno').textContent = nomeSalvo;
 
-            verificarOfensiva(); // Checa os dias seguidos ao abrir a página
+            verificarOfensiva();
 
             const pesoSalvo = localStorage.getItem('meuTreino_peso');
             const alturaSalva = localStorage.getItem('meuTreino_altura');
@@ -1143,6 +1143,7 @@
             }
         }
 
+        // COMPARTILHAMENTO CORRIGIDO (DIRETO PARA O APLICATIVO)
         function finalizarTreino() {
             const total = atualizarContagem();
             if (total === 0) {
@@ -1150,15 +1151,31 @@
                 return;
             }
 
-            registrarOfensiva(); // Atualiza a ofensiva de dias seguidos ao finalizar
+            registrarOfensiva();
 
             alert(`🎉 Treino finalizado! Você completou ${total} exercícios nesta semana.`);
+
             if(confirm("Deseja compartilhar seu relatório no WhatsApp?")) {
                 const nome = localStorage.getItem('meuTreino_nomeAluno') || 'Atleta';
                 const peso = document.getElementById('peso').value || "Não informado";
                 const diasOfensiva = localStorage.getItem('meuTreino_streakDays') || 1;
-                const mensagem = `✅ Meu Treino Atualizado!\n👤 Nome: ${nome}\n⚖️ Peso Atual: ${peso}kg\n⚡ Ofensiva: ${diasOfensiva} dias seguidos\n🔥 Exercícios na semana: ${total}\n\n"Disciplina é fazer o que precisa ser feito!"`;
-                window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(mensagem)}`, '_blank');
+                
+                const mensagem = "✅ Meu Treino Atualizado!\n" +
+                                 "👤 Nome: " + nome + "\n" +
+                                 "⚖️ Peso Atual: " + peso + "kg\n" +
+                                 "⚡ Ofensiva: " + diasOfensiva + " dias seguidos\n" +
+                                 "🔥 Exercícios na semana: " + total + "\n\n" +
+                                 "\"Disciplina je fazer o que precisa ser feito!\"";
+
+                // Usa o compartilhamento nativo do celular (abre o WhatsApp direto sem ir para o navegador)
+                if (navigator.share) {
+                    navigator.share({
+                        text: mensagem
+                    }).catch(() => {});
+                } else {
+                    // Fallback para abrir o app do WhatsApp direto no mobile
+                    window.location.href = "whatsapp://send?text=" + encodeURIComponent(mensagem);
+                }
             }
         }
 
