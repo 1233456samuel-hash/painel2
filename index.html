@@ -74,6 +74,7 @@
         .load-input { width: 60px; padding: 6px; background-color: rgba(255,255,255,0.1); border: 1px solid var(--border-color); color: white; border-radius: 6px; text-align: center; font-weight: bold; }
         .check-set { width: 22px; height: 22px; accent-color: var(--accent-color); cursor: pointer; }
         a.video-link { background-color: rgba(220,38,38,0.3); color: #fecaca; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-weight: bold; border: 1px solid rgba(220,38,38,0.5); }
+        .btn-remover-item { background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #fca5a5; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
 
         /* ESTILOS PARA MONTAGEM DE FICHAS */
         .ficha-builder-grid { padding: 15px; display: flex; flex-direction: column; gap: 10px; max-height: 500px; overflow-y: auto; }
@@ -195,8 +196,8 @@
         <!-- ABA MONTAR FICHAS -->
         <div id="montar-fichas" class="table-container">
             <div style="padding: 15px; text-align: center; border-bottom: 1px solid var(--border-color);">
-                <h3 style="margin: 0; color: #93c5fd;">⚙️ Monte suas Fichas A, B, C e D</h3>
-                <p style="font-size: 0.85rem; color: #cbd5e1; margin: 5px 0 0 0;">Selecione em quais letras cada exercício vai entrar. Eles aparecerão automaticamente nas abas acima!</p>
+                <h3 style="margin: 0; color: #93c5fd;">⚙️ Adicione ou Remova Exercícios das Fichas</h3>
+                <p style="font-size: 0.85rem; color: #cbd5e1; margin: 5px 0 0 0;">Clique nas letras para marcar ou desmarcar. O que estiver aceso vai para o treino correspondente!</p>
             </div>
             <div class="ficha-builder-grid" id="builder-list">
                 <!-- Gerado dinamicamente via JS -->
@@ -594,7 +595,6 @@
             atualizarContagem();
         }
 
-        // SISTEMA DE MONTAGEM DE FICHAS (A, B, C, D)
         function coletarTodosExercicios() {
             let lista = [];
             const idsTabelas = ['peito', 'costas', 'ombros', 'trapezio', 'biceps', 'triceps', 'antebraco', 'quadriceps', 'posterior', 'gluteos', 'adutores', 'abdutores', 'panturrilha', 'abdomen', 'lombar', 'compostos', 'cardio', 'casa', 'recuperacao'];
@@ -609,7 +609,6 @@
                         const series = linha.cells[1] ? linha.cells[1].textContent : '';
                         const reps = linha.cells[2] ? linha.cells[2].textContent : '';
                         const videoHTML = linha.cells[5] ? linha.cells[5].innerHTML : '';
-                        lista.innerHTML = ''; // safe
                         lista.push({ idUnico: `${id}_${lIdx}`, nome, thumb, series, reps, videoHTML });
                     });
                 }
@@ -657,6 +656,15 @@
             atualizarAbasPersonalizadas();
         }
 
+        function removerExercicioFicha(letra, idUnico) {
+            let key = pfx(`ficha_tags_${idUnico}`);
+            let tags = JSON.parse(localStorage.getItem(key)) || [];
+            tags = tags.filter(t => t !== letra.toUpperCase());
+            localStorage.setItem(key, JSON.stringify(tags));
+            construirBuilderFichas();
+            atualizarAbasPersonalizadas();
+        }
+
         function atualizarAbasPersonalizadas() {
             ['a', 'b', 'c', 'd'].forEach(letra => {
                 const container = document.getElementById(`conteudo-treino-${letra}`);
@@ -680,11 +688,10 @@
                 } else {
                     let html = `
                         <table>
-                            <thead><tr><th>Treino ${letra.toUpperCase()} (${selecionados.length} exerc.)</th><th>Séries</th><th>Reps</th><th>Carga</th><th>Feito</th><th>Vídeo</th></tr></thead>
+                            <thead><tr><th>Treino ${letra.toUpperCase()} (${selecionados.length} exerc.)</th><th>Séries</th><th>Reps</th><th>Carga</th><th>Feito</th><th>Vídeo</th><th>Ação</th></tr></thead>
                             <tbody>
                     `;
-                    selecionados.forEach((ex, idx) => {
-                        // Vincula com o estado global de inputs/checkboxes pelo idUnico
+                    selecionados.forEach((ex) => {
                         const loadKey = pfx(`custom_load_${letra}_${ex.idUnico}`);
                         const checkKey = pfx(`custom_check_${letra}_${ex.idUnico}`);
                         const loadVal = localStorage.getItem(loadKey) || '';
@@ -703,6 +710,7 @@
                                 <td><input type="number" class="load-input" value="${loadVal}" placeholder="kg" oninput="salvarCargaCustom('${letra}', '${ex.idUnico}', this.value)"></td>
                                 <td><input type="checkbox" class="check-set" ${checkVal ? 'checked' : ''} onchange="salvarCheckCustom('${letra}', '${ex.idUnico}', this.checked)"></td>
                                 <td>${ex.videoHTML}</td>
+                                <td><button class="btn-remover-item" onclick="removerExercicioFicha('${letra}', '${ex.idUnico}')">❌ Remover</button></td>
                             </tr>
                         `;
                     });
@@ -759,7 +767,6 @@
         }
 
         function atualizarContagem() {
-            // Conta checks das tabelas normais + fichas personalizadas
             let total = document.querySelectorAll('.check-set:checked').length;
             document.getElementById('streak-count').textContent = total;
             return total;
