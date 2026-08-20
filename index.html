@@ -36,7 +36,7 @@
             color: var(--text-color);
             margin: 0;
             padding: 15px;
-            padding-bottom: 140px; /* Aumentado para garantir espaço do rodapé */
+            padding-bottom: 140px; 
             min-height: 100vh;
         }
         .install-banner {
@@ -454,12 +454,13 @@
         </div>
     </div>
 
-    <!-- CALCULADORA DE IMC -->
+    <!-- CALCULADORA DE IMC (CORRIGIDA E AUTOMÁTICA) -->
     <div class="bmi-container">
         <div class="bmi-title">⚖️ Diário de Peso e IMC</div>
         <div class="bmi-inputs">
-            <input type="number" id="peso" placeholder="Peso (kg)" step="0.1">
-            <input type="number" id="altura" placeholder="Alt (m)" step="0.01">
+            <!-- inputmode="decimal" facilita em celulares e oninput calcula na mesma hora -->
+            <input type="text" inputmode="decimal" id="peso" placeholder="Peso (kg)" oninput="calcularIMC()">
+            <input type="text" inputmode="decimal" id="altura" placeholder="Alt (m)" oninput="calcularIMC()">
             <button class="bmi-btn" onclick="calcularIMC()">Salvar</button>
         </div>
         <div id="imc-resultado">Preencha os dados acima</div>
@@ -969,27 +970,42 @@
             return total;
         }
 
-        // CALCULADORA DE IMC
+        // CALCULADORA DE IMC ATUALIZADA
         function calcularIMC() {
-            const peso = parseFloat(document.getElementById('peso').value);
-            const altura = parseFloat(document.getElementById('altura').value);
-            
-            if(peso && altura) {
-                const imc = (peso / (altura * altura)).toFixed(1);
-                let classificacao = "";
-                
-                if(imc < 18.5) classificacao = "Abaixo do peso";
-                else if(imc < 24.9) classificacao = "Peso normal";
-                else if(imc < 29.9) classificacao = "Sobrepeso";
-                else classificacao = "Obesidade";
+            const pesoInput = document.getElementById('peso');
+            const alturaInput = document.getElementById('altura');
+            const resultado = document.getElementById('imc-resultado');
 
-                document.getElementById('imc-resultado').textContent = `Seu IMC: ${imc} (${classificacao})`;
-                
-                localStorage.setItem('meuTreino_peso', peso);
-                localStorage.setItem('meuTreino_altura', altura);
-            } else {
-                alert("Por favor, preencha o peso e a altura corretamente.");
+            // Substitui vírgula por ponto automaticamente para não dar erro
+            let pesoStr = pesoInput.value.replace(',', '.');
+            let alturaStr = alturaInput.value.replace(',', '.');
+            
+            let peso = parseFloat(pesoStr);
+            let altura = parseFloat(alturaStr);
+            
+            if(!peso || !altura) {
+                resultado.textContent = "Preencha os dados acima";
+                return;
             }
+
+            // Se a pessoa digitar a altura em centímetros (ex: 175) corrige sozinho
+            if (altura > 3) {
+                altura = altura / 100;
+            }
+
+            const imc = (peso / (altura * altura)).toFixed(1);
+            let classificacao = "";
+            
+            if(imc < 18.5) classificacao = "Abaixo do peso";
+            else if(imc < 24.9) classificacao = "Peso normal";
+            else if(imc < 29.9) classificacao = "Sobrepeso";
+            else classificacao = "Obesidade";
+
+            resultado.textContent = `Seu IMC: ${imc} (${classificacao})`;
+            
+            // Salva na memória do celular os valores originais que foram digitados
+            localStorage.setItem('meuTreino_peso', pesoInput.value);
+            localStorage.setItem('meuTreino_altura', alturaInput.value);
         }
 
         // BOLA 8 - SORTEIO DE DESAFIO
@@ -1021,13 +1037,13 @@
             const nomeSalvo = localStorage.getItem('meuTreino_nomeAluno');
             if(nomeSalvo) document.getElementById('nome-aluno').textContent = nomeSalvo;
 
-            // Carrega Peso e Altura salvos
+            // Carrega Peso e Altura salvos e já faz a conta sozinho
             const pesoSalvo = localStorage.getItem('meuTreino_peso');
             const alturaSalva = localStorage.getItem('meuTreino_altura');
             if(pesoSalvo && alturaSalva) {
                 document.getElementById('peso').value = pesoSalvo;
                 document.getElementById('altura').value = alturaSalva;
-                calcularIMC();
+                calcularIMC(); // Aciona a conta já de início
             }
 
             document.querySelectorAll('.table-container').forEach((c, idx) => {
@@ -1087,7 +1103,6 @@
 
         function limparTreinos() {
             if(confirm("Deseja apagar as cargas, checklists e reiniciar sua contagem de exercícios da semana? (Seu peso e altura não serão apagados)")) {
-                // Guarda o peso e altura para não perder
                 const p = localStorage.getItem('meuTreino_peso');
                 const a = localStorage.getItem('meuTreino_altura');
                 const n = localStorage.getItem('meuTreino_nomeAluno');
