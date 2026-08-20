@@ -10,7 +10,7 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            background-image: url('https://i.postimg.cc/90WWSkg5/863807f68d8353be04d208021f498380.jpg');
+            /* Fundo dinâmico controlado por JavaScript */
             background-color: #000; background-size: cover; background-position: top center; background-attachment: fixed;
             color: var(--text-color); margin: 0; padding: 15px; padding-bottom: 140px; min-height: 100vh;
         }
@@ -500,7 +500,7 @@
             </table>
         </div>
 
-        <!-- 20. DESAFIO DA BOLA 8 (TRANSFORMADO EM ABA) -->
+        <!-- 20. DESAFIO DA BOLA 8 -->
         <div id="desafios" class="table-container">
             <div class="eight-ball-container" style="margin: 0; border: none; background: transparent; box-shadow: none;">
                 <h3 style="margin-top:0;">🎱 Desafio da Bola 8</h3>
@@ -529,12 +529,30 @@
         let modoCadastro = false;
 
         document.addEventListener("DOMContentLoaded", () => {
+            sortearFundoTela(); // Sorteia o fundo assim que abre a página
             const logado = localStorage.getItem('meuTreino_sessaoAtiva');
             if (logado) {
                 usuarioAtual = logado;
                 entrarNoSistema();
             }
         });
+
+        // Função para sortear uma imagem de fundo aleatória da internet (vibe de academia)
+        function sortearFundoTela() {
+            const fundosGym = [
+                'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600&auto=format&fit=crop&q=80',
+                'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=1600&auto=format&fit=crop&q=80',
+                'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=1600&auto=format&fit=crop&q=80',
+                'https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=1600&auto=format&fit=crop&q=80',
+                'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=1600&auto=format&fit=crop&q=80',
+                'https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=1600&auto=format&fit=crop&q=80',
+                'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1600&auto=format&fit=crop&q=80',
+                'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=1600&auto=format&fit=crop&q=80',
+                'https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1600&auto=format&fit=crop&q=80'
+            ];
+            const fundoEscolhido = fundosGym[Math.floor(Math.random() * fundosGym.length)];
+            document.body.style.backgroundImage = `url('${fundoEscolhido}')`;
+        }
 
         function alternarModoAuth() {
             modoCadastro = !modoCadastro;
@@ -576,6 +594,7 @@
 
             localStorage.setItem('meuTreino_sessaoAtiva', u);
             usuarioAtual = u;
+            sortearFundoTela(); // Sorteia um novo fundo ao logar também!
             entrarNoSistema();
         }
 
