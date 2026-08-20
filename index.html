@@ -77,7 +77,7 @@
         .btn-remover-item { background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #fca5a5; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
 
         /* ESTILOS PARA MONTAGEM DE FICHAS */
-        .ficha-builder-grid { padding: 15px; display: flex; flex-direction: column; gap: 10px; max-height: 500px; overflow-y: auto; }
+        .ficha-builder-grid { padding: 15px; display: flex; flex-direction: column; gap: 10px; max-height: 420px; overflow-y: auto; }
         .builder-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); }
         .builder-btns { display: flex; gap: 5px; }
         .btn-tag { width: 32px; height: 32px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.5); color: #aaa; font-weight: bold; cursor: pointer; font-size: 0.8rem; }
@@ -164,14 +164,12 @@
 
         <!-- ABAS DE NAVEGAÇÃO -->
         <div class="tabs">
-            <!-- Suas Fichas Personalizadas -->
-            <button class="tab-btn tab-custom active" onclick="openTab(event, 'treino-a')">🔥 Treino A</button>
+            <button id="btn-tab-a" class="tab-btn tab-custom active" onclick="openTab(event, 'treino-a')">🔥 Treino A</button>
             <button class="tab-btn tab-custom" onclick="openTab(event, 'treino-b')">🔥 Treino B</button>
             <button class="tab-btn tab-custom" onclick="openTab(event, 'treino-c')">🔥 Treino C</button>
             <button class="tab-btn tab-custom" onclick="openTab(event, 'treino-d')">🔥 Treino D</button>
             <button class="tab-btn" onclick="openTab(event, 'montar-fichas')" style="background-color: #1e293b; border-color: #475569;">⚙️ Montar Fichas</button>
             
-            <!-- Tabelas Padrão -->
             <button class="tab-btn" onclick="openTab(event, 'peito')">1. Peito</button>
             <button class="tab-btn" onclick="openTab(event, 'costas')">2. Costas</button>
             <button class="tab-btn" onclick="openTab(event, 'ombros')">3. Ombros</button>
@@ -193,14 +191,17 @@
             <button class="tab-btn" onclick="openTab(event, 'recuperacao')" style="border-color: #3b82f6; color: #60a5fa;">🧘 Recuperação</button>
         </div>
 
-        <!-- ABA MONTAR FICHAS -->
+        <!-- ABA MONTAR FICHAS COM BOTÃO DE CONFIRMAR -->
         <div id="montar-fichas" class="table-container">
             <div style="padding: 15px; text-align: center; border-bottom: 1px solid var(--border-color);">
                 <h3 style="margin: 0; color: #93c5fd;">⚙️ Adicione ou Remova Exercícios das Fichas</h3>
-                <p style="font-size: 0.85rem; color: #cbd5e1; margin: 5px 0 0 0;">Clique nas letras para marcar ou desmarcar. O que estiver aceso vai para o treino correspondente!</p>
+                <p style="font-size: 0.85rem; color: #cbd5e1; margin: 5px 0 0 0;">Clique nas letras para marcar ou desmarcar. Depois clique em Confirmar!</p>
             </div>
             <div class="ficha-builder-grid" id="builder-list">
                 <!-- Gerado dinamicamente via JS -->
+            </div>
+            <div style="padding: 15px; text-align: center; border-top: 1px solid var(--border-color);">
+                <button class="auth-btn" style="max-width: 300px; margin: 0 auto; background-color: #2563eb;" onclick="salvarEConfirmarFichas()">💾 Salvar e Confirmar Fichas</button>
             </div>
         </div>
 
@@ -632,28 +633,41 @@
                         <span style="font-size: 0.9rem; font-weight: bold;">${ex.nome}</span>
                     </div>
                     <div class="builder-btns">
-                        <button class="btn-tag ${tagsSalvas.includes('A') ? 'active-a' : ''}" onclick="toggleTagFicha('${ex.idUnico}', 'A')">A</button>
-                        <button class="btn-tag ${tagsSalvas.includes('B') ? 'active-b' : ''}" onclick="toggleTagFicha('${ex.idUnico}', 'B')">B</button>
-                        <button class="btn-tag ${tagsSalvas.includes('C') ? 'active-c' : ''}" onclick="toggleTagFicha('${ex.idUnico}', 'C')">C</button>
-                        <button class="btn-tag ${tagsSalvas.includes('D') ? 'active-d' : ''}" onclick="toggleTagFicha('${ex.idUnico}', 'D')">D</button>
+                        <button id="tag_${ex.idUnico}_A" class="btn-tag ${tagsSalvas.includes('A') ? 'active-a' : ''}" onclick="marcarTagProvisoria('${ex.idUnico}', 'A')">A</button>
+                        <button id="tag_${ex.idUnico}_B" class="btn-tag ${tagsSalvas.includes('B') ? 'active-b' : ''}" onclick="marcarTagProvisoria('${ex.idUnico}', 'B')">B</button>
+                        <button id="tag_${ex.idUnico}_C" class="btn-tag ${tagsSalvas.includes('C') ? 'active-c' : ''}" onclick="marcarTagProvisoria('${ex.idUnico}', 'C')">C</button>
+                        <button id="tag_${ex.idUnico}_D" class="btn-tag ${tagsSalvas.includes('D') ? 'active-d' : ''}" onclick="marcarTagProvisoria('${ex.idUnico}', 'D')">D</button>
                     </div>
                 `;
                 builderList.appendChild(item);
             });
         }
 
-        function toggleTagFicha(idUnico, letra) {
-            let key = pfx(`ficha_tags_${idUnico}`);
-            let tags = JSON.parse(localStorage.getItem(key)) || [];
-            
-            if(tags.includes(letra)) {
-                tags = tags.filter(t => t !== letra);
-            } else {
-                tags.push(letra);
-            }
-            localStorage.setItem(key, JSON.stringify(tags));
-            construirBuilderFichas();
+        function marcarTagProvisoria(idUnico, letra) {
+            const btn = document.getElementById(`tag_${idUnico}_${letra}`);
+            const classeAtiva = `active-${letra.toLowerCase()}`;
+            btn.classList.toggle(classeAtiva);
+        }
+
+        function salvarEConfirmarFichas() {
+            const exercicios = coletarTodosExercicios();
+            exercicios.forEach(ex => {
+                let novasTags = [];
+                ['A', 'B', 'C', 'D'].forEach(letra => {
+                    const btn = document.getElementById(`tag_${ex.idUnico}_${letra}`);
+                    if (btn && btn.classList.contains(`active-${letra.toLowerCase()}`)) {
+                        novasTags.push(letra);
+                    }
+                });
+                localStorage.setItem(pfx(`ficha_tags_${ex.idUnico}`), JSON.stringify(novasTags));
+            });
+
             atualizarAbasPersonalizadas();
+            alert("✅ Fichas salvas e atualizadas com sucesso!");
+            
+            // Redireciona para o Treino A automaticamente
+            const btnTreinoA = document.getElementById('btn-tab-a');
+            openTab({ currentTarget: btnTreinoA }, 'treino-a');
         }
 
         function removerExercicioFicha(letra, idUnico) {
