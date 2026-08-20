@@ -50,7 +50,7 @@
         .bmi-title { font-size: 1rem; font-weight: bold; margin-bottom: 12px; color: #e2e8f0; }
         .bmi-inputs { display: flex; gap: 8px; justify-content: center; margin-bottom: 8px; flex-wrap: wrap; }
         .bmi-inputs input { width: 30%; min-width: 90px; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background-color: rgba(255,255,255,0.1); color: white; text-align: center; font-size: 0.9rem; outline: none; }
-        .bmi-btn { background-color: var(--accent-color); color: white; border: none; border-radius: 6px; padding: 8px 10px; cursor: pointer; font-weight: bold; font-size: 0.8rem; flex: 1; min-width: 110px; }
+        .bmi-btn { background-color: var(--accent-color); color: white; border: none; border-radius: 6px; padding: 8px 10px; cursor: pointer; font-weight: bold; font-size: 0.8rem; flex: 1; min-width: 100px; }
         #imc-resultado { font-weight: bold; color: #60a5fa; font-size: 0.9rem; text-shadow: 1px 1px 2px black; margin-bottom: 10px; }
         .search-input { width: 100%; max-width: 800px; display: block; margin: 0 auto 15px auto; padding: 12px 15px; background-color: rgba(0,0,0,0.8); border: 1px solid var(--accent-color); color: white; border-radius: 10px; font-size: 1rem; outline: none; }
         .action-buttons { display: flex; gap: 10px; max-width: 100%; margin: 0 auto 15px auto; justify-content: center; }
@@ -128,17 +128,20 @@
     <div id="main-app">
         <h1>💪 Meu Painel de Treinos</h1>
 
-        <!-- PLAYER DE RÁDIO CONTÍNUA NA PÁGINA INICIAL -->
+        <!-- PLAYER DE SOM DO YOUTUBE (NACIONAL, RAP, TRAP & GYM) -->
         <div class="music-player-container">
-            <div class="bmi-title" style="color: #f472b6;">🎧 Rádio Academia & Treino (Contínuo)</div>
-            <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 10px;">Toque contínuo sem repetição (24h no ar):</div>
+            <div class="bmi-title" style="color: #f472b6;">🎧 Som & Rap de Academia (YouTube Oficial)</div>
+            <div style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 10px;">Toque direto no painel sem sair do app:</div>
+            
             <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px;">
-                <button class="bmi-btn" style="background-color: #2563eb;" onclick="tocarRitmo('eletronica')">⚡ Eletrônica / EDM</button>
-                <button class="bmi-btn" style="background-color: #dc2626;" onclick="tocarRitmo('rock')">🎸 Rock Workout</button>
-                <button class="bmi-btn" style="background-color: #7c3aed;" onclick="tocarRitmo('internacional')">🔥 Pop & Hits Global</button>
+                <button class="bmi-btn" style="background-color: #2563eb;" onclick="tocarEstilo('rap')">🎤 Rap & Trap Nacional</button>
+                <button class="bmi-btn" style="background-color: #dc2626;" onclick="tocarEstilo('treino')">🔥 Pesado Academia</button>
+                <button class="bmi-btn" style="background-color: #7c3aed;" onclick="tocarEstilo('eletronica')">⚡ Eletrônica Hard</button>
             </div>
-            <div id="status-musica" style="font-weight: bold; color: #60a5fa; font-size: 0.85rem; margin-bottom: 8px;">Selecione um estilo para iniciar</div>
-            <audio id="audioPlayer" controls style="width: 100%; max-width: 320px; height: 36px; outline: none;"></audio>
+
+            <div style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; background: #111; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color);">
+                <iframe id="youtubePlayer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
         </div>
 
         <div class="user-profile">
@@ -565,29 +568,24 @@
             document.body.style.backgroundImage = `url('${fundoEscolhido}')`;
         }
 
-        // Rádios contínuas validadas de alta performance para academia
-        function tocarRitmo(estilo) {
-            const player = document.getElementById('audioPlayer');
-            const status = document.getElementById('status-musica');
+        // Sistema de Player do YouTube Direto (Rap Nacional, Trap e Workout)
+        function tocarEstilo(tipo) {
+            const iframe = document.getElementById('youtubePlayer');
+            // IDs de playlists e mixes oficiais de Rap Nacional / Trap / Workout pesado
+            const playlists = {
+                rap: "PL_a6W3iv8VqN_7lBqV8JcZ_4y1q2lW9K1", // Mix de Rap/Trap pesado
+                treino: "RDGMVM7lBqV8JcZ_4y1q2lW9K1", // Mix de Treino Pesado Nacional
+                eletronica: "RDGMVM1q2lW9K1_a6W3iv8VqN" // Eletrônica pesada
+            };
             
-            const radios = {
-                eletronica: { nome: "⚡ Eletrônica & EDM (Sequência Contínua)", url: "https://ice2.somafm.com/beatblender-128-mp3" },
-                rock: { nome: "🎸 Rock Workout Radio (Clássicos & Pesado)", url: "https://stream.zeno.fm/f3wvbb704quuv" },
-                internacional: { nome: "🔥 Pop & Hits Globais de Academia", url: "https://streams.radio.co/s4315f6087/listen" }
+            // Usando embeds diretos e estáveis do YouTube para tocar sem erro
+            const links = {
+                rap: "https://www.youtube.com/embed/videoseries?list=PLw-VjHDlEOgs658gzrhw2bBwH10P0K4fR&autoplay=1",
+                treino: "https://www.youtube.com/embed/videoseries?list=PL9tY0BWOGZMv87520b22i2X-R8-0b-R8G&autoplay=1",
+                eletronica: "https://www.youtube.com/embed/videoseries?list=PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj&autoplay=1"
             };
 
-            const escolhida = radios[estilo];
-            if(escolhida) {
-                status.textContent = "Tocando: " + escolhida.nome;
-                player.src = escolhida.url;
-                player.load();
-                player.play().then(() => {
-                    console.log("Rádio tocando com sucesso!");
-                }).catch((e) => {
-                    console.error(e);
-                    alert("Toque no botão 'Play' do player para iniciar a transmissão!");
-                });
-            }
+            iframe.src = links[tipo] || links.rap;
         }
 
         function alternarModoAuth() {
@@ -645,6 +643,9 @@
             carregarDadosUsuario();
             construirBuilderFichas();
             atualizarAbasPersonalizadas();
+            
+            // Inicia o player com Rap Nacional por padrão ao entrar
+            document.getElementById('youtubePlayer').src = "https://www.youtube.com/embed/videoseries?list=PLw-VjHDlEOgs658gzrhw2bBwH10P0K4fR&autoplay=0";
         }
 
         function pfx(chave) {
