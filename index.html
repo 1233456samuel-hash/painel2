@@ -209,7 +209,7 @@
                 <button class="tab-btn" onclick="openTab(event, 'panturrilha')">Panturrilha</button>
             </div>
 
-            <!-- Sub-abas: Core, Cardio & Outros -->
+            <!-- Sub-abas: Core, Cardio, Bola 8 & Outros -->
             <div id="cat-geral-div" class="sub-tabs-wrapper">
                 <button class="tab-btn" onclick="openTab(event, 'abdomen')">Abdômen</button>
                 <button class="tab-btn" onclick="openTab(event, 'lombar')">Lombar</button>
@@ -217,6 +217,7 @@
                 <button class="tab-btn" onclick="openTab(event, 'cardio')">Cardio</button>
                 <button class="tab-btn" onclick="openTab(event, 'casa')">Casa</button>
                 <button class="tab-btn" onclick="openTab(event, 'recuperacao')" style="border-color: #3b82f6; color: #60a5fa;">🧘 Recuperação</button>
+                <button class="tab-btn" onclick="openTab(event, 'desafios')" style="border-color: #f59e0b; color: #fbbf24;">🎱 Bola 8</button>
             </div>
         </div>
 
@@ -499,13 +500,16 @@
             </table>
         </div>
 
-        <div class="eight-ball-container">
-            <h3 style="margin-top:0;">🎱 Desafio da Bola 8</h3>
-            <p>A Bola 8 vai sortear um desafio surpresa de queima!</p>
-            <div class="eight-ball" id="bola8" onclick="sortearDesafio()"><div class="white-circle">8</div></div>
-            <div id="desafio-resultado">
-                <span id="texto-desafio">Toque na bola para sortear</span>
-                <a id="link-desafio" class="btn-desafio-video" href="#" target="_blank">▶️ Ver como faz</a>
+        <!-- 20. DESAFIO DA BOLA 8 (TRANSFORMADO EM ABA) -->
+        <div id="desafios" class="table-container">
+            <div class="eight-ball-container" style="margin: 0; border: none; background: transparent; box-shadow: none;">
+                <h3 style="margin-top:0;">🎱 Desafio da Bola 8</h3>
+                <p>A Bola 8 vai sortear um desafio surpresa de queima!</p>
+                <div class="eight-ball" id="bola8" onclick="sortearDesafio()"><div class="white-circle">8</div></div>
+                <div id="desafio-resultado">
+                    <span id="texto-desafio">Toque na bola para sortear</span>
+                    <a id="link-desafio" class="btn-desafio-video" href="#" target="_blank">▶️ Ver como faz</a>
+                </div>
             </div>
         </div>
 
@@ -672,14 +676,8 @@
             });
         }
 
-        function marcarTagProvisoria(idUnico, letra) {
-            const btn = document.getElementById(`tag_${ex.idUnico}_${letra}`); // Correção leve garantida abaixo
-        }
-
-        // Função corrigida para marcar tag provisória
         document.addEventListener('click', function(e) {
             if(e.target && e.target.classList.contains('btn-tag')) {
-                // Alterna cor conforme a letra correspondente
                 if(e.target.textContent === 'A') e.target.classList.toggle('active-a');
                 if(e.target.textContent === 'B') e.target.classList.toggle('active-b');
                 if(e.target.textContent === 'C') e.target.classList.toggle('active-c');
@@ -703,7 +701,6 @@
             atualizarAbasPersonalizadas();
             alert("✅ Fichas salvas e atualizadas com sucesso!");
             
-            // Redireciona para a aba do Treino A
             trocarCategoria(null, 'cat-fichas-div');
             const btnTreinoA = document.getElementById('btn-tab-a');
             openTab({ currentTarget: btnTreinoA }, 'treino-a');
@@ -791,7 +788,6 @@
             if(evt && evt.currentTarget) {
                 evt.currentTarget.classList.add('active');
             } else {
-                // Ativa o primeiro botão correspondente se chamado via script
                 document.querySelector(`.main-cat-btn`).classList.add('active');
             }
         }
@@ -821,7 +817,7 @@
                 return;
             }
             containers.forEach(container => {
-                if(container.id === 'montar-fichas') return;
+                if(container.id === 'montar-fichas' || container.id === 'desafios') return;
                 container.style.display = 'block';
                 let encontrou = false;
                 container.querySelectorAll('tbody tr').forEach(linha => {
