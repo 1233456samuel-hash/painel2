@@ -487,7 +487,7 @@
         </div>
     </div>
 
-    <!-- PAINEL UNIFICADO: PESO, IMC, MEDIDAS E ÁGUA -->
+    <!-- PAINEL UNIFICADO: PESO, IMC, MEDIDAS E ÁGUA BASEADA NO PESO -->
     <div class="bmi-container">
         <div class="bmi-title">📊 Saúde, Medidas & Hidratação</div>
         
@@ -505,7 +505,7 @@
         </div>
 
         <div style="border-top: 1px solid rgba(255,255,255,0.15); padding-top: 8px; font-size: 0.85rem;">
-            💧 Água: <span id="agua-contador" style="color: #60a5fa; font-weight: bold;">0</span> / <span id="agua-meta">2500</span> ml
+            💧 Meta de Água (Base: 35ml/kg): <span id="agua-contador" style="color: #60a5fa; font-weight: bold;">0</span> / <span id="agua-meta">2500</span> ml
         </div>
         <div style="display: flex; gap: 6px; justify-content: center; margin-top: 6px;">
             <button class="bmi-btn" onclick="adicionarAgua(250)">+250ml</button>
@@ -1050,7 +1050,7 @@
             document.getElementById('streak-days').textContent = streak;
         }
 
-        // CALCULADORA DE IMC E META DE ÁGUA INTEGRADA
+        // CALCULADORA DE IMC E META DE ÁGUA BASEADA NO PESO
         function calcularIMC() {
             const pesoInput = document.getElementById('peso');
             const alturaInput = document.getElementById('altura');
