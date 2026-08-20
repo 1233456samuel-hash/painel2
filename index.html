@@ -103,9 +103,9 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,1);
         }
         
-        /* ESTILOS DA CALCULADORA DE IMC E MEDIDAS */
+        /* PAINEL UNIFICADO DE SAÚDE E HIDRATAÇÃO */
         .bmi-container {
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.75);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 15px;
@@ -118,25 +118,26 @@
         .bmi-title {
             font-size: 1rem;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             color: #e2e8f0;
         }
         .bmi-inputs {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             justify-content: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             flex-wrap: wrap;
         }
         .bmi-inputs input {
-            width: 80px;
+            width: 30%;
+            min-width: 90px;
             padding: 8px;
             border-radius: 6px;
             border: 1px solid var(--border-color);
             background-color: rgba(255,255,255,0.1);
             color: white;
             text-align: center;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             outline: none;
         }
         .bmi-inputs input::placeholder { color: #aaa; }
@@ -145,16 +146,19 @@
             color: white;
             border: none;
             border-radius: 6px;
-            padding: 8px 15px;
+            padding: 6px 12px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 0.85rem;
             transition: 0.2s;
         }
         .bmi-btn:active { transform: scale(0.95); }
         #imc-resultado {
             font-weight: bold;
             color: #60a5fa;
+            font-size: 0.9rem;
             text-shadow: 1px 1px 2px black;
+            margin-bottom: 10px;
         }
 
         .search-container {
@@ -483,37 +487,29 @@
         </div>
     </div>
 
-    <!-- CALCULADORA DE IMC -->
+    <!-- PAINEL UNIFICADO: PESO, IMC, MEDIDAS E ÁGUA -->
     <div class="bmi-container">
-        <div class="bmi-title">⚖️ Diário de Peso e IMC</div>
+        <div class="bmi-title">📊 Saúde, Medidas & Hidratação</div>
+        
         <div class="bmi-inputs">
             <input type="text" inputmode="decimal" id="peso" placeholder="Peso (kg)" oninput="calcularIMC()">
             <input type="text" inputmode="decimal" id="altura" placeholder="Alt (m)" oninput="calcularIMC()">
-            <button class="bmi-btn" onclick="calcularIMC()">Salvar</button>
         </div>
-        <div id="imc-resultado">Preencha os dados acima</div>
-    </div>
+        <div id="imc-resultado">Preencha peso e altura</div>
 
-    <!-- DIÁRIO DE MEDIDAS (CM) -->
-    <div class="bmi-container">
-        <div class="bmi-title">📏 Diário de Medidas (cm)</div>
-        <div class="bmi-inputs">
+        <div style="font-size: 0.8rem; color: #a5f3fc; margin-bottom: 4px;">Medidas (cm):</div>
+        <div class="bmi-inputs" style="margin-bottom: 10px;">
             <input type="text" inputmode="decimal" id="med-cintura" placeholder="Cintura" oninput="salvarMedidas()">
             <input type="text" inputmode="decimal" id="med-quadril" placeholder="Quadril" oninput="salvarMedidas()">
             <input type="text" inputmode="decimal" id="med-coxa" placeholder="Coxa" oninput="salvarMedidas()">
         </div>
-        <div id="medidas-status" style="font-size: 0.85rem; color: #a5f3fc;">Acompanhe sua evolução em centímetros</div>
-    </div>
 
-    <!-- HIDRATAÇÃO DIÁRIA -->
-    <div class="bmi-container">
-        <div class="bmi-title">💧 Hidratação Diária</div>
-        <div style="font-size: 0.95rem; margin-bottom: 8px;">
-            Água consumida: <span id="agua-contador" style="color: #60a5fa; font-weight: bold;">0</span> ml / <span id="agua-meta">2500</span> ml
+        <div style="border-top: 1px solid rgba(255,255,255,0.15); padding-top: 8px; font-size: 0.85rem;">
+            💧 Água: <span id="agua-contador" style="color: #60a5fa; font-weight: bold;">0</span> / <span id="agua-meta">2500</span> ml
         </div>
-        <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
-            <button class="bmi-btn" onclick="adicionarAgua(250)">+ 250ml</button>
-            <button class="bmi-btn" onclick="adicionarAgua(500)">+ 500ml</button>
+        <div style="display: flex; gap: 6px; justify-content: center; margin-top: 6px;">
+            <button class="bmi-btn" onclick="adicionarAgua(250)">+250ml</button>
+            <button class="bmi-btn" onclick="adicionarAgua(500)">+500ml</button>
             <button class="bmi-btn" onclick="resetarAgua()" style="background-color: rgba(255,255,255,0.2);">Zerar</button>
         </div>
     </div>
@@ -675,7 +671,7 @@
         </table>
     </div>
 
-    <!-- ABAS RESTANTES -->
+    <!-- OUTRAS ABAS -->
     <div id="casa" class="table-container">
         <table>
             <thead>
@@ -705,22 +701,6 @@
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+cadeira+extensora" target="_blank">Ver</a></td>
                 </tr>
-                <tr>
-                    <td>Agachamento Livre ou Búlgaro</td>
-                    <td>4</td>
-                    <td>12-15</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=agachamento+bulgaro+em+casa" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>Flexão de Braços (Chão)</td>
-                    <td>4</td>
-                    <td>Máx</td>
-                    <td><input type="number" class="load-input" disabled style="opacity: 0.2;"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+flexao+de+bracos" target="_blank">Ver</a></td>
-                </tr>
             </tbody>
         </table>
     </div>
@@ -743,13 +723,6 @@
                     <td>Alívio de tensão na coluna</td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=alongamento+lombar+joelho+peito" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>Alongamento Peitoral (Apoiado na Porta)</td>
-                    <td>30s/lado</td>
-                    <td>Postura e articulações</td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=alongamento+peitoral+porta" target="_blank">Ver</a></td>
                 </tr>
             </tbody>
         </table>
@@ -855,14 +828,6 @@
                     <td><input type="number" class="load-input" placeholder="kg"></td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+agachamento+livre" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>Cadeira Extensora</td>
-                    <td>4</td>
-                    <td>12-15</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+cadeira+extensora" target="_blank">Ver</a></td>
                 </tr>
             </tbody>
         </table>
@@ -1085,7 +1050,7 @@
             document.getElementById('streak-days').textContent = streak;
         }
 
-        // CALCULADORA DE IMC E META DE ÁGUA
+        // CALCULADORA DE IMC E META DE ÁGUA INTEGRADA
         function calcularIMC() {
             const pesoInput = document.getElementById('peso');
             const alturaInput = document.getElementById('altura');
@@ -1098,7 +1063,7 @@
             let altura = parseFloat(alturaStr);
             
             if(!peso || !altura) {
-                resultado.textContent = "Preencha os dados acima";
+                resultado.textContent = "Preencha peso e altura";
                 return;
             }
 
@@ -1114,9 +1079,9 @@
             else if(imc < 29.9) classificacao = "Sobrepeso";
             else classificacao = "Obesidade";
 
-            resultado.textContent = `Seu IMC: ${imc} (${classificacao})`;
+            resultado.textContent = `IMC: ${imc} (${classificacao})`;
             
-            // Calcula meta de água automática (Peso x 35ml)
+            // Atualiza meta de água com base no peso (Peso x 35ml)
             const metaAgua = Math.round(peso * 35);
             document.getElementById('agua-meta').textContent = metaAgua;
             localStorage.setItem('meuTreino_metaAgua', metaAgua);
@@ -1134,10 +1099,6 @@
             localStorage.setItem('meuTreino_cintura', cintura);
             localStorage.setItem('meuTreino_quadril', quadril);
             localStorage.setItem('meuTreino_coxa', coxa);
-            
-            if(cintura || quadril || coxa) {
-                document.getElementById('medidas-status').textContent = "Medidas salvas na memória! 💾";
-            }
         }
 
         // HIDRATAÇÃO DIÁRIA
@@ -1184,7 +1145,6 @@
 
             verificarOfensiva();
 
-            // Carrega dados salvos
             const pesoSalvo = localStorage.getItem('meuTreino_peso');
             const alturaSalva = localStorage.getItem('meuTreino_altura');
             if(pesoSalvo && alturaSalva) {
@@ -1192,6 +1152,9 @@
                 document.getElementById('altura').value = alturaSalva;
                 calcularIMC(); 
             }
+
+            const metaSalva = localStorage.getItem('meuTreino_metaAgua');
+            if(metaSalva) document.getElementById('agua-meta').textContent = metaSalva;
 
             document.getElementById('med-cintura').value = localStorage.getItem('meuTreino_cintura') || '';
             document.getElementById('med-quadril').value = localStorage.getItem('meuTreino_quadril') || '';
@@ -1277,6 +1240,7 @@
                 const cin = localStorage.getItem('meuTreino_cintura');
                 const qua = localStorage.getItem('meuTreino_quadril');
                 const cox = localStorage.getItem('meuTreino_coxa');
+                const ma = localStorage.getItem('meuTreino_metaAgua');
                 
                 localStorage.clear();
                 
@@ -1288,6 +1252,7 @@
                 if(cin) localStorage.setItem('meuTreino_cintura', cin);
                 if(qua) localStorage.setItem('meuTreino_quadril', qua);
                 if(cox) localStorage.setItem('meuTreino_coxa', cox);
+                if(ma) localStorage.setItem('meuTreino_metaAgua', ma);
                 
                 location.reload(); 
             }
