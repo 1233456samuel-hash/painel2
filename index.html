@@ -556,28 +556,288 @@
         </button>
     </div>
 
+    <!-- ABAS COMPLETAS PARA ESCOLHA -->
     <div class="tabs">
-        <button class="tab-btn tab-gluteos" onclick="openTab(event, 'gluteos')">🍑 Glúteos & Inferiores</button>
-        <button class="tab-btn tab-circuito" onclick="openTab(event, 'circuito')">🔥 Circuito Seca</button>
-        <button class="tab-btn" onclick="openTab(event, 'casa')" style="border-color: #25D366; color: #25D366;">🏠 Em Casa</button>
         <button class="tab-btn active" onclick="openTab(event, 'aquecimento')">Cardio</button>
         <button class="tab-btn" onclick="openTab(event, 'peito')">Peito</button>
         <button class="tab-btn" onclick="openTab(event, 'costas')">Costas</button>
         <button class="tab-btn" onclick="openTab(event, 'pernas')">Pernas</button>
+        <button class="tab-btn tab-gluteos" onclick="openTab(event, 'gluteos')">🍑 Glúteos</button>
         <button class="tab-btn" onclick="openTab(event, 'ombros')">Ombros</button>
         <button class="tab-btn" onclick="openTab(event, 'bracos')">Braços</button>
+        <button class="tab-btn" onclick="openTab(event, 'trapezio')">Trapézio</button>
         <button class="tab-btn" onclick="openTab(event, 'abdomen')">Core</button>
+        <button class="tab-btn tab-circuito" onclick="openTab(event, 'circuito')">🔥 Circuito</button>
+        <button class="tab-btn" onclick="openTab(event, 'casa')" style="border-color: #25D366; color: #25D366;">🏠 Casa</button>
         <button class="tab-btn tab-recuperacao" onclick="openTab(event, 'recuperacao')">🧘 Recuperação</button>
     </div>
 
-    <!-- ABAS DE TREINOS COM MINIATURAS EXATAS -->
-    
-    <!-- ABA: GLÚTEOS & MEMBROS INFERIORES -->
+    <!-- 1. CARDIO / AQUECIMENTO -->
+    <div id="aquecimento" class="table-container active">
+        <table>
+            <thead>
+                <tr>
+                    <th>Atividade / Cardio</th>
+                    <th>Tempo</th>
+                    <th>Foco</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Pular Corda">
+                            <span>Pular Corda (Estilo Boxeador)</span>
+                        </div>
+                    </td>
+                    <td>10 a 15 min</td><td>Cardio & Ritmo</td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=como+pular+corda+boxeador" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Polichinelos">
+                            <span>Polichinelos Intensos</span>
+                        </div>
+                    </td>
+                    <td>3 a 5 min</td><td>Aquecimento Geral</td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=como+fazer+polichinelo" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1538805060514-97d9cc17730c?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Esteira">
+                            <span>Corrida na Esteira</span>
+                        </div>
+                    </td>
+                    <td>15-20 min</td><td>Resistência Aeróbica</td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=corrida+na+esteira+academia" target="_blank">Ver</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 2. PEITO -->
+    <div id="peito" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício de Peito</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Supino Reto">
+                            <span>Supino Reto com Barra</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>8-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+supino+reto+barra" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Supino Inclinado">
+                            <span>Supino Inclinado com Halteres</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>8-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+supino+inclinado+halteres" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Crucifixo">
+                            <span>Crucifixo Reto (Halteres)</span>
+                        </div>
+                    </td>
+                    <td>3</td><td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+crucifixo+reto+halteres" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Cross Over">
+                            <span>Cross Over na Polia</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+cross+over+polia" target="_blank">Ver</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 3. COSTAS -->
+    <div id="costas" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício de Costas</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Puxada Alta">
+                            <span>Puxada Alta / Pulldown</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+puxada+alta+frente" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Remada Curvada">
+                            <span>Remada Curvada com Barra</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>8-10</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+remada+curvada+barra" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Remada Baixa">
+                            <span>Remada Baixa na Polia</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+remada+baixa+polia" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Barra Fixa">
+                            <span>Barra Fixa (Pull-up)</span>
+                        </div>
+                    </td>
+                    <td>3</td><td>Máx</td>
+                    <td><input type="number" class="load-input" disabled style="opacity: 0.2;"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=como+fazer+barra+fixa" target="_blank">Ver</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 4. PERNAS -->
+    <div id="pernas" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício de Pernas</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Agachamento Livre">
+                            <span>Agachamento Livre ou Smith</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>8-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+agachamento+livre" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Leg Press">
+                            <span>Leg Press 45°</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+leg+press+45" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Cadeira Extensora">
+                            <span>Cadeira Extensora</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+cadeira+extensora" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Mesa Flexora">
+                            <span>Mesa / Cadeira Flexora</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+mesa+flexora" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Panturrilhas">
+                            <span>Panturrilhas em Pé (Máquina/Smith)</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>15-20</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+panturrilhas+em+pe" target="_blank">Ver</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 5. GLÚTEOS & INFERIORES -->
     <div id="gluteos" class="table-container">
         <table>
             <thead>
                 <tr>
-                    <th>Exercício</th>
+                    <th>Exercício de Glúteos</th>
                     <th>Séries</th>
                     <th>Reps</th>
                     <th>Carga</th>
@@ -637,19 +897,7 @@
                 <tr>
                     <td>
                         <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Cadeira Adutora">
-                            <span>Cadeira Adutora</span>
-                        </div>
-                    </td>
-                    <td>3</td><td>15</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+cadeira+adutora" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Ponte de Glúteos">
+                            <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Ponte">
                             <span>Ponte de Glúteos no Solo</span>
                         </div>
                     </td>
@@ -662,7 +910,247 @@
         </table>
     </div>
 
-    <!-- ABA: CIRCUITO SECA & DEFINE -->
+    <!-- 6. OMBROS -->
+    <div id="ombros" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício de Ombros</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1532029835096-1e10d0a75f56?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Desenvolvimento">
+                            <span>Desenvolvimento com Halteres</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>8-10</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+desenvolvimento+halteres" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Elevação Lateral">
+                            <span>Elevação Lateral com Halteres</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+elevacao+lateral+halteres" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Elevação Frontal">
+                            <span>Elevação Frontal com Halteres</span>
+                        </div>
+                    </td>
+                    <td>3</td><td>12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+elevacao+frontal+halteres" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Crucifixo Inverso">
+                            <span>Crucifixo Inverso (Posterior)</span>
+                        </div>
+                    </td>
+                    <td>3</td><td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+crucifixo+inverso+halteres" target="_blank">Ver</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 7. BRAÇOS (BÍCEPS, TRÍCEPS, ANTEBRAÇO) -->
+    <div id="bracos" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício de Braços</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Rosca Direta">
+                            <span>Rosca Direta (Barra Reta ou W)</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+rosca+direta+barra" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Rosca Alternada">
+                            <span>Rosca Alternada com Halteres</span>
+                        </div>
+                    </td>
+                    <td>3</td><td>12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+rosca+alternada" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Tríceps Polia">
+                            <span>Tríceps na Polia com Barra/Corda</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+triceps+corda+polia" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Tríceps Testa">
+                            <span>Tríceps Testa com Barra W</span>
+                        </div>
+                    </td>
+                    <td>3</td><td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+triceps+testa" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Antebraço">
+                            <span>Rosca Invertida / Punho (Antebraço)</span>
+                        </div>
+                    </td>
+                    <td>3</td><td>15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+rosca+invertida+antebarco" target="_blank">Ver</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 8. TRAPÉZIO -->
+    <div id="trapezio" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício de Trapézio</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Encolhimento Halteres">
+                            <span>Encolhimento de Ombros com Halteres</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>12-15</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+encolhimento+com+halteres" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Encolhimento Barra">
+                            <span>Encolhimento com Barra por Trás/Frente</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>10-12</td>
+                    <td><input type="number" class="load-input" placeholder="kg"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+encolhimento+com+barra" target="_blank">Ver</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 9. CORE / ABDÔMEN -->
+    <div id="abdomen" class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercício de Core</th>
+                    <th>Séries</th>
+                    <th>Reps</th>
+                    <th>Carga</th>
+                    <th>Feito</th>
+                    <th>Vídeo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1566241142559-40e1dab266c6?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Prancha">
+                            <span>Prancha Isométrica</span>
+                        </div>
+                    </td>
+                    <td>3</td><td>45s a 1 min</td>
+                    <td><input type="number" class="load-input" disabled style="opacity: 0.2;"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+prancha+isometrica+abdominal" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Abdominal Supra">
+                            <span>Abdominal Supra no Solo</span>
+                        </div>
+                    </td>
+                    <td>3</td><td>20</td>
+                    <td><input type="number" class="load-input" disabled style="opacity: 0.2;"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+abdominal+supra+solo" target="_blank">Ver</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1566241142559-40e1dab266c6?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Abdominal Infra">
+                            <span>Abdominal Infra (Elevação de Pernas)</span>
+                        </div>
+                    </td>
+                    <td>3</td><td>15</td>
+                    <td><input type="number" class="load-input" disabled style="opacity: 0.2;"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+abdominal+infra+elevacao+pernas" target="_blank">Ver</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 10. CIRCUITO SECA -->
     <div id="circuito" class="table-container">
         <table>
             <thead>
@@ -700,28 +1188,6 @@
                 <tr>
                     <td>
                         <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Agachamento Livre">
-                            <span>Agachamento Livre sem Peso</span>
-                        </div>
-                    </td>
-                    <td>3 x 20</td><td>Tonificação de Pernas</td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+agachamento+livre" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1566241142559-40e1dab266c6?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Prancha com Toque">
-                            <span>Prancha com Toque no Ombro</span>
-                        </div>
-                    </td>
-                    <td>3 x 45s</td><td>Estabilidade Abdômen</td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=prancha+com+toque+no+ombro" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="exercise-cell">
                             <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Burpees">
                             <span>Burpees</span>
                         </div>
@@ -734,14 +1200,14 @@
         </table>
     </div>
 
-    <!-- OUTRAS ABAS -->
+    <!-- 11. EM CASA -->
     <div id="casa" class="table-container">
         <table>
             <thead>
                 <tr>
-                    <th>Exercício</th>
+                    <th>Exercício em Casa</th>
                     <th>Séries</th>
-                    <th>Reps</th>
+                    <th>Reps / Tempo</th>
                     <th>Carga</th>
                     <th>Feito</th>
                     <th>Vídeo</th>
@@ -763,31 +1229,7 @@
                 <tr>
                     <td>
                         <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Cadeira Extensora">
-                            <span>Cadeira Extensora</span>
-                        </div>
-                    </td>
-                    <td>4</td><td>12-15</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+cadeira+extensora" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Agachamento">
-                            <span>Agachamento Livre ou Búlgaro</span>
-                        </div>
-                    </td>
-                    <td>4</td><td>12-15</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=agachamento+bulgaro+em+casa" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1598971457999-74f4b37d45c5?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Flexão">
+                            <img src="https://images.unsplash.com/photo-1598971457999-74f4b37d45c5?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Flexao">
                             <span>Flexão de Braços (Chão)</span>
                         </div>
                     </td>
@@ -796,10 +1238,23 @@
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+flexao+de+bracos" target="_blank">Ver</a></td>
                 </tr>
+                <tr>
+                    <td>
+                        <div class="exercise-cell">
+                            <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Agachamento Livre">
+                            <span>Agachamento Livre sem Peso</span>
+                        </div>
+                    </td>
+                    <td>4</td><td>20 reps</td>
+                    <td><input type="number" class="load-input" disabled style="opacity: 0.2;"></td>
+                    <td><input type="checkbox" class="check-set"></td>
+                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+agachamento+livre" target="_blank">Ver</a></td>
+                </tr>
             </tbody>
         </table>
     </div>
 
+    <!-- 12. RECUPERAÇÃO -->
     <div id="recuperacao" class="table-container">
         <table>
             <thead>
@@ -815,7 +1270,7 @@
                 <tr>
                     <td>
                         <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Alongamento de Lombar">
+                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Lombar">
                             <span>Alongamento de Lombar (Abraçar Joelhos)</span>
                         </div>
                     </td>
@@ -826,261 +1281,13 @@
                 <tr>
                     <td>
                         <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Alongamento Peitoral">
-                            <span>Alongamento Peitoral (Apoiado na Porta)</span>
+                            <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Peitoral">
+                            <span>Alongamento Peitoral (Porta)</span>
                         </div>
                     </td>
                     <td>30s/lado</td><td>Postura e articulações</td>
                     <td><input type="checkbox" class="check-set"></td>
                     <td><a class="video-link" href="https://www.youtube.com/results?search_query=alongamento+peitoral+porta" target="_blank">Ver</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="aquecimento" class="table-container active">
-        <table>
-            <thead>
-                <tr>
-                    <th>Atividade</th>
-                    <th>Tempo</th>
-                    <th>Foco</th>
-                    <th>Feito</th>
-                    <th>Vídeo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Pular Corda">
-                            <span>Pular Corda (Estilo Boxeador)</span>
-                        </div>
-                    </td>
-                    <td>10 a 15 min</td><td>Cardio & Ritmo</td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=como+pular+corda+boxeador" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Polichinelos">
-                            <span>Polichinelos (Sem equipamento)</span>
-                        </div>
-                    </td>
-                    <td>3 a 5 min</td><td>Aquecimento Casa/Prédio</td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=como+fazer+polichinelo" target="_blank">Ver</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="peito" class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Exercício</th>
-                    <th>Séries</th>
-                    <th>Reps</th>
-                    <th>Carga</th>
-                    <th>Feito</th>
-                    <th>Vídeo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Supino Reto">
-                            <span>Supino Reto com Barra</span>
-                        </div>
-                    </td>
-                    <td>4</td><td>8-12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+supino+reto+barra" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Crucifixo Reto">
-                            <span>Crucifixo Reto (Halteres)</span>
-                        </div>
-                    </td>
-                    <td>3</td><td>12-15</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+crucifixo+reto+halteres" target="_blank">Ver</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="costas" class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Exercício</th>
-                    <th>Séries</th>
-                    <th>Reps</th>
-                    <th>Carga</th>
-                    <th>Feito</th>
-                    <th>Vídeo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Puxada Alta">
-                            <span>Puxada Alta / Pulldown</span>
-                        </div>
-                    </td>
-                    <td>4</td><td>10-12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+puxada+alta+frente" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Remada Curvada">
-                            <span>Remada Curvada com Barra</span>
-                        </div>
-                    </td>
-                    <td>4</td><td>8-10</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+remada+curvada+barra" target="_blank">Ver</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="pernas" class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Exercício</th>
-                    <th>Séries</th>
-                    <th>Reps</th>
-                    <th>Carga</th>
-                    <th>Feito</th>
-                    <th>Vídeo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Agachamento Livre">
-                            <span>Agachamento Livre ou Smith</span>
-                        </div>
-                    </td>
-                    <td>4</td><td>8-12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+agachamento+livre" target="_blank">Ver</a></td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Leg Press">
-                            <span>Leg Press 45°</span>
-                        </div>
-                    </td>
-                    <td>4</td><td>10-12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+leg+press+45" target="_blank">Ver</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="ombros" class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Exercício</th>
-                    <th>Séries</th>
-                    <th>Reps</th>
-                    <th>Carga</th>
-                    <th>Feito</th>
-                    <th>Vídeo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1532029835096-1e10d0a75f56?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Desenvolvimento">
-                            <span>Desenvolvimento com Halteres</span>
-                        </div>
-                    </td>
-                    <td>4</td><td>8-10</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+desenvolvimento+halteres" target="_blank">Ver</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="bracos" class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Exercício</th>
-                    <th>Séries</th>
-                    <th>Reps</th>
-                    <th>Carga</th>
-                    <th>Feito</th>
-                    <th>Vídeo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Rosca Direta">
-                            <span>Rosca Direta (Barra Reta ou W)</span>
-                        </div>
-                    </td>
-                    <td>4</td><td>10-12</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+rosca+direta+barra" target="_blank">Ver</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div id="abdomen" class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Exercício</th>
-                    <th>Séries</th>
-                    <th>Reps</th>
-                    <th>Carga</th>
-                    <th>Feito</th>
-                    <th>Vídeo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <div class="exercise-cell">
-                            <img src="https://images.unsplash.com/photo-1566241142559-40e1dab266c6?w=100&auto=format&fit=crop&q=60" class="exercise-thumb" alt="Prancha Isométrica">
-                            <span>Prancha Isométrica</span>
-                        </div>
-                    </td>
-                    <td>3</td><td>45s a 1 min</td>
-                    <td><input type="number" class="load-input" placeholder="kg"></td>
-                    <td><input type="checkbox" class="check-set"></td>
-                    <td><a class="video-link" href="https://www.youtube.com/results?search_query=execucao+prancha+isometrica+abdominal" target="_blank">Ver</a></td>
                 </tr>
             </tbody>
         </table>
@@ -1138,13 +1345,14 @@
                     const texto = abaAtiva.textContent;
                     if(texto.includes('Glúteos')) nomeTab = 'gluteos';
                     else if(texto.includes('Circuito')) nomeTab = 'circuito';
-                    else if(texto.includes('Em Casa')) nomeTab = 'casa';
+                    else if(texto.includes('Casa')) nomeTab = 'casa';
                     else if(texto.includes('Recuperação')) nomeTab = 'recuperacao';
                     else if(texto.includes('Peito')) nomeTab = 'peito';
                     else if(texto.includes('Costas')) nomeTab = 'costas';
                     else if(texto.includes('Pernas')) nomeTab = 'pernas';
                     else if(texto.includes('Ombros')) nomeTab = 'ombros';
                     else if(texto.includes('Braços')) nomeTab = 'bracos';
+                    else if(texto.includes('Trapézio')) nomeTab = 'trapezio';
                     else if(texto.includes('Core')) nomeTab = 'abdomen';
                 }
                 const target = document.getElementById(nomeTab);
